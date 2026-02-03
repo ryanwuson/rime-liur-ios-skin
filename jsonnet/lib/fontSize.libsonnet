@@ -34,9 +34,9 @@ local getNumericKeysFontSize = function(defaultSize)
     defaultSize;
 
 // 獲取工具列字號的輔助函數
-local getToolbarFontSize = function(sizeType, defaultSize)
+local getToolbarFontSize = function(defaultSize)
   if settings.advancedColors.enableAdvancedColors then
-    local customSize = std.get(settings.advancedColors.toolbar, sizeType, null);
+    local customSize = std.get(settings.advancedColors.toolbar, 'fontSize', null);
     if customSize != null then customSize else defaultSize
   else
     defaultSize;
@@ -115,8 +115,8 @@ local getVerticalCandidateControlsFontSize = function(sizeType, defaultSize)
   '按键前景sf符号大小': 20,
 
   // 工具列字號（支援自訂）
-  'toolbar按键前景sf符号大小': getToolbarFontSize('symbolFontSize', 20),
-  'toolbar按键前景文字大小': getToolbarFontSize('textFontSize', 20),
+  'toolbar按键前景sf符号大小': getToolbarFontSize(20),
+  'toolbar按键前景文字大小': getToolbarFontSize(20),
 
   // 数字键盘
   'collection前景字体大小': 18,  // 數字鍵盤符號區字號（固定值）

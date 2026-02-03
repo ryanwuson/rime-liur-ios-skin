@@ -304,15 +304,12 @@
     # 工具列配色與字號
     toolbar: {
       light: {
-        textColor: '#000000',       # 工具列文字色（中/英、簡/繁）
-        symbolColor: '#666666',     # 工具列符號色
+        color: '#666666',           # 工具列統一顏色（文字和符號）
       },
       dark: {
-        textColor: '#FFFFFF',       # 工具列文字色（中/英、簡/繁）
-        symbolColor: '#CCCCCC',     # 工具列符號色
+        color: '#CCCCCC',           # 工具列統一顏色（文字和符號）
       },
-      textFontSize: 20,             # 工具列文字大小（中/英、簡/繁）
-      symbolFontSize: 20,           # 工具列符號大小
+      fontSize: 20,                 # 工具列統一字號（文字和符號）
     },
     
     # 符號鍵盤配色
@@ -372,7 +369,7 @@
   # • systemKeyText（系統功能鍵文字）、numericKeys（數字鍵）
   # 
   # 進階配色：
-  # • lowerEdge（底邊緣陰影）、candidate（候選字）、toolbar（工具列文字和符號）
+  # • lowerEdge（底邊緣陰影）、candidate（候選字）、toolbar（工具列統一顏色）
   # • symbolic（符號鍵盤顏色）、panel（面板）
   # 
   # 【重要配色映射說明】
@@ -392,8 +389,7 @@
   # • keyText.secondaryFontSize：空白鍵提示文字大小（14pt）
   # • systemKeyText.fontSize：系統功能鍵文字大小（返回、換行、同音、選定、搜尋等）（16pt）
   # • numericKeys.numberFontSize：數字鍵字體大小（0-9）（24pt，已修正）
-  # • toolbar.textFontSize：工具列文字大小（中/英、簡/繁）（20pt）
-  # • toolbar.symbolFontSize：工具列符號大小（20pt）
+  # • toolbar.fontSize：工具列統一字號（文字和符號）（20pt）
   # • longPressHint.fontSize：長按氣泡文字大小（20pt）
   # • longPressHint.symbolFontSize：長按氣泡符號大小（12pt）
   # • swipeHint.fontSize：滑動氣泡前景文字大小（18pt）

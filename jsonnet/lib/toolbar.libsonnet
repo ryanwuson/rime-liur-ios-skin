@@ -217,8 +217,8 @@ local getToolBar(theme, orientation='portrait') = {
   toolbarShowTradStyle: {
     buttonStyleType: 'text',
     text: '繁',
-    normalColor: color[theme]['toolbar文字按键颜色'],
-    highlightColor: color[theme]['toolbar文字按键颜色'],
+    normalColor: color[theme]['toolbar符号按键颜色'],
+    highlightColor: color[theme]['toolbar符号按键颜色'],
     fontSize: fontSize['toolbar按键前景文字大小'],
     fontWeight: 'light',
   },
@@ -226,8 +226,8 @@ local getToolBar(theme, orientation='portrait') = {
   toolbarShowSimpStyle: {
     buttonStyleType: 'text',
     text: '简',
-    normalColor: color[theme]['toolbar文字按键颜色'],
-    highlightColor: color[theme]['toolbar文字按键颜色'],
+    normalColor: color[theme]['toolbar符号按键颜色'],
+    highlightColor: color[theme]['toolbar符号按键颜色'],
     fontSize: fontSize['toolbar按键前景文字大小'],
     fontWeight: 'light',
   },
@@ -335,8 +335,8 @@ local getToolBar(theme, orientation='portrait') = {
   toolbarChEnButtonForegroundStyle: {
     buttonStyleType: 'text',
     text: '英',
-    normalColor: color[theme]['toolbar文字按键颜色'],
-    highlightColor: color[theme]['toolbar文字按键颜色'],
+    normalColor: color[theme]['toolbar符号按键颜色'],
+    highlightColor: color[theme]['toolbar符号按键颜色'],
     fontSize: fontSize['toolbar按键前景文字大小'],
     fontWeight: 'light',
   },

@@ -61,10 +61,10 @@ local getSwipeTextColor = function(theme, swipeType, defaultColor)
   else
     defaultColor;
 
-// 獲取工具列文字配色的輔助函數
-local getToolbarTextColor = function(theme, textType, defaultColor)
+// 獲取工具列顏色的輔助函數
+local getToolbarColor = function(theme, defaultColor)
   if settings.advancedColors.enableAdvancedColors then
-    local customColor = std.get(settings.advancedColors.toolbar[theme], textType, null);
+    local customColor = std.get(settings.advancedColors.toolbar[theme], 'color', null);
     if customColor != null then customColor else defaultColor
   else
     defaultColor;
@@ -104,8 +104,8 @@ local getToolbarTextColor = function(theme, textType, defaultColor)
     '选中候选背景颜色': getAdvancedColor('candidate', 'light', 'selectedBackground', '#FFFFFF'),
 
     // 工具列配色 - 支援自訂
-    'toolbar文字按键颜色': getToolbarTextColor('light', 'textColor', '#000000'),  // 工具列文字按鈕色（中/英、簡/繁）
-    'toolbar符号按键颜色': getToolbarTextColor('light', 'symbolColor', '#666666'), // 工具列符號按鈕色
+    'toolbar文字按键颜色': getToolbarColor('light', '#666666'),  // 工具列統一顏色（文字和符號）
+    'toolbar符号按键颜色': getToolbarColor('light', '#666666'),  // 工具列統一顏色（文字和符號）
     '按下气泡文字颜色': '#000000',  // 由圖片控制，不支援自訂
     '划动气泡文字颜色': '#000000',  // 由圖片控制，不支援自訂
 
@@ -128,8 +128,8 @@ local getToolbarTextColor = function(theme, textType, defaultColor)
     '数字键文字颜色': getNumericKeysTextColor('light', '#000000'),          // 數字鍵文字色
     '上滑提示文字颜色': getSwipeTextColor('light', 'upSwipe', '#00000055'),    // 上滑提示文字色（修正為55%透明度）
     '下滑提示文字颜色': getSwipeTextColor('light', 'downSwipe', '#00000055'),  // 下滑提示文字色（修正為55%透明度）
-    '工具列文字颜色': getToolbarTextColor('light', 'textColor', '#000000'),  // 工具列文字色
-    '工具列符号颜色': getToolbarTextColor('light', 'symbolColor', '#666666'), // 工具列符號色
+    '工具列文字颜色': getToolbarColor('light', '#666666'),  // 工具列統一顏色（文字和符號）
+    '工具列符号颜色': getToolbarColor('light', '#666666'), // 工具列統一顏色（文字和符號）
     
     // 鍵盤背景配色 - 支援自訂
     '键盘背景颜色': getKeyboardColor('light', '#D0D3DA01'),
@@ -168,8 +168,8 @@ local getToolbarTextColor = function(theme, textType, defaultColor)
     '选中候选背景颜色': getAdvancedColor('candidate', 'dark', 'selectedBackground', '#D1D1D165'),
 
     // 工具列配色 - 支援自訂
-    'toolbar文字按键颜色': getToolbarTextColor('dark', 'textColor', '#FFFFFF'),  // 工具列文字按鈕色（中/英、簡/繁）
-    'toolbar符号按键颜色': getToolbarTextColor('dark', 'symbolColor', '#CCCCCC'), // 工具列符號按鈕色
+    'toolbar文字按键颜色': getToolbarColor('dark', '#CCCCCC'),  // 工具列統一顏色（文字和符號）
+    'toolbar符号按键颜色': getToolbarColor('dark', '#CCCCCC'),  // 工具列統一顏色（文字和符號）
     '按下气泡文字颜色': '#FFFFFF',  // 由圖片控制，不支援自訂
     '划动气泡文字颜色': '#FFFFFF',  // 由圖片控制，不支援自訂
 
@@ -192,8 +192,8 @@ local getToolbarTextColor = function(theme, textType, defaultColor)
     '数字键文字颜色': getNumericKeysTextColor('dark', '#FFFFFF'),          // 數字鍵文字色
     '上滑提示文字颜色': getSwipeTextColor('dark', 'upSwipe', '#FFFFFF55'),    // 上滑提示文字色（修正為55%透明度）
     '下滑提示文字颜色': getSwipeTextColor('dark', 'downSwipe', '#FFFFFF55'),  // 下滑提示文字色（修正為55%透明度）
-    '工具列文字颜色': getToolbarTextColor('dark', 'textColor', '#FFFFFF'),  // 工具列文字色
-    '工具列符号颜色': getToolbarTextColor('dark', 'symbolColor', '#CCCCCC'), // 工具列符號色
+    '工具列文字颜色': getToolbarColor('dark', '#CCCCCC'),  // 工具列統一顏色（文字和符號）
+    '工具列符号颜色': getToolbarColor('dark', '#CCCCCC'), // 工具列統一顏色（文字和符號）
 
     // 鍵盤背景配色 - 支援自訂
     '键盘背景颜色': getKeyboardColor('dark', '#47474701'),

@@ -18,8 +18,8 @@ local custom(theme) = {
   toolbarChEnButtonForegroundStyle: {
     buttonStyleType: 'text',
     text: '中',
-    normalColor: color[theme]['toolbar文字按键颜色'],
-    highlightColor: color[theme]['toolbar文字按键颜色'],
+    normalColor: color[theme]['toolbar符号按键颜色'],
+    highlightColor: color[theme]['toolbar符号按键颜色'],
     fontSize: 20,
     fontWeight: 'light',
   },
