@@ -1,0 +1,50 @@
+alphabetic:
+  iPad:
+    floating: "alphabetic_26_portrait"
+    landscape: "alphabetic_26_landscape"
+    portrait: "alphabetic_26_landscape"
+  iPhone:
+    landscape: "alphabetic_26_landscape"
+    portrait: "alphabetic_26_portrait"
+author: "Ryan"
+emoji:
+  iPad:
+    floating: "emoji_portrait"
+    landscape: "emoji_landscape"
+    portrait: "emoji_portrait"
+  iPhone:
+    landscape: "emoji_landscape"
+    portrait: "emoji_portrait"
+name: "蝦米輸入法"
+numeric:
+  iPad:
+    floating: "numeric_9_portrait"
+    landscape: "numeric_9_landscape"
+    portrait: "numeric_9_portrait"
+  iPhone:
+    landscape: "numeric_9_landscape"
+    portrait: "numeric_9_portrait"
+panel:
+  iPad:
+    floating: "panel_portrait"
+    landscape: "panel_landscape"
+    portrait: "panel_portrait"
+  iPhone:
+    landscape: "panel_landscape"
+    portrait: "panel_portrait"
+pinyin:
+  iPad:
+    floating: "pinyin_26_portrait"
+    landscape: "pinyin_26_landscape"
+    portrait: "pinyin_26_landscape"
+  iPhone:
+    landscape: "pinyin_26_landscape"
+    portrait: "pinyin_26_portrait"
+symbolic:
+  iPad:
+    floating: "symbolic_portrait"
+    landscape: "symbolic_landscape"
+    portrait: "symbolic_portrait"
+  iPhone:
+    landscape: "symbolic_landscape"
+    portrait: "symbolic_portrait"
