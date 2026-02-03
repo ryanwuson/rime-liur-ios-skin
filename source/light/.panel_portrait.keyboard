@@ -1,0 +1,280 @@
+"ButtonScaleAnimation":
+  "animationType": "scale"
+  "isAutoReverse": true
+  "pressDuration": 60
+  "releaseDuration": 80
+  "scale": 0.87
+"CheckUpdateButton":
+  "action":
+    "openURL": "https://apps.apple.com/cn/app/%E5%85%83%E4%B9%A6%E8%BE%93%E5%85%A5%E6%B3%95/id6744464701"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "CheckUpdateButtonForegroundStyle"
+  - "CheckUpdateButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"CheckUpdateButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "arrow.down.circle"
+"CheckUpdateButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "檢查更新"
+"FeedbackButton":
+  "action":
+    "openURL": "hamster3://com.ihsiao.apps.hamster3/feedback"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "FeedbackButtonForegroundStyle"
+  - "FeedbackButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"FeedbackButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "iphone.radiowaves.left.and.right"
+"FeedbackButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "按鍵震動"
+"FinderButton":
+  "action":
+    "openURL": "hamster3://com.ihsiao.apps.hamster3/finder"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "FinderButtonForegroundStyle"
+  - "FinderButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"FinderButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "folder"
+"FinderButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "檔案管理"
+"HamsterButton":
+  "action": "settings"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "HamsterButtonForegroundStyle"
+  - "HamsterButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"HamsterButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "keyboard"
+"HamsterButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "元書"
+"RimeDeployButton":
+  "action":
+    "openURL": "hamster3://com.ihsiao.apps.hamster3/rime?action=deploy"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "RimeDeployButtonForegroundStyle"
+  - "RimeDeployButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"RimeDeployButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "slider.horizontal.2.arrow.trianglehead.counterclockwise"
+"RimeDeployButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "Rime部署"
+"SkinButton":
+  "action":
+    "openURL": "hamster3://com.ihsiao.apps.hamster3/keyboardSkins"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "SkinButtonForegroundStyle"
+  - "SkinButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"SkinButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "tshirt"
+"SkinButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "鍵盤皮膚"
+"ToggleEmbeddedButton":
+  "action":
+    "shortcut": "#toggleEmbeddedInputMode"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "ToggleEmbeddedButtonForegroundStyle"
+  - "ToggleEmbeddedButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"ToggleEmbeddedButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "square.and.pencil"
+"ToggleEmbeddedButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "內嵌開關"
+"UploadButton":
+  "action":
+    "openURL": "hamster3://com.ihsiao.apps.hamster3/wifi"
+  "animation":
+  - "ButtonScaleAnimation"
+  "backgroundStyle": "panelButtonBackgroundStyle"
+  "foregroundStyle":
+  - "UploadButtonForegroundStyle"
+  - "UploadButtonForegroundStyle2"
+  "size":
+    "height": "1/2"
+"UploadButtonForegroundStyle":
+  "buttonStyleType": "systemImage"
+  "center":
+    "x": 0.5
+    "y": 0.34999999999999998
+  "fontSize": 20
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "systemImageName": "wifi"
+"UploadButtonForegroundStyle2":
+  "buttonStyleType": "text"
+  "center":
+    "x": 0.5
+    "y": 0.71999999999999997
+  "fontSize": 11
+  "highlightColor": "#000000"
+  "normalColor": "#000000"
+  "text": "無線傳輸"
+"floatTargetScale":
+  "x": 0.80000000000000004
+  "y": 0.59999999999999998
+"keyboardBackgroundStyle":
+  "buttonStyleType": "fileImage"
+  "highlightImage":
+    "file": "float_back"
+    "image": "IMG1"
+  "normalImage":
+    "file": "float_back"
+    "image": "IMG1"
+"keyboardLayout":
+- "HStack":
+    "subviews":
+    - "Cell": "HamsterButton"
+    - "Cell": "FeedbackButton"
+    - "Cell": "CheckUpdateButton"
+    - "Cell": "FinderButton"
+- "HStack":
+    "subviews":
+    - "Cell": "SkinButton"
+    - "Cell": "UploadButton"
+    - "Cell": "RimeDeployButton"
+    - "Cell": "ToggleEmbeddedButton"
+"keyboardStyle":
+  "backgroundStyle": "keyboardBackgroundStyle"
+  "insets":
+    "bottom": 10
+    "left": 12
+    "right": 12
+    "top": 10
+"panelButtonBackgroundStyle":
+  "buttonStyleType": "geometry"
+  "cornerRadius": 8.5
+  "highlightColor": "#ABB0BA"
+  "highlightLowerEdgeColor": "#9a9c9a"
+  "insets":
+    "bottom": 6
+    "left": 3
+    "right": 3
+    "top": 6
+  "normalColor": "#FFFFFF"
+  "normalLowerEdgeColor": "#9a9c9a"

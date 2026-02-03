@@ -33,6 +33,9 @@ git checkout maintenance -- themes
 cp -r themes/* .
 rm -rf themes
 
+# 安全清除 .DS_Store
+find . -name ".DS_Store" -delete
+
 # 提交
 git add .
 if ! git diff-index --quiet HEAD; then
@@ -55,6 +58,11 @@ git checkout maintenance -- source
 # 將 source/ 下的內容移動到根目錄
 cp -r source/* .
 rm -rf source
+
+# 安全清除 .DS_Store
+find . -name ".DS_Store" -delete
+# 再次確保腳本不被上傳（雖然已經刪了）
+rm -f publish_skin.sh "蝦米鍵盤增強計畫.md"
 
 # 提交
 git add .
