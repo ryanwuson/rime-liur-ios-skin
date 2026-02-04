@@ -86,266 +86,155 @@
     },
   },
 
-  # ===== 基礎配色系統 =====
+  # ===== 統一配色系統 =====
   
   customColors: {
     # 啟用自訂配色（false = 使用原版配色）
     enableCustomColors: false,
     
-    # 字母鍵配色（Q-P, A-L, Z-M 等26個字母鍵）
-    alphabeticButton: {
-      light: {
-        background: { 
-          normal: '#FFFFFF',        # 正常狀態背景色
-          highlight: '#ABB0BA'      # 按下狀態背景色
+    # ===== 主鍵盤配色 =====
+    keyboardColors: {
+      # 字母數字鍵（A-Z, 0-9）
+      letterNumberKeys: {
+        light: {
+          background: { normal: '#FFFFFF', highlight: '#ABB0BA' },
+          text: '#000000',
+          fontSize: { 
+            primary: 21,    # 數字鍵、大寫字母
+            lowercase: 23,  # 小寫字母（中英文統一）
+          },
         },
-        foreground: { 
-          normal: '#000000',        # 正常狀態文字色
-          highlight: '#000000'      # 按下狀態文字色
-        },
-      },
-      dark: {
-        background: { 
-          normal: '#D1D1D165',      # 正常狀態背景色（65為透明度）
-          highlight: '#D1D1D624'    # 按下狀態背景色（24為透明度）
-        },
-        foreground: { 
-          normal: '#FFFFFF',        # 正常狀態文字色
-          highlight: '#FFFFFF'      # 按下狀態文字色
-        },
-      },
-    },
-    
-    # 系統功能鍵配色（Shift, Delete, Space, Return 等）
-    systemButton: {
-      light: {
-        background: { 
-          normal: '#979faf80',      # 正常狀態背景色（80為透明度）
-          highlight: '#FFFFFFE6'    # 按下狀態背景色（E6為透明度）
-        },
-        foreground: { 
-          normal: '#000000',        # 正常狀態文字色
-          highlight: '#000000'      # 按下狀態文字色
+        dark: {
+          background: { normal: '#D1D1D165', highlight: '#D1D1D624' },
+          text: '#FFFFFF',
+          fontSize: { 
+            primary: 21,
+            lowercase: 23,
+          },
         },
       },
-      dark: {
-        background: { 
-          normal: '#D1D1D624',      # 正常狀態背景色（24為透明度）
-          highlight: '#D1D1D659'    # 按下狀態背景色（59為透明度）
+      
+      # 系統功能鍵（Shift, Delete 等，不含空白鍵和 Return 鍵）
+      systemKeys: {
+        light: {
+          background: { normal: '#979faf80', highlight: '#FFFFFFE6' },
+          text: '#000000',
+          fontSize: 16,
         },
-        foreground: { 
-          normal: '#FFFFFF',        # 正常狀態文字色
-          highlight: '#FFFFFF'      # 按下狀態文字色
-        },
-      },
-    },
-    
-    # 主題色按鈕配色（Enter 鍵等特殊按鈕）
-    colorButton: {
-      light: {
-        background: { 
-          normal: '#979faf80',      # 正常狀態背景色（80為透明度）
-          highlight: '#FFFFFFE6'    # 按下狀態背景色（E6為透明度）
-        },
-        foreground: { 
-          normal: '#000000',        # 正常狀態文字色
-          highlight: '#000000'      # 按下狀態文字色
+        dark: {
+          background: { normal: '#D1D1D624', highlight: '#D1D1D659' },
+          text: '#FFFFFF',
+          fontSize: 16,
         },
       },
-      dark: {
-        background: { 
-          normal: '#D1D1D624',      # 正常狀態背景色（24為透明度）
-          highlight: '#D1D1D659'    # 按下狀態背景色（59為透明度）
+      
+      # Enter 鍵專用（主題色按鈕）
+      accentKeys: {
+        light: {
+          background: { normal: '#007AFF', highlight: '#0056CC' },
+          text: '#FFFFFF',
+          fontSize: 16,
         },
-        foreground: { 
-          normal: '#FFFFFF',        # 正常狀態文字色
-          highlight: '#FFFFFF'      # 按下狀態文字色
+        dark: {
+          background: { normal: '#007AFF', highlight: '#0056CC' },
+          text: '#FFFFFF',
+          fontSize: 16,
+        },
+      },
+      
+      # 空白鍵文字（統一字色和字號，背景色跟隨字母鍵）
+      spaceKeyText: {
+        light: { color: '#000000', fontSize: 14 },
+        dark: { color: '#FFFFFF', fontSize: 14 },
+      },
+      
+      # 英文鍵盤（僅大小寫字母）
+      englishKeyboard: {
+        light: {
+          text: '#000000',  # 大小寫統一字色
+          fontSize: { 
+            lowercase: 23,  # 小寫字母
+            uppercase: 21,  # 大寫字母
+          },
+        },
+        dark: {
+          text: '#FFFFFF',
+          fontSize: { 
+            lowercase: 23,
+            uppercase: 21,
+          },
+        },
+      },
+      
+      # 鍵盤背景與陰影
+      background: {
+        light: '#D0D3DA01',
+        dark: '#47474701',
+      },
+      shadow: {
+        light: { normal: '#9a9c9a', highlight: '#9a9c9a' },
+        dark: { normal: '#1E1E1E', highlight: '#1D1D1D' },
+      },
+    },
+    
+    # ===== 特殊鍵盤配色 =====
+    specialKeyboards: {
+      # 數字鍵盤
+      numericKeyboard: {
+        light: {
+          numbers: { color: '#000000', fontSize: 24 },
+        },
+        dark: {
+          numbers: { color: '#FFFFFF', fontSize: 24 },
+        },
+      },
+      
+      # 符號鍵盤
+      symbolKeyboard: {
+        light: {
+          leftPanel: { background: '#979faf80', text: '#000000', shadow: '#9a9c9a', fontSize: 13 },
+          rightPanel: { background: '#ffffff', text: '#000000', shadow: '#88898D40', fontSize: 16 },
+        },
+        dark: {
+          leftPanel: { background: '#D1D1D624', text: '#FFFFFF', shadow: '#1E1E1E', fontSize: 13 },
+          rightPanel: { background: '#D1D1D165', text: '#FFFFFF', shadow: '#343941', fontSize: 16 },
         },
       },
     },
     
-    # 鍵盤背景配色
-    keyboard: {
-      light: {
-        background: '#D0D3DA01',    # 鍵盤背景色（01為透明度，幾乎透明）
+    # ===== 互動提示配色 =====
+    interactionColors: {
+      swipeHints: {
+        light: { upSwipe: '#00000055', downSwipe: '#00000055', fontSize: 8 },
+        dark: { upSwipe: '#FFFFFF55', downSwipe: '#FFFFFF55', fontSize: 8 },
       },
-      dark: {
-        background: '#47474701',    # 鍵盤背景色（01為透明度，幾乎透明）
-      },
-    },
-    
-    # 滑動提示文字配色與字號
-    swipeText: {
-      light: {
-        upSwipe: '#00000055',       # 上滑提示文字色（黑色55%透明度）
-        downSwipe: '#00000055',     # 下滑提示文字色（黑色55%透明度）
-      },
-      dark: {
-        upSwipe: '#FFFFFF55',       # 上滑提示文字色（白色55%透明度）
-        downSwipe: '#FFFFFF55',     # 下滑提示文字色（白色55%透明度）
-      },
-      fontSize: 8,                  # 滑動提示文字大小
-    },
-    
-    # 鍵盤主要文字配色與字號（字母鍵ABCD、數字鍵123、空白鍵提示等）
-    keyText: {
-      light: {
-        primary: '#000000',         # 主要文字色（字母A-Z、數字0-9、空白鍵提示文字）
-        secondary: '#666666',       # 次要文字色（保留但目前不使用）
-      },
-      dark: {
-        primary: '#FFFFFF',         # 主要文字色（字母A-Z、數字0-9、空白鍵提示文字）
-        secondary: '#CCCCCC',       # 次要文字色（保留但目前不使用）
-      },
-      primaryFontSize: 21,          # 主要文字大小（字母鍵、數字鍵）
-      secondaryFontSize: 14,        # 次要文字大小（空白鍵提示）
-    },
-    
-    # 系統功能鍵文字配色與字號（返回、換行、同音、選定、搜尋等）
-    systemKeyText: {
-      light: {
-        normal: '#000000',          # 系統功能鍵文字色
-        highlight: '#000000',       # 按下狀態文字色
-      },
-      dark: {
-        normal: '#FFFFFF',          # 系統功能鍵文字色
-        highlight: '#FFFFFF',       # 按下狀態文字色
-      },
-      fontSize: 16,                 # 系統功能鍵文字大小
-    },
-    
-    # 數字鍵配色與字號（純數字鍵盤）
-    numericKeys: {
-      light: {
-        numbers: '#000000',         # 數字文字色（0-9）
-      },
-      dark: {
-        numbers: '#FFFFFF',         # 數字文字色（0-9）
-      },
-      numberFontSize: 24,           # 數字字體大小（從參考主題確認為24pt）
-    },
-    
-    # 長按氣泡字號設定
-    longPressHint: {
-      fontSize: 20,                 # 長按氣泡文字大小
-      symbolFontSize: 12,           # 長按氣泡符號大小
-    },
-    
-    # 滑動氣泡字號設定
-    swipeHint: {
-      fontSize: 18,                 # 滑動氣泡前景文字大小
-    },
-    
-    # 長按符號選單字號設定（hintSymbolsData.libsonnet 使用）
-    hintSymbols: {
-      actionFontSize: 13,           # 長按符號選單動作文字大小（如「剪下」、「複製」等）
-      dateFontSize: 14,             # 長按符號選單日期文字大小（如「時間」、「日期」等）
-    },
-    
-    # 英文鍵盤字號設定
-    englishKeyboard: {
-      lowercaseFontSize: 23,        # 英文小寫字母字號
-      uppercaseFontSize: 21,        # 英文大寫字母字號
-      hintFontSize: 26,             # 英文鍵盤提示字號
-      spaceFontSize: 15,            # 英文空白鍵文字字號
-    },
-    
-    # 候選字字號設定
-    candidates: {
-      horizontalIndexFontSize: 12,  # 水平候選字索引字號
-      verticalIndexFontSize: 12,    # 垂直候選字索引字號
-      textFontSize: 16,             # 候選字文字字號
-      commentFontSize: 14,          # 候選字註釋字號
-      expandedTextFontSize: 16,     # 展開候選字文字字號
-      expandedCommentFontSize: 13,  # 展開候選字註釋字號
-    },
-    
-
-    
-    # 垂直候選控制按鈕字號設定
-    verticalCandidateControls: {
-      buttonFontSize: 20,           # 垂直候選控制按鈕字號（上下翻頁、返回、退格）
-      returnButtonFontSize: 16,     # 垂直候選返回按鈕字號（較小）
-    },
-  },
-  
-  # ===== 進階配色系統 =====
-  
-  advancedColors: {
-    # 啟用進階配色（false = 使用原版配色）
-    enableAdvancedColors: false,
-    
-    # 底部邊緣配色（陰影）
-    lowerEdge: {
-      light: {
-        normal: '#9a9c9a',          # 正常狀態底邊緣色（陰影）
-        highlight: '#9a9c9a',       # 按下狀態底邊緣色（陰影）
-      },
-      dark: {
-        normal: '#1E1E1E',          # 正常狀態底邊緣色（陰影）
-        highlight: '#1D1D1D',       # 按下狀態底邊緣色（陰影）
+      bubbles: {
+        light: { text: '#000000' },
+        dark: { text: '#FFFFFF' },
       },
     },
     
-    # 候選字配色
-    candidate: {
-      light: {
-        selectedText: '#000000',    # 選中候選字文字色
-        unselectedText: '#000000',  # 未選中候選字文字色
-        selectedBackground: '#FFFFFF', # 選中候選字背景色
+    # ===== 介面元素配色 =====
+    interfaceColors: {
+      toolbar: {
+        light: { color: '#666666', fontSize: 20 },
+        dark: { color: '#CCCCCC', fontSize: 20 },
       },
-      dark: {
-        selectedText: '#ffffff',    # 選中候選字文字色
-        unselectedText: '#ffffff',  # 未選中候選字文字色
-        selectedBackground: '#D1D1D165', # 選中候選字背景色（65為透明度）
+      candidates: {
+        light: { selectedText: '#000000', unselectedText: '#000000', selectedBackground: '#FFFFFF' },
+        dark: { selectedText: '#ffffff', unselectedText: '#ffffff', selectedBackground: '#D1D1D165' },
       },
-    },
-    
-    # 工具列配色與字號
-    toolbar: {
-      light: {
-        color: '#666666',           # 工具列統一顏色（文字和符號）
-      },
-      dark: {
-        color: '#CCCCCC',           # 工具列統一顏色（文字和符號）
-      },
-      fontSize: 20,                 # 工具列統一字號（文字和符號）
-    },
-    
-    # 符號鍵盤配色
-    symbolic: {
-      light: {
-        selectedText: '#000000',    # 選中文字色
-        leftBackground: '#979faf80', # 左側背景色（80為透明度）
-        leftLowerEdge: '#9a9c9a',   # 左側底邊緣色（陰影）
-        rightBackground: '#ffffff', # 右側背景色
-        rightLowerEdge: '#88898D40', # 右側底邊緣色（陰影，40為透明度）
-      },
-      dark: {
-        selectedText: '#FFFFFF',    # 選中文字色
-        leftBackground: '#D1D1D624', # 左側背景色（24為透明度）
-        leftLowerEdge: '#1E1E1E',   # 左側底邊緣色（陰影）
-        rightBackground: '#D1D1D165', # 右側背景色（65為透明度）
-        rightLowerEdge: '#343941',  # 右側底邊緣色（陰影）
-      },
-    },
-    
-    # 面板浮動鍵盤配色
-    panel: {
-      light: {
-        foreground: '#000000',      # 按鍵前景色
-      },
-      dark: {
-        foreground: '#FFFFFF',      # 按鍵前景色
+      panels: {
+        light: { foreground: '#000000' },
+        dark: { foreground: '#FFFFFF' },
       },
     },
   },
   
   # ===== 配色使用說明 =====
   # 
-  # 【開關控制】
-  # • enableCustomColors：控制基礎配色（字母鍵、系統鍵、主題鍵、鍵盤背景、滑動提示、按鍵文字、數字鍵）
-  # • enableAdvancedColors：控制進階配色（邊緣、候選字、工具列、符號鍵盤等）
+  # 【統一配色系統】
+  # • enableCustomColors：控制所有自訂配色（按鍵背景、文字顏色、介面元素等）
   #
   # 【顏色格式】
   # • HEX格式：'#FFFFFF'（白色）、'#FF0000'（紅色）
@@ -362,72 +251,50 @@
   # • light：亮色主題配色
   # • dark：暗色主題配色
   # 
-  # 【配色分類說明】
-  # 基礎配色：
-  # • alphabeticButton（字母鍵背景）、systemButton（系統鍵背景）、colorButton（主題鍵背景）
-  # • keyboard（鍵盤背景）、swipeText（滑動提示文字）、keyText（字母數字文字）
-  # • systemKeyText（系統功能鍵文字）、numericKeys（數字鍵）
+  # ===== 配色區域說明 =====
   # 
-  # 進階配色：
-  # • lowerEdge（底邊緣陰影）、candidate（候選字）、toolbar（工具列統一顏色）
-  # • symbolic（符號鍵盤顏色）、panel（面板）
+  # 【主鍵盤配色 keyboardColors】
+  # • letterNumberKeys：字母鍵 A-Z、數字鍵 0-9（空白鍵背景色跟隨此設定）
+  # • systemKeys：系統功能鍵（Shift、Delete 等，不含空白鍵和 Return 鍵）
+  # • accentKeys：Return 鍵等主題色按鈕
+  # • spaceKeyText：空白鍵文字（字色和字號，背景色跟隨字母鍵）
+  # • englishKeyboard：英文鍵盤大小寫字母
+  # • background：鍵盤整體背景
+  # • shadow：按鍵陰影邊緣
   # 
-  # 【重要配色映射說明】
-  # • keyText.primary：字母鍵 A-Z、數字鍵 0-9、數字鍵盤符號區 @%-+、空白鍵提示文字（「蝦米輸入法」、「Easy English」、「English」）
-  # • keyText.secondary：空白鍵次要提示文字（保留但目前不使用）
-  # • systemKeyText.normal：所有系統功能鍵文字（shift、delete、123、同音、選定、搜尋、返回、換行、鎖定、上下翻頁等）
-  # • numericKeys.numbers：數字鍵盤的數字 0-9
-  # • swipeText.upSwipe/downSwipe：上滑/下滑提示文字色（已修正為 #00000055 透明度）
+  # 【特殊鍵盤配色 specialKeyboards】
+  # • numericKeyboard：數字鍵盤的數字 0-9
+  # • symbolKeyboard：符號鍵盤左右兩側面板
   # 
-  # 【數字鍵盤符號區說明】
-  # • 數字鍵盤符號區（@%-+）使用主要按鍵文字色（keyText.primary）
-  # • 如需調整數字鍵盤符號區顏色，請修改 keyText.primary 配色
+  # 【互動提示配色 interactionColors】
+  # • swipeHints：上滑/下滑提示文字
+  # • bubbles：長按氣泡、滑動氣泡文字
   # 
-  # 【字體與字號配置】
-  # • swipeText.fontSize：滑動提示文字大小（8pt）
-  # • keyText.primaryFontSize：字母鍵和數字鍵文字大小（A-Z, 0-9）（21pt）
-  # • keyText.secondaryFontSize：空白鍵提示文字大小（14pt）
-  # • systemKeyText.fontSize：系統功能鍵文字大小（返回、換行、同音、選定、搜尋等）（16pt）
-  # • numericKeys.numberFontSize：數字鍵字體大小（0-9）（24pt，已修正）
-  # • toolbar.fontSize：工具列統一字號（文字和符號）（20pt）
-  # • longPressHint.fontSize：長按氣泡文字大小（20pt）
-  # • longPressHint.symbolFontSize：長按氣泡符號大小（12pt）
-  # • swipeHint.fontSize：滑動氣泡前景文字大小（18pt）
-  # • hintSymbols.actionFontSize：長按符號選單動作文字大小（如「剪下」、「複製」等）（13pt）
-  # • hintSymbols.dateFontSize：長按符號選單日期文字大小（如「時間」、「日期」等）（14pt）
-  # • englishKeyboard.lowercaseFontSize：英文小寫字母字號（23pt）
-  # • englishKeyboard.uppercaseFontSize：英文大寫字母字號（21pt）
-  # • englishKeyboard.hintFontSize：英文鍵盤提示字號（26pt）
-  # • englishKeyboard.spaceFontSize：英文空白鍵文字字號（15pt）
-  # • candidates.horizontalIndexFontSize：水平候選字索引字號（12pt）
-  # • candidates.verticalIndexFontSize：垂直候選字索引字號（12pt）
-  # • candidates.textFontSize：候選字文字字號（16pt）
-  # • candidates.commentFontSize：候選字註釋字號（14pt）
-  # • candidates.expandedTextFontSize：展開候選字文字字號（16pt）
-  # • candidates.expandedCommentFontSize：展開候選字註釋字號（13pt）
-  # • verticalCandidateControls.buttonFontSize：垂直候選控制按鈕字號（20pt）
-  # • verticalCandidateControls.returnButtonFontSize：垂直候選返回按鈕字號（16pt）
+  # 【介面元素配色 interfaceColors】
+  # • toolbar：工具列按鈕文字和符號
+  # • candidates：候選字區域
+  # • panels：浮動面板按鍵
   # 
-  # 【不可自訂項目】
-  # • 數字鍵盤符號區字號：固定為 18pt
-  # • 符號鍵盤字號：左側固定為 13pt，右側固定為 16pt
-  # • 按鍵前景符號大小：固定為 20pt
-  # • 預編輯區字號：固定為 17pt（不開放自訂）
+  # ===== 字號配置說明 =====
   # 
-  # 【不可自訂項目】
-  # • 氣泡提示框：使用 hint.png 圖片，無法透過顏色自訂
-  # • 長按選單：使用 hint.png 圖片，無法透過顏色自訂
-  #
-  # 【實用配色範例】
-  # 護眼綠色主題：
-  #   字母鍵背景 '#E8F5E8'，系統鍵背景 '#D4F1D4'，文字色 '#2E7D32'
-  # 深色藍調主題：
-  #   字母鍵背景 '#2C3E50'，文字色 '#ECF0F1'，滑動提示 '#BDC3C7'
-  # 高對比主題：
-  #   字母鍵背景 '#FFFFFF'，文字色 '#000000'，邊緣色 '#333333'
-  # 半透明主題：
-  #   所有背景色加上透明度 '80'（50%透明）
-  # 大字體主題：
-  #   primaryFontSize: 22, secondaryFontSize: 18, systemKeyText.fontSize: 20, numberFontSize: 28
+  # 【可自訂字號】
+  # • letterNumberKeys.fontSize.primary：數字鍵、大寫字母（21pt）
+  # • letterNumberKeys.fontSize.lowercase：小寫字母，中英文統一（23pt）
+  # • systemKeys.fontSize：系統功能鍵（16pt）
+  # • accentKeys.fontSize：Return 鍵等主題色按鈕（16pt）
+  # • spaceKeyText.fontSize：空白鍵文字，中英文統一（14pt）
+  # • englishKeyboard.fontSize.lowercase：英文小寫字母（23pt）
+  # • englishKeyboard.fontSize.uppercase：英文大寫字母（21pt）
+  # • numericKeyboard.fontSize：數字鍵盤數字（24pt）
+  # • symbolKeyboard.fontSize：符號鍵盤左側（13pt）、右側（16pt）
+  # • swipeHints.fontSize：滑動提示文字（8pt）
+  # • toolbar.fontSize：工具列統一字號（20pt）
+  # 
+  # 【固定字號（不可自訂）】
+  # • 數字鍵盤符號區（@%-+）：18pt
+  # • 按鍵前景符號：20pt
+  # • 預編輯區：17pt
+  # • 氣泡文字：長按 20pt，滑動 18pt，符號 12pt
+  # • 候選字：由元書 App 介面調整
   #
 }

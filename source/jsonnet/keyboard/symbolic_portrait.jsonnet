@@ -2,6 +2,7 @@
 local animation = import '../lib/animation.libsonnet';
 local color = import '../lib/color.libsonnet';
 local collectionData = import '../lib/collectionData.libsonnet';
+local fontSize = import '../lib/fontSize.libsonnet';
 local others = import '../lib/others.libsonnet';
 local utils = import '../lib/utils.libsonnet';
 
@@ -63,10 +64,10 @@ local keyboard(theme) = {
     highlightColor: color[theme]['字母键背景颜色-高亮'],
   }),
   categoryCollectionCellForegroundStyle: utils.makeTextStyle({
-    fontSize: 13,
+    fontSize: fontSize['符号键盘左侧collection前景字体大小'],
     fontWeight: 0,
-    normalColor: color[theme]['列表选中字体颜色'],
-    highlightColor: color[theme]['列表选中字体颜色'],
+    normalColor: color[theme]['符号键盘左侧collection字体颜色'],
+    highlightColor: color[theme]['符号键盘左侧collection字体颜色'],
   }),
   categoryCollectionCellStyle: {
     backgroundStyle: 'categoryCollectionCellBackgroundStyle',
@@ -89,10 +90,10 @@ local keyboard(theme) = {
     normalLowerEdgeColor: color[theme]['符号键盘右侧collection背景下边缘颜色'],
   }),
   descriptionCollectionCellForegroundStyle: utils.makeTextStyle({
-    fontSize: 16,
+    fontSize: fontSize['符号键盘右侧collection前景字体大小'],
     fontWeight: 0,
-    normalColor: color[theme]['列表选中字体颜色'],
-    highlightColor: color[theme]['列表选中字体颜色'],
+    normalColor: color[theme]['符号键盘右侧collection字体颜色'],
+    highlightColor: color[theme]['符号键盘右侧collection字体颜色'],
   }),
   descriptionCollectionCellStyle: {
     foregroundStyle: 'descriptionCollectionCellForegroundStyle',

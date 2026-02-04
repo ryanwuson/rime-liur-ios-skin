@@ -452,13 +452,13 @@ local keyboard(theme, orientation) =
       text: '蝦米輸入法',
       normalColor: color[theme]['按键前景颜色'],  // 使用主要按鍵文字色
       highlightColor: color[theme]['按键前景颜色'],  // 使用主要按鍵文字色
-      fontSize: 15,
+      fontSize: 14,
     }),
     spaceButtonEasyEnForegroundStyle: utils.makeTextStyle({
       text: 'Easy English',
       normalColor: color[theme]['按键前景颜色'],  // 使用主要按鍵文字色
       highlightColor: color[theme]['按键前景颜色'],  // 使用主要按鍵文字色
-      fontSize: 15,
+      fontSize: 14,
     }),
     // optionChanged notification：監聽 is_easy_en = true
     spaceIsEasyEnTrueNotification: {

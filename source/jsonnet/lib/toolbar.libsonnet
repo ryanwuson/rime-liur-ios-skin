@@ -767,7 +767,7 @@ local getToolBar(theme, orientation='portrait') = {
     systemImageName: 'chevron.up',
     normalColor: color[theme]['系统功能键文字颜色'],
     highlightColor: color[theme]['系统功能键文字颜色'],
-    fontSize: 20,
+    fontSize: fontSize['垂直候选控制按钮字体大小'],
   },
 
   // 縱向候選下翻頁按鈕
@@ -781,7 +781,7 @@ local getToolBar(theme, orientation='portrait') = {
     systemImageName: 'chevron.down',
     normalColor: color[theme]['系统功能键文字颜色'],
     highlightColor: color[theme]['系统功能键文字颜色'],
-    fontSize: 20,
+    fontSize: fontSize['垂直候选控制按钮字体大小'],
   },
 
   // 縱向候選返回按鈕
@@ -795,7 +795,7 @@ local getToolBar(theme, orientation='portrait') = {
     text: '返回',
     normalColor: color[theme]['系统功能键文字颜色'],
     highlightColor: color[theme]['系统功能键文字颜色'],
-    fontSize: 16,
+    fontSize: fontSize['垂直候选返回按钮字体大小'],
   },
 
   // 縱向候選退格按鈕
@@ -809,7 +809,7 @@ local getToolBar(theme, orientation='portrait') = {
     systemImageName: 'delete.left',
     normalColor: color[theme]['系统功能键文字颜色'],
     highlightColor: color[theme]['系统功能键文字颜色'],
-    fontSize: 20,
+    fontSize: fontSize['垂直候选控制按钮字体大小'],
   },
 } + (if std.length(settings.toolbarButtons) > 10 then 
     // 如果按鈕超過10個，顯示警告但不生成額外樣式
