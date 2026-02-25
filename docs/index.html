@@ -5663,8 +5663,62 @@
                 const exportCskin = async () => {
                     console.log('Export started...');
                     
-                    // 1. Wait for rendering and fonts
+                    // 顯示進度提示
+                    const progressOverlay = document.createElement('div');
+                    progressOverlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.7);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10000;
+                        color: white;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                    `;
+                    
+                    const progressText = document.createElement('div');
+                    progressText.style.cssText = `
+                        font-size: 18px;
+                        font-weight: 500;
+                        margin-bottom: 16px;
+                    `;
+                    progressText.textContent = '正在生成皮膚文件...';
+                    
+                    const progressBar = document.createElement('div');
+                    progressBar.style.cssText = `
+                        width: 300px;
+                        height: 4px;
+                        background: rgba(255, 255, 255, 0.2);
+                        border-radius: 2px;
+                        overflow: hidden;
+                    `;
+                    
+                    const progressFill = document.createElement('div');
+                    progressFill.style.cssText = `
+                        width: 0%;
+                        height: 100%;
+                        background: #2196F3;
+                        transition: width 0.3s ease;
+                    `;
+                    
+                    progressBar.appendChild(progressFill);
+                    progressOverlay.appendChild(progressText);
+                    progressOverlay.appendChild(progressBar);
+                    document.body.appendChild(progressOverlay);
+                    
+                    const updateProgress = (percent, text) => {
+                        progressFill.style.width = percent + '%';
+                        progressText.textContent = text;
+                    };
+                    
                     try {
+                        // 1. Wait for rendering and fonts
+                        updateProgress(10, '準備中...');
                         await nextTick();
                         await document.fonts.ready;
                         console.log('Fonts ready.');
@@ -5676,6 +5730,7 @@
 
                     try {
                         // 2. Capture Screenshot (demo.png) - Split Light/Dark Keyboard
+                        updateProgress(20, '正在截取預覽圖...');
                         console.log('Capturing split-mode screenshot (light + dark keyboard)...');
                         
                         // 保存原始狀態
@@ -5982,6 +6037,7 @@
                         const jsonnetFolder = themeFolder.folder("jsonnet");
                         
                         // 3c. 生成並加入 main.jsonnet
+                        updateProgress(50, '正在生成配置文件...');
                         console.log('Generating main.jsonnet...');
                         const mainJsonnetContent = await generateMainJsonnet(skinName, author);
                         jsonnetFolder.file("main.jsonnet", mainJsonnetContent);
@@ -6012,6 +6068,7 @@
                         }
                         
                         // 3f. 加入所有 lib/*.libsonnet 檔案
+                        updateProgress(70, '正在載入模板文件...');
                         console.log('Loading lib files...');
                         const libFolder = jsonnetFolder.folder("lib");
                         const libFiles = [
@@ -6039,6 +6096,7 @@
                         }
                         
                         // 3g. 加入 dark/resources 和 light/resources 檔案（與 jsonnet 平行）
+                        updateProgress(85, '正在載入資源文件...');
                         console.log('Loading resources files...');
                         
                         // Dark resources（在主題資料夾下，與 jsonnet 平行）
@@ -6087,15 +6145,23 @@
                         }
                         
                         console.log('Generating .cskin file...');
+                        updateProgress(95, '正在打包文件...');
                         const content = await zip.generateAsync({ type: "blob" });
                         const link = document.createElement("a");
                         link.href = URL.createObjectURL(content);
                         link.download = `${skinName}.cskin`;
                         link.click();
+                        
+                        updateProgress(100, '完成！');
+                        setTimeout(() => {
+                            document.body.removeChild(progressOverlay);
+                        }, 500);
+                        
                         console.log('Export success!');
                         console.log(`檔案名稱：${skinName}.cskin`);
                         console.log(`包含：${demoBlob ? 'demo.png + ' : ''}jsonnet/ (main.jsonnet, Settings.libsonnet, keyboard/, lib/, dark/resources/, light/resources/)`);
                     } catch (err) {
+                        document.body.removeChild(progressOverlay);
                         console.error('Export error details:', err);
                         alert('導出失敗：' + err.message + '\n\n請確認：\n1. 使用 HTTP 伺服器運行（python3 -m http.server 8888）\n2. templates/ 目錄存在且包含所有檔案\n\n詳細錯誤請查看控制台。');
                     }
