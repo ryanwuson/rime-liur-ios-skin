@@ -232,6 +232,7 @@ local keyboard(theme) =
       }
     ) + {
       notification: ['returnKeyTypeChangedNotification'],
+      swipeDownAction: { shortcut: '#换行' },  // 下滑換行
     },
     enterButtonForegroundStyle: utils.makeTextStyle({
       text: '$returnKeyType',
