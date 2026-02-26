@@ -1787,8 +1787,43 @@ input:checked+.slider-round:before {
     }
 }
 
-/* 中等螢幕：1011px - 769px 按鍵布局優化 */
+/* 中等螢幕：1011px - 769px 工具配置和按鍵布局優化 */
 @media (max-width: 1011px) and (min-width: 769px) {
+    /* 工具配置：縮小工具卡片 */
+    .toolbar-grid-container {
+        padding: 12px !important;
+    }
+    
+    .toolbar-slot-grid,
+    .tool-cards-grid {
+        gap: 8px !important;
+    }
+    
+    .toolbar-slot-card,
+    .tool-option-card {
+        padding: 8px 6px !important;
+    }
+    
+    .tool-card-label {
+        font-size: 12px !important;
+    }
+    
+    .tool-card-icon {
+        font-size: 20px !important;
+    }
+    
+    .slot-badge {
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 11px !important;
+        top: -6px !important;
+        left: -6px !important;
+    }
+    
+    .slot-content {
+        font-size: 10px !important;
+    }
+    
     /* 按鍵布局：縮小行卡片 */
     .advanced-row-grid {
         gap: 10px !important;
