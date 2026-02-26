@@ -1735,3 +1735,41 @@ input:checked+.slider-round:before {
     margin-top: 4px;
     margin-bottom: 12px;
 }
+
+
+/* ===== 手機版 RWD 優化 ===== */
+@media (max-width: 767px) {
+    /* 減少設置區域的 padding */
+    .settings-scroll {
+        padding: 8px !important;
+        gap: 10px;
+    }
+    
+    /* 減少卡片的 padding */
+    .settings-card {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    /* 手機版：隱藏百分比符號，只顯示數字 */
+    .opacity-slider-value {
+        font-size: 11px;
+    }
+    
+    .percent-symbol {
+        display: none;
+    }
+}
+
+/* 極小手機：進一步優化 */
+@media (max-width: 480px) {
+    .settings-scroll {
+        padding: 6px !important;
+        gap: 8px;
+    }
+    
+    .settings-card {
+        padding: 10px;
+        gap: 10px;
+    }
+}
