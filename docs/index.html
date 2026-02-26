@@ -2964,7 +2964,12 @@
                         <section class="settings-card card-theme-teal">
                             <div class="card-header">
                                 <h3 class="card-title">{{ previewState.appearance === 'light' ? '亮色模式' : '暗色模式' }}</h3>
-                                <button class="btn-reset-small" @click="resetAllOverrides()">還原預設值</button>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <button class="btn-apply-blue" @click="applyBasicToAdvanced()">
+                                        套用基礎外觀設定
+                                    </button>
+                                    <button class="btn-reset-small" @click="resetAllOverrides()">還原預設值</button>
+                                </div>
                             </div>
                         </section>
 
@@ -5848,6 +5853,83 @@
                 </div>
             </div>
         </teleport>
+
+        <!-- Keyboard Selection Modal -->
+        <teleport to="body">
+            <div v-if="previewState.showKeyboardSelectionModal" class="modal-overlay" @click.self="cancelKeyboardSelection()">
+                <div class="modal-container" style="max-width: 450px;">
+                    <h2 class="modal-title">套用基礎外觀設定（{{ previewState.appearance === 'light' ? '亮色模式' : '暗色模式' }}）</h2>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <p style="font-size: 14px; color: #4b5563; margin-bottom: 16px;">請選擇要套用的鍵盤：</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; border-radius: 8px; background: #f9fafb; transition: background 0.2s;" 
+                                   :style="previewState.keyboardSelection.keyboard26Chinese ? 'background: #eff6ff;' : ''"
+                                   @mouseover="$event.currentTarget.style.background = '#f3f4f6'"
+                                   @mouseout="$event.currentTarget.style.background = previewState.keyboardSelection.keyboard26Chinese ? '#eff6ff' : '#f9fafb'">
+                                <input type="checkbox" v-model="previewState.keyboardSelection.keyboard26Chinese" 
+                                       style="width: 18px; height: 18px; cursor: pointer; accent-color: #3b82f6;">
+                                <span style="font-size: 15px; color: #1f2937;">26 鍵中英文鍵盤</span>
+                            </label>
+                            
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; border-radius: 8px; background: #f9fafb; transition: background 0.2s;"
+                                   :style="previewState.keyboardSelection.numeric ? 'background: #eff6ff;' : ''"
+                                   @mouseover="$event.currentTarget.style.background = '#f3f4f6'"
+                                   @mouseout="$event.currentTarget.style.background = previewState.keyboardSelection.numeric ? '#eff6ff' : '#f9fafb'">
+                                <input type="checkbox" v-model="previewState.keyboardSelection.numeric" 
+                                       style="width: 18px; height: 18px; cursor: pointer; accent-color: #3b82f6;">
+                                <span style="font-size: 15px; color: #1f2937;">數字鍵盤</span>
+                            </label>
+                            
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; border-radius: 8px; background: #f9fafb; transition: background 0.2s;"
+                                   :style="previewState.keyboardSelection.symbolic ? 'background: #eff6ff;' : ''"
+                                   @mouseover="$event.currentTarget.style.background = '#f3f4f6'"
+                                   @mouseout="$event.currentTarget.style.background = previewState.keyboardSelection.symbolic ? '#eff6ff' : '#f9fafb'">
+                                <input type="checkbox" v-model="previewState.keyboardSelection.symbolic" 
+                                       style="width: 18px; height: 18px; cursor: pointer; accent-color: #3b82f6;">
+                                <span style="font-size: 15px; color: #1f2937;">符號鍵盤</span>
+                            </label>
+                            
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; border-radius: 8px; background: #f9fafb; transition: background 0.2s;"
+                                   :style="previewState.keyboardSelection.emoji ? 'background: #eff6ff;' : ''"
+                                   @mouseover="$event.currentTarget.style.background = '#f3f4f6'"
+                                   @mouseout="$event.currentTarget.style.background = previewState.keyboardSelection.emoji ? '#eff6ff' : '#f9fafb'">
+                                <input type="checkbox" v-model="previewState.keyboardSelection.emoji" 
+                                       style="width: 18px; height: 18px; cursor: pointer; accent-color: #3b82f6;">
+                                <span style="font-size: 15px; color: #1f2937;">Emoji 鍵盤</span>
+                            </label>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button @click="selectAllKeyboards()" 
+                                    style="flex: 1; padding: 8px 12px; font-size: 13px; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; transition: all 0.2s;"
+                                    @mouseover="$event.currentTarget.style.background = '#e5e7eb'"
+                                    @mouseout="$event.currentTarget.style.background = '#f3f4f6'">
+                                全選
+                            </button>
+                            <button @click="deselectAllKeyboards()" 
+                                    style="flex: 1; padding: 8px 12px; font-size: 13px; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; transition: all 0.2s;"
+                                    @mouseover="$event.currentTarget.style.background = '#e5e7eb'"
+                                    @mouseout="$event.currentTarget.style.background = '#f3f4f6'">
+                                全不選
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 12px; background: #eff6ff; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="font-size: 13px; color: #1e40af; line-height: 1.5; margin: 0;">
+                            💡 選中的鍵盤將開啟進階微調並套用設定
+                        </p>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-modal-secondary" @click="cancelKeyboardSelection()">取消</button>
+                        <button class="btn-modal btn-modal-primary" @click="confirmKeyboardSelection()">確定</button>
+                    </div>
+                </div>
+            </div>
+        </teleport>
     </div>
 
     <script>
@@ -6347,7 +6429,14 @@
                     longPressItems: [], // 長按氣泡的選項
                     longPressCompact: false, // 是否為緊湊模式（逗號/句號）
                     longPressTransformX: '-50%', // 氣泡水平偏移
-                    longPressBubbleX: 0 // 長按氣泡X位置
+                    longPressBubbleX: 0, // 長按氣泡X位置
+                    showKeyboardSelectionModal: false, // 鍵盤選擇彈窗顯示狀態
+                    keyboardSelection: {
+                        keyboard26Chinese: true,
+                        numeric: true,
+                        symbolic: true,
+                        emoji: true
+                    }
                 });
 
                 const kbContainer = ref(null);
@@ -6960,6 +7049,291 @@
                     }
                 };
 
+                // Apply Basic Appearance to Advanced Settings
+                const applyBasicToAdvanced = () => {
+                    const currentMode = previewState.appearance;
+                    const modeName = currentMode === 'light' ? '亮色模式' : '暗色模式';
+                    
+                    // Get enabled keyboards
+                    const enabledKeyboards = getEnabledKeyboards();
+                    
+                    // 如果沒有開啟任何鍵盤，顯示選擇彈窗
+                    if (enabledKeyboards.length === 0) {
+                        previewState.showKeyboardSelectionModal = true;
+                        return;
+                    }
+                    
+                    // 如果已經有開啟的鍵盤，顯示確認訊息
+                    const keyboardNames = enabledKeyboards.map(kb => {
+                        if (kb === 'keyboard26Chinese') return '26 鍵中英文鍵盤';
+                        if (kb === 'numeric') return '數字鍵盤';
+                        if (kb === 'symbolic') return '符號鍵盤';
+                        if (kb === 'emoji') return 'Emoji 鍵盤';
+                        return kb;
+                    });
+                    
+                    const message = `✓ 將套用基礎外觀設定（${modeName}）到以下鍵盤：\n${keyboardNames.map(n => '• ' + n).join('\n')}`;
+                    
+                    if (!confirm(message)) {
+                        return;
+                    }
+                    
+                    try {
+                        enabledKeyboards.forEach(keyboardType => {
+                            applyToKeyboard(keyboardType, currentMode);
+                        });
+                        console.log(`Applied basic appearance to ${enabledKeyboards.length} keyboards`);
+                    } catch (e) {
+                        console.error("Apply basic to advanced failed:", e);
+                        alert("套用失敗，請查看控制台日誌。");
+                    }
+                };
+
+                // Get list of enabled keyboards
+                const getEnabledKeyboards = () => {
+                    const enabled = [];
+                    if (settings.overrides.enable26ChineseOverride) enabled.push('keyboard26Chinese');
+                    if (settings.overrides.enableNumericOverride) enabled.push('numeric');
+                    if (settings.overrides.enableSymbolicOverride) enabled.push('symbolic');
+                    if (settings.overrides.enableEmojiOverride) enabled.push('emoji');
+                    return enabled;
+                };
+
+                // 全選鍵盤
+                const selectAllKeyboards = () => {
+                    previewState.keyboardSelection.keyboard26Chinese = true;
+                    previewState.keyboardSelection.numeric = true;
+                    previewState.keyboardSelection.symbolic = true;
+                    previewState.keyboardSelection.emoji = true;
+                };
+
+                // 全不選鍵盤
+                const deselectAllKeyboards = () => {
+                    previewState.keyboardSelection.keyboard26Chinese = false;
+                    previewState.keyboardSelection.numeric = false;
+                    previewState.keyboardSelection.symbolic = false;
+                    previewState.keyboardSelection.emoji = false;
+                };
+
+                // 確認鍵盤選擇並套用
+                const confirmKeyboardSelection = () => {
+                    const currentMode = previewState.appearance;
+                    const selected = [];
+                    
+                    // 收集選中的鍵盤
+                    if (previewState.keyboardSelection.keyboard26Chinese) selected.push('keyboard26Chinese');
+                    if (previewState.keyboardSelection.numeric) selected.push('numeric');
+                    if (previewState.keyboardSelection.symbolic) selected.push('symbolic');
+                    if (previewState.keyboardSelection.emoji) selected.push('emoji');
+                    
+                    if (selected.length === 0) {
+                        alert('請至少選擇一個鍵盤');
+                        return;
+                    }
+                    
+                    try {
+                        // 開啟選中的鍵盤並套用設定
+                        selected.forEach(keyboardType => {
+                            // 開啟進階微調
+                            if (keyboardType === 'keyboard26Chinese') {
+                                settings.overrides.enable26ChineseOverride = true;
+                            } else if (keyboardType === 'numeric') {
+                                settings.overrides.enableNumericOverride = true;
+                            } else if (keyboardType === 'symbolic') {
+                                settings.overrides.enableSymbolicOverride = true;
+                            } else if (keyboardType === 'emoji') {
+                                settings.overrides.enableEmojiOverride = true;
+                            }
+                            
+                            // 套用基礎外觀設定
+                            applyToKeyboard(keyboardType, currentMode);
+                        });
+                        
+                        console.log(`Enabled and applied basic appearance to ${selected.length} keyboards`);
+                        
+                        // 關閉彈窗
+                        previewState.showKeyboardSelectionModal = false;
+                    } catch (e) {
+                        console.error("Confirm keyboard selection failed:", e);
+                        alert("套用失敗，請查看控制台日誌。");
+                    }
+                };
+
+                // 取消鍵盤選擇
+                const cancelKeyboardSelection = () => {
+                    previewState.showKeyboardSelectionModal = false;
+                };
+
+                // Apply basic appearance to a single keyboard
+                const applyToKeyboard = (keyboardType, appearance) => {
+                    const palette = settings.palette[appearance];
+                    const groups = settings.groups;
+                    const target = settings.overrides[keyboardType][appearance];
+                    
+                    // Global settings (keyboard background)
+                    if (target.keyboardBackground) {
+                        target.keyboardBackground.bg = palette.bg;
+                    }
+                    
+                    // Toolbar (26鍵中英文、數字、符號、Emoji 都有)
+                    if (target.toolbarBackground) {
+                        target.toolbarBackground.bg = palette.bg;
+                    }
+                    if (target.toolbarButtons) {
+                        target.toolbarButtons.color = palette.toolbarColor;
+                        target.toolbarButtons.size = groups.toolbarSize;
+                    }
+                    
+                    // 26 鍵中英文鍵盤
+                    if (keyboardType === 'keyboard26Chinese') {
+                        // 字母鍵
+                        if (target.alphabet) {
+                            target.alphabet.bg = palette.keyNormal;
+                            target.alphabet.highlight = palette.keyNormalHighlight;
+                            target.alphabet.color = palette.textMain;
+                            target.alphabet.labelSize = groups.alphabetSize;
+                            target.alphabet.lowercaseSize = groups.lowercaseSize;
+                            target.alphabet.borderColor = palette.border;
+                            target.alphabet.borderWidth = palette.borderSize;
+                            target.alphabet.shadowColor = palette.shadow;
+                            target.alphabet.shadowHighlight = palette.shadow;
+                            target.alphabet.swipeColor = palette.textSub;
+                            target.alphabet.swipeSize = groups.swipeSize;
+                        }
+                        // 功能鍵
+                        if (target.systemKeys) {
+                            target.systemKeys.bg = palette.keySystem;
+                            target.systemKeys.highlight = palette.keySystemHighlight;
+                            target.systemKeys.color = palette.textMain;
+                            target.systemKeys.labelSize = groups.systemSize;
+                            target.systemKeys.borderColor = palette.border;
+                            target.systemKeys.borderWidth = palette.borderSize;
+                            target.systemKeys.shadowColor = palette.shadow;
+                            target.systemKeys.shadowHighlight = palette.shadow;
+                        }
+                        // Enter 鍵
+                        if (target.enterKey) {
+                            target.enterKey.bg = palette.keyEnter;
+                            target.enterKey.highlight = palette.keyEnterHighlight;
+                            target.enterKey.color = palette.textMain;
+                            target.enterKey.labelSize = groups.systemSize;
+                            target.enterKey.borderColor = palette.border;
+                            target.enterKey.borderWidth = palette.borderSize;
+                            target.enterKey.shadowColor = palette.shadow;
+                            target.enterKey.shadowHighlight = palette.shadow;
+                        }
+                        // 空白鍵
+                        if (target.spaceKey) {
+                            target.spaceKey.bg = palette.keyNormal;
+                            target.spaceKey.highlight = palette.keyNormalHighlight;
+                            target.spaceKey.color = palette.textMain;
+                            target.spaceKey.labelSize = groups.spaceSize;
+                            target.spaceKey.borderColor = palette.border;
+                            target.spaceKey.borderWidth = palette.borderSize;
+                            target.spaceKey.shadowColor = palette.shadow;
+                            target.spaceKey.shadowHighlight = palette.shadow;
+                        }
+                        // 候選字
+                        if (target.candidates) {
+                            target.candidates.selectedBg = palette.candidateSelectedBg;
+                            target.candidates.selectedText = palette.candidateSelectedText;
+                            target.candidates.unselectedText = palette.candidateUnselectedText;
+                            // 候選字控制按鈕
+                            if (target.candidates.controlButtons) {
+                                target.candidates.controlButtons.bg = palette.keyNormal;
+                                target.candidates.controlButtons.highlight = palette.keyNormalHighlight;
+                                target.candidates.controlButtons.color = palette.textMain;
+                                target.candidates.controlButtons.labelSize = groups.systemSize;
+                                target.candidates.controlButtons.shadowColor = palette.shadow;
+                                target.candidates.controlButtons.shadowHighlight = palette.shadow;
+                            }
+                        }
+                        // 氣泡提示
+                        if (target.bubbleText) {
+                            target.bubbleText.selected = palette.bubbleTextSelected;
+                            target.bubbleText.unselected = palette.bubbleTextUnselected;
+                        }
+                    }
+                    
+                    // 數字鍵盤
+                    else if (keyboardType === 'numeric') {
+                        // 數字鍵
+                        if (target.numbers) {
+                            target.numbers.bg = palette.keyNormal;
+                            target.numbers.highlight = palette.keyNormalHighlight;
+                            target.numbers.color = palette.textMain;
+                            target.numbers.labelSize = groups.numberSize;
+                            target.numbers.borderColor = palette.border;
+                            target.numbers.borderWidth = palette.borderSize;
+                            target.numbers.shadowColor = palette.shadow;
+                            target.numbers.shadowHighlight = palette.shadow;
+                        }
+                        // 左側符號欄
+                        if (target.leftPanel) {
+                            target.leftPanel.bg = palette.numericLeftPanelBg;
+                            target.leftPanel.borderColor = palette.border;
+                            target.leftPanel.borderWidth = palette.borderSize;
+                            target.leftPanel.shadowColor = palette.shadow;
+                        }
+                        // 功能鍵
+                        if (target.systemKeys) {
+                            target.systemKeys.bg = palette.keySystem;
+                            target.systemKeys.highlight = palette.keySystemHighlight;
+                            target.systemKeys.color = palette.textMain;
+                            target.systemKeys.labelSize = groups.systemSize;
+                            target.systemKeys.borderColor = palette.border;
+                            target.systemKeys.borderWidth = palette.borderSize;
+                            target.systemKeys.shadowColor = palette.shadow;
+                            target.systemKeys.shadowHighlight = palette.shadow;
+                        }
+                        // Enter 鍵
+                        if (target.enterKey) {
+                            target.enterKey.bg = palette.keyEnter;
+                            target.enterKey.highlight = palette.keyEnterHighlight;
+                            target.enterKey.color = palette.textMain;
+                            target.enterKey.labelSize = groups.systemSize;
+                            target.enterKey.borderColor = palette.border;
+                            target.enterKey.borderWidth = palette.borderSize;
+                            target.enterKey.shadowColor = palette.shadow;
+                            target.enterKey.shadowHighlight = palette.shadow;
+                        }
+                    }
+                    
+                    // 符號鍵盤 / Emoji 鍵盤
+                    else if (keyboardType === 'symbolic' || keyboardType === 'emoji') {
+                        // 左側分類欄
+                        if (target.leftPanel) {
+                            target.leftPanel.bg = palette.panelLeftBg;
+                            target.leftPanel.color = palette.textMain;
+                            target.leftPanel.labelSize = groups.panelSmallSize;
+                            target.leftPanel.selectedBg = palette.keyNormal;
+                            target.leftPanel.borderColor = palette.border;
+                            target.leftPanel.borderWidth = palette.borderSize;
+                            target.leftPanel.shadowColor = palette.shadow;
+                        }
+                        // 右側內容區
+                        if (target.rightPanel) {
+                            target.rightPanel.bg = palette.panelRightBg;
+                            target.rightPanel.color = palette.textMain;
+                            target.rightPanel.labelSize = groups.panelLargeSize;
+                            target.rightPanel.borderColor = palette.border;
+                            target.rightPanel.borderWidth = palette.borderSize;
+                            target.rightPanel.shadowColor = palette.shadow;
+                        }
+                        // 功能鍵
+                        if (target.systemKeys) {
+                            target.systemKeys.bg = palette.keySystem;
+                            target.systemKeys.highlight = palette.keySystemHighlight;
+                            target.systemKeys.color = palette.textMain;
+                            target.systemKeys.labelSize = groups.systemSize;
+                            target.systemKeys.borderColor = palette.border;
+                            target.systemKeys.borderWidth = palette.borderSize;
+                            target.systemKeys.shadowColor = palette.shadow;
+                            target.systemKeys.shadowHighlight = palette.shadow;
+                        }
+                    }
+                };
+
                 const viewportScale = computed(() => {
                     const padding = 60; // 調整留白
                     const scaleW = (previewWidth.value - padding) / 1125;
@@ -7278,6 +7652,13 @@
                     resetCurrentPalette,
                     resetOverrideCard,
                     resetAllOverrides,
+                    applyBasicToAdvanced,
+                    getEnabledKeyboards,
+                    applyToKeyboard,
+                    selectAllKeyboards,
+                    deselectAllKeyboards,
+                    confirmKeyboardSelection,
+                    cancelKeyboardSelection,
                     resetAllSettings,
                     handleResize,
                     switchLayout,
