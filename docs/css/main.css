@@ -150,6 +150,10 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
+    /* 安全區域支援：避免被 iPhone 瀏海遮擋 */
+    padding-top: env(safe-area-inset-top);
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
     z-index: 50;
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -528,6 +532,8 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10;
     flex-shrink: 0;
+    /* 安全區域支援：避免被底部 Home Indicator 遮擋 */
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Tabs */
@@ -575,6 +581,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    /* 安全區域支援：確保內容不會被底部遮擋 */
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 
 /* Card Style */
@@ -1666,11 +1674,19 @@ input:checked+.slider-round:before {
     .settings-area {
         width: 100%;
         height: 60%;
+        /* 手機版：確保底部安全區域 */
+        padding-bottom: env(safe-area-inset-bottom);
     }
 
     .preview-area {
         height: 40%;
         flex: none;
+    }
+    
+    /* 手機版：頂部導航欄安全區域 */
+    .top-bar {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
     }
 }
 
