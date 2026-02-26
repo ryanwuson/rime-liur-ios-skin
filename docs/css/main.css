@@ -581,8 +581,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    /* 安全區域支援：確保內容不會被底部遮擋 */
-    padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 
 /* Card Style */
@@ -1752,6 +1750,305 @@ input:checked+.slider-round:before {
     margin-bottom: 12px;
 }
 
+
+/* ===== 桌面縮放優化系列 ===== */
+
+/* 中等螢幕：1080px - 769px 顏色選擇器和拉桿優化 */
+@media (max-width: 1080px) and (min-width: 769px) {
+    .opacity-slider-container {
+        gap: 6px;
+        min-width: 80px;
+    }
+    
+    .opacity-slider-value {
+        width: 35px !important;
+        font-size: 12px;
+    }
+    
+    .color-hex-input {
+        width: 80px !important;
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+    
+    .color-row .input-label[style*="min-width: 120px"] {
+        min-width: 100px !important;
+        font-size: 14px;
+    }
+    
+    .color-picker-trigger {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .color-row input[type="range"] {
+        min-width: 80px;
+        flex: 1 1 auto;
+    }
+}
+
+/* 中等螢幕：1011px - 769px 按鍵布局優化 */
+@media (max-width: 1011px) and (min-width: 769px) {
+    /* 按鍵布局：縮小行卡片 */
+    .advanced-row-grid {
+        gap: 10px !important;
+    }
+    
+    .row-card {
+        padding: 12px 10px !important;
+    }
+    
+    .row-card-title {
+        font-size: 14px !important;
+    }
+    
+    .row-card .input-label {
+        font-size: 13px !important;
+    }
+}
+
+/* 更窄螢幕：973px - 769px 顏色選擇器加強優化 */
+@media (max-width: 973px) and (min-width: 769px) {
+    .opacity-slider-container {
+        gap: 4px !important;
+        min-width: 60px !important;
+    }
+    
+    .opacity-slider-value {
+        width: 32px !important;
+        font-size: 11px !important;
+    }
+    
+    .color-hex-input {
+        width: 75px !important;
+        font-size: 11px !important;
+        padding: 3px 5px !important;
+    }
+    
+    .color-row .input-label[style*="min-width: 120px"] {
+        min-width: 90px !important;
+        font-size: 13px !important;
+    }
+    
+    .color-picker-trigger {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    
+    .color-row input[type="range"] {
+        min-width: 60px !important;
+        flex: 1 1 auto !important;
+    }
+    
+    .input-row {
+        gap: 6px !important;
+        padding: 8px !important;
+    }
+    
+    .size-icon-trigger {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    
+    .size-icon-trigger svg {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    
+    .size-spacer {
+        width: 75px !important;
+    }
+}
+
+/* ===== 桌面縮放優化：880px - 769px ===== */
+@media (max-width: 880px) and (min-width: 769px) {
+    /* 工具配置容器 */
+    .toolbar-grid-container {
+        padding: 8px !important;
+    }
+    
+    /* 選中工具：改為 4 列以提供更多空間 */
+    .toolbar-slot-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px !important;
+    }
+    
+    /* 常用功能：保持 5 列 */
+    .tool-cards-grid {
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 6px !important;
+    }
+    
+    /* 選中工具卡片 */
+    .toolbar-slot-card {
+        padding: 6px 4px !important;
+        min-width: 0 !important;
+    }
+    
+    /* 常用功能卡片 */
+    .tool-option-card {
+        padding: 5px 3px !important;
+        min-width: 0 !important;
+    }
+    
+    /* Badge 樣式 */
+    .slot-badge {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 10px !important;
+        top: -5px !important;
+        left: -5px !important;
+    }
+    
+    /* 選中工具的文字內容 */
+    .toolbar-slot-card .slot-content {
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 3px !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* 常用功能的文字標籤 */
+    .tool-card-label {
+        font-size: 9px !important;
+        line-height: 1.1 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+    }
+    
+    /* 圖標大小 */
+    .tool-card-icon {
+        font-size: 16px !important;
+    }
+}
+
+/* 極窄螢幕：841px - 769px 最激進優化 */
+@media (max-width: 841px) and (min-width: 769px) {
+    .opacity-slider-container {
+        gap: 3px !important;
+        min-width: 50px !important;
+    }
+    
+    .opacity-slider-value {
+        width: 30px !important;
+        font-size: 10px !important;
+    }
+    
+    .color-hex-input {
+        width: 70px !important;
+        font-size: 10px !important;
+        padding: 3px 4px !important;
+    }
+    
+    .color-row .input-label[style*="min-width: 120px"] {
+        min-width: 85px !important;
+        font-size: 12px !important;
+    }
+    
+    .color-picker-trigger {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    
+    .color-row input[type="range"] {
+        min-width: 50px !important;
+    }
+    
+    .input-row {
+        gap: 5px !important;
+        padding: 6px !important;
+    }
+    
+    .size-icon-trigger {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    
+    .size-icon-trigger svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    .size-spacer {
+        width: 70px !important;
+    }
+    
+    /* 按鍵布局：進一步縮小 */
+    .advanced-row-grid {
+        gap: 8px !important;
+    }
+    
+    .row-card {
+        padding: 10px 8px !important;
+    }
+    
+    .row-card-title {
+        font-size: 13px !important;
+    }
+    
+    .row-card .input-label {
+        font-size: 12px !important;
+    }
+}
+
+/* 超窄螢幕：806px - 769px 拉桿最終優化 */
+@media (max-width: 806px) and (min-width: 769px) {
+    .opacity-slider-container {
+        gap: 2px !important;
+        min-width: 40px !important;
+    }
+    
+    .opacity-slider-value {
+        width: 28px !important;
+        font-size: 9px !important;
+    }
+    
+    .color-hex-input {
+        width: 65px !important;
+        font-size: 9px !important;
+        padding: 2px 3px !important;
+    }
+    
+    .color-row .input-label[style*="min-width: 120px"] {
+        min-width: 80px !important;
+        font-size: 11px !important;
+    }
+    
+    .color-picker-trigger {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    .color-row input[type="range"] {
+        min-width: 40px !important;
+    }
+    
+    .input-row {
+        gap: 4px !important;
+        padding: 5px !important;
+    }
+    
+    .size-icon-trigger {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    .size-icon-trigger svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+    
+    .size-spacer {
+        width: 65px !important;
+    }
+}
 
 /* ===== 手機版 RWD 優化 ===== */
 @media (max-width: 767px) {
