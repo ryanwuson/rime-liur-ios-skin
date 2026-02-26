@@ -1002,12 +1002,15 @@
                                         class="long-press-cell" :class="{ 'long-press-cell-selected': idx === 0 }">
                                         <!-- SVG icon item (Z key swipe-up) -->
                                         <template v-if="item && item.isIcon">
-                                            <img :src="getToolIconPath(settings.handedness === 'left' ? 18 : 19)"
+                                            <div class="tool-svg-icon"
+                                                v-html="TOOLBAR_ICONS[settings.handedness === 'left' ? 'LeftHand' : 'RightHand']"
                                                 :style="{
                                                 width: (settings.groups.systemSize * 1.25 * fontScale) + 'px',
                                                 height: (settings.groups.systemSize * 1.25 * fontScale) + 'px',
-                                                filter: previewState.appearance === 'dark' ? 'brightness(0) invert(1)' : 'none',
-                                            }" alt="icon">
+                                                color: previewState.appearance === 'dark' ? '#ffffff' : '#000000',
+                                                fill: previewState.appearance === 'dark' ? '#ffffff' : '#000000'
+                                            }">
+                                            </div>
                                         </template>
                                         <!-- Text item -->
                                         <template v-else>
@@ -1023,7 +1026,7 @@
                                 <!-- 26鍵 Layout (Final Spec) -->
                                 <template v-if="previewState.layout === '26鍵'">
                                     <div class="kb-row">
-                                        <div v-for="key in ['Q','W','E','R','T','Y','U','I','O','P']" :key="key"
+                                        <div v-for="key in ['Q','W','E','R','T','Y','U','I','O','P']" :key="`row1-${key}-${previewState.layout}`"
                                             class="kb-key key-alphabet w-10" :style="[getKeyStyle('keyboard26Chinese', 'alphabet'), {
                                             fontSize: ((previewState.isShiftActive ? getEffectiveStyle('keyboard26Chinese', 'alphabet', 'labelSize') : getEffectiveStyle('keyboard26Chinese', 'alphabet', 'lowercaseSize')) * fontScale) + 'px'
                                          }]"
@@ -1048,7 +1051,7 @@
 
 
                                     <div class="kb-row">
-                                        <div v-for="key in ['A','S','D','F','G','H','J','K','L']" :key="key"
+                                        <div v-for="key in ['A','S','D','F','G','H','J','K','L']" :key="`row2-${key}-${previewState.layout}`"
                                             class="kb-key key-alphabet w-10" :class="{ 'indent-row-2': key === 'A' }"
                                             :style="[getKeyStyle('keyboard26Chinese', 'alphabet'), {
                                             fontSize: ((previewState.isShiftActive ? getEffectiveStyle('keyboard26Chinese', 'alphabet', 'labelSize') : getEffectiveStyle('keyboard26Chinese', 'alphabet', 'lowercaseSize')) * fontScale) + 'px'
@@ -1082,7 +1085,7 @@
                                             <span>⇧</span>
                                         </div>
                                         <!-- Z-M 10% -->
-                                        <div v-for="key in ['Z','X','C','V','B','N','M']" :key="key"
+                                        <div v-for="key in ['Z','X','C','V','B','N','M']" :key="`row3-${key}-${previewState.layout}`"
                                             class="kb-key key-alphabet key-row3 w-10" :style="[getKeyStyle('keyboard26Chinese', 'alphabet'), {
                                             fontSize: ((previewState.isShiftActive ? getEffectiveStyle('keyboard26Chinese', 'alphabet', 'labelSize') : getEffectiveStyle('keyboard26Chinese', 'alphabet', 'lowercaseSize')) * fontScale) + 'px'
                                          }]"
@@ -1090,33 +1093,22 @@
                                             @mouseup="hideBubble" @mouseleave="hideBubble"
                                             @touchstart.prevent="showBubble($event, previewState.isShiftActive ? key : key.toLowerCase())"
                                             @touchend="hideBubble">
-                                            <!-- Z key: SVG icon for up-swipe (drop-shadow hack like toolbar) -->
-                                            <template
-                                                v-if="key === 'Z' && (settings.enableAdvancedRowControl ? settings.advancedRowControl.row3.showSwipeUpText : settings.showSwipeUpText)">
-                                                <div class="swipe-hint swipe-up-left" :style="{
+                                            <!-- Z key: SVG icon for up-swipe (inline SVG instead of img) -->
+                                            <div v-show="key === 'Z' && (settings.enableAdvancedRowControl ? settings.advancedRowControl.row3.showSwipeUpText : settings.showSwipeUpText)"
+                                                class="swipe-hint swipe-up-left tool-svg-icon"
+                                                v-html="TOOLBAR_ICONS[settings.handedness === 'left' ? 'LeftHand' : 'RightHand']"
+                                                :style="{
                                                     width: (getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeSize') * fontScale * 1.5) + 'px',
                                                     height: (getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeSize') * fontScale * 1.5) + 'px',
-                                                    overflow: 'hidden',
+                                                    overflow: 'visible',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
-                                                    position: 'absolute'
+                                                    position: 'absolute',
+                                                    color: getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeColor'),
+                                                    fill: getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeColor')
                                                 }">
-                                                    <img :src="getToolIconPath(settings.handedness === 'left' ? 18 : 19)"
-                                                        :style="{
-                                                        width: (getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeSize') * fontScale * 1.5) + 'px',
-                                                        height: (getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeSize') * fontScale * 1.5) + 'px',
-                                                        display: 'block',
-                                                        position: 'absolute',
-                                                        left: 0,
-                                                        top: 0,
-                                                        transform: `translate3d(${(getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeSize') * fontScale * 1.5)}px, 0, 0)`,
-                                                        '-webkit-filter': `drop-shadow(-${(getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeSize') * fontScale * 1.5)}px 0 0 ${getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeColor')})`,
-                                                        filter: `drop-shadow(-${(getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeSize') * fontScale * 1.5)}px 0 0 ${getEffectiveStyle('keyboard26Chinese', 'alphabet', 'swipeColor')})`,
-                                                        'will-change': 'filter'
-                                                    }" alt="icon">
-                                                </div>
-                                            </template>
+                                            </div>
 
                                             <!-- Other Z-M keys: text up-swipe -->
                                             <span
