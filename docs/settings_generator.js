@@ -574,7 +574,7 @@ ${generatePaletteMode('dark', settings.palette?.dark || {})}
     overrides: {
       # ===== 26鍵中文鍵盤（蝦米輸入） =====
       # 🔧 啟用開關：將 false 改為 true 即可啟用所有 26 鍵鍵盤覆蓋設定
-      enable26ChineseOverride: ${settings.overrides?.enable26ChineseOverride || false},
+      enable26ChineseOverride: ${settings.overrides?.enable26ChineseOverride?.light || settings.overrides?.enable26ChineseOverride?.dark || false},
       
       keyboard26Chinese: if self.enable26ChineseOverride then {
         # 字母鍵 (A~Z, 逗號, 句號)
@@ -646,7 +646,7 @@ ${generateBubbleTextOverride(settings.overrides?.keyboard26Chinese, 'dark')}
       
       # ===== 數字鍵盤 =====
       # 🔧 啟用開關：將 false 改為 true 即可啟用所有數字鍵盤覆蓋設定
-      enableNumericOverride: ${settings.overrides?.enableNumericOverride || false},
+      enableNumericOverride: ${settings.overrides?.enableNumericOverride?.light || settings.overrides?.enableNumericOverride?.dark || false},
       
       numeric: if self.enableNumericOverride then {
         numbers: {
@@ -691,7 +691,7 @@ ${generateEnterKeyOverride(settings.overrides?.numeric, 'dark')}
       
       # ===== 符號鍵盤 =====
       # 🔧 啟用開關：將 false 改為 true 即可啟用所有符號鍵盤覆蓋設定
-      enableSymbolicOverride: ${settings.overrides?.enableSymbolicOverride || false},
+      enableSymbolicOverride: ${settings.overrides?.enableSymbolicOverride?.light || settings.overrides?.enableSymbolicOverride?.dark || false},
       
       symbolic: if self.enableSymbolicOverride then {
         leftPanel: {
@@ -731,7 +731,7 @@ ${generateSystemKeysOverride(settings.overrides?.symbolic, 'dark')}
       
       # ===== Emoji 鍵盤 =====
       # 🔧 啟用開關：將 false 改為 true 即可啟用所有 Emoji 鍵盤覆蓋設定
-      enableEmojiOverride: ${settings.overrides?.enableEmojiOverride || false},
+      enableEmojiOverride: ${settings.overrides?.enableEmojiOverride?.light || settings.overrides?.enableEmojiOverride?.dark || false},
       
       emoji: if self.enableEmojiOverride then {
         leftPanel: {

@@ -2986,14 +2986,14 @@
                                 <h3 class="card-title">26 鍵中英文鍵盤</h3>
                                 <div style="display: flex; align-items: center; gap: 12px;">
                                     <label class="switch">
-                                        <input type="checkbox" v-model="settings.overrides.enable26ChineseOverride">
+                                        <input type="checkbox" v-model="settings.overrides.enable26ChineseOverride[previewState.appearance]">
                                         <span class="slider-round"></span>
                                     </label>
                                     <button class="btn-reset-small" @click="resetOverrideCard('keyboard26Chinese')"
-                                        :disabled="!settings.overrides.enable26ChineseOverride">還原預設值</button>
+                                        :disabled="!settings.overrides.enable26ChineseOverride[previewState.appearance]">還原預設值</button>
                                 </div>
                             </div>
-                            <div :class="{ 'disabled-card': !settings.overrides.enable26ChineseOverride }"
+                            <div :class="{ 'disabled-card': !settings.overrides.enable26ChineseOverride[previewState.appearance] }"
                                 style="display: flex; flex-direction: column; gap: 16px;">
 
                                 <!-- ══════ 區塊一：字母鍵 ══════ -->
@@ -4127,14 +4127,14 @@
                                 <h3 class="card-title">數字鍵盤</h3>
                                 <div style="display: flex; align-items: center; gap: 12px;">
                                     <label class="switch">
-                                        <input type="checkbox" v-model="settings.overrides.enableNumericOverride">
+                                        <input type="checkbox" v-model="settings.overrides.enableNumericOverride[previewState.appearance]">
                                         <span class="slider-round"></span>
                                     </label>
                                     <button class="btn-reset-small" @click="resetOverrideCard('numeric')"
-                                        :disabled="!settings.overrides.enableNumericOverride">還原預設值</button>
+                                        :disabled="!settings.overrides.enableNumericOverride[previewState.appearance]">還原預設值</button>
                                 </div>
                             </div>
-                            <div :class="{ 'disabled-card': !settings.overrides.enableNumericOverride }"
+                            <div :class="{ 'disabled-card': !settings.overrides.enableNumericOverride[previewState.appearance] }"
                                 style="display: flex; flex-direction: column; gap: 16px;">
 
                                 <!-- ══════ 區塊一：數字鍵 (0-9) ══════ -->
@@ -4853,14 +4853,14 @@
                                 <h3 class="card-title">符號鍵盤</h3>
                                 <div style="display: flex; align-items: center; gap: 12px;">
                                     <label class="switch">
-                                        <input type="checkbox" v-model="settings.overrides.enableSymbolicOverride">
+                                        <input type="checkbox" v-model="settings.overrides.enableSymbolicOverride[previewState.appearance]">
                                         <span class="slider-round"></span>
                                     </label>
                                     <button class="btn-reset-small" @click="resetOverrideCard('symbolic')"
-                                        :disabled="!settings.overrides.enableSymbolicOverride">還原預設值</button>
+                                        :disabled="!settings.overrides.enableSymbolicOverride[previewState.appearance]">還原預設值</button>
                                 </div>
                             </div>
-                            <div :class="{ 'disabled-card': !settings.overrides.enableSymbolicOverride }"
+                            <div :class="{ 'disabled-card': !settings.overrides.enableSymbolicOverride[previewState.appearance] }"
                                 style="display: flex; flex-direction: column; gap: 16px;">
 
                                 <!-- ══════ 區塊一：分類欄 (Left Panel) ══════ -->
@@ -5355,14 +5355,14 @@
                                 <h3 class="card-title">Emoji 鍵盤</h3>
                                 <div style="display: flex; align-items: center; gap: 12px;">
                                     <label class="switch">
-                                        <input type="checkbox" v-model="settings.overrides.enableEmojiOverride">
+                                        <input type="checkbox" v-model="settings.overrides.enableEmojiOverride[previewState.appearance]">
                                         <span class="slider-round"></span>
                                     </label>
                                     <button class="btn-reset-small" @click="resetOverrideCard('emoji')"
-                                        :disabled="!settings.overrides.enableEmojiOverride">還原預設值</button>
+                                        :disabled="!settings.overrides.enableEmojiOverride[previewState.appearance]">還原預設值</button>
                                 </div>
                             </div>
-                            <div :class="{ 'disabled-card': !settings.overrides.enableEmojiOverride }"
+                            <div :class="{ 'disabled-card': !settings.overrides.enableEmojiOverride[previewState.appearance] }"
                                 style="display: flex; flex-direction: column; gap: 16px;">
 
                                 <!-- ══════ 區塊一：分類欄 (Left Panel) ══════ -->
@@ -6145,13 +6145,13 @@
                     ...JSON.parse(JSON.stringify(initialSettings)),
                     enableCustomColors: true, // ensure reactive copy starts with true
                     overrides: {
-                        enable26ChineseOverride: false,
+                        enable26ChineseOverride: { light: false, dark: false },
                         keyboard26Chinese: JSON.parse(JSON.stringify(initialSettings.overrides.keyboard26Chinese)), // { light: {...}, dark: {...} }
-                        enableNumericOverride: false,
+                        enableNumericOverride: { light: false, dark: false },
                         numeric: JSON.parse(JSON.stringify(initialSettings.overrides.numeric)),
-                        enableSymbolicOverride: false,
+                        enableSymbolicOverride: { light: false, dark: false },
                         symbolic: JSON.parse(JSON.stringify(initialSettings.overrides.symbolic)),
-                        enableEmojiOverride: false,
+                        enableEmojiOverride: { light: false, dark: false },
                         emoji: JSON.parse(JSON.stringify(initialSettings.overrides.emoji))
                     }
                 });
@@ -7044,16 +7044,16 @@
 
                             // Also reset the enable flags
                             if (initialSettings.overrides.enable26ChineseOverride !== undefined) {
-                                settings.overrides.enable26ChineseOverride = initialSettings.overrides.enable26ChineseOverride;
+                                settings.overrides.enable26ChineseOverride = JSON.parse(JSON.stringify(initialSettings.overrides.enable26ChineseOverride));
                             }
                             if (initialSettings.overrides.enableNumericOverride !== undefined) {
-                                settings.overrides.enableNumericOverride = initialSettings.overrides.enableNumericOverride;
+                                settings.overrides.enableNumericOverride = JSON.parse(JSON.stringify(initialSettings.overrides.enableNumericOverride));
                             }
                             if (initialSettings.overrides.enableSymbolicOverride !== undefined) {
-                                settings.overrides.enableSymbolicOverride = initialSettings.overrides.enableSymbolicOverride;
+                                settings.overrides.enableSymbolicOverride = JSON.parse(JSON.stringify(initialSettings.overrides.enableSymbolicOverride));
                             }
                             if (initialSettings.overrides.enableEmojiOverride !== undefined) {
-                                settings.overrides.enableEmojiOverride = initialSettings.overrides.enableEmojiOverride;
+                                settings.overrides.enableEmojiOverride = JSON.parse(JSON.stringify(initialSettings.overrides.enableEmojiOverride));
                             }
                         }
 
@@ -7107,10 +7107,11 @@
                 // Get list of enabled keyboards
                 const getEnabledKeyboards = () => {
                     const enabled = [];
-                    if (settings.overrides.enable26ChineseOverride) enabled.push('keyboard26Chinese');
-                    if (settings.overrides.enableNumericOverride) enabled.push('numeric');
-                    if (settings.overrides.enableSymbolicOverride) enabled.push('symbolic');
-                    if (settings.overrides.enableEmojiOverride) enabled.push('emoji');
+                    const appearance = previewState.appearance;
+                    if (settings.overrides.enable26ChineseOverride[appearance]) enabled.push('keyboard26Chinese');
+                    if (settings.overrides.enableNumericOverride[appearance]) enabled.push('numeric');
+                    if (settings.overrides.enableSymbolicOverride[appearance]) enabled.push('symbolic');
+                    if (settings.overrides.enableEmojiOverride[appearance]) enabled.push('emoji');
                     return enabled;
                 };
 
@@ -7148,16 +7149,17 @@
                     
                     try {
                         // 開啟選中的鍵盤並套用設定
+                        const appearance = previewState.appearance;
                         selected.forEach(keyboardType => {
                             // 開啟進階微調
                             if (keyboardType === 'keyboard26Chinese') {
-                                settings.overrides.enable26ChineseOverride = true;
+                                settings.overrides.enable26ChineseOverride[appearance] = true;
                             } else if (keyboardType === 'numeric') {
-                                settings.overrides.enableNumericOverride = true;
+                                settings.overrides.enableNumericOverride[appearance] = true;
                             } else if (keyboardType === 'symbolic') {
-                                settings.overrides.enableSymbolicOverride = true;
+                                settings.overrides.enableSymbolicOverride[appearance] = true;
                             } else if (keyboardType === 'emoji') {
-                                settings.overrides.enableEmojiOverride = true;
+                                settings.overrides.enableEmojiOverride[appearance] = true;
                             }
                             
                             // 套用基礎外觀設定
