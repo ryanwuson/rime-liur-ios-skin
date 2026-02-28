@@ -1330,8 +1330,8 @@
                                             <div class="tool-svg-icon"
                                                 v-html="TOOLBAR_ICONS[settings.handedness === 'left' ? 'LeftHand' : 'RightHand']"
                                                 :style="{
-                                                width: (settings.groups.systemSize * 1.25 * fontScale) + 'px',
-                                                height: (settings.groups.systemSize * 1.25 * fontScale) + 'px',
+                                                width: (settings.groups[previewState.appearance].systemSize * 1.25 * fontScale) + 'px',
+                                                height: (settings.groups[previewState.appearance].systemSize * 1.25 * fontScale) + 'px',
                                                 color: previewState.appearance === 'dark' ? '#ffffff' : '#000000',
                                                 fill: previewState.appearance === 'dark' ? '#ffffff' : '#000000'
                                             }">
@@ -1456,7 +1456,7 @@
                                          }]">
                                             <span>⌫</span>
                                             <span v-if="settings.showSwipeDownText" class="swipe-hint swipe-down-center"
-                                                :style="{ color: getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeColor'), fontSize: (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') === null ? (settings.groups.swipeSize * fontScale) : (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') * fontScale)) + 'px' }">
+                                                :style="{ color: getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeColor'), fontSize: (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') === null ? (settings.groups[previewState.appearance].swipeSize * fontScale) : (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') * fontScale)) + 'px' }">
                                                 undo</span>
                                         </div>
                                     </div>
@@ -2059,9 +2059,9 @@
                                             <!-- Tool 0: Blank placeholder (Show '空' text in selection area) -->
                                             <template v-if="toolId === 0">
                                                 <div class="tool-text-icon" :style="{ 
-                                                         width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                         height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                         fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px',
+                                                         width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                         height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                         fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px',
                                                          color: '#ccc',
                                                          fontWeight: 'normal'
                                                      }">
@@ -2074,9 +2074,9 @@
                                                 <!-- Text Icons (e.g., 英, 簡) -->
                                                 <div v-if="allTools[toolId].type === 'text'" class="tool-text-icon"
                                                     :style="{ 
-                                                         width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                         height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                         fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px',
+                                                         width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                         height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                         fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px',
                                                          color: '#333',
                                                          fontWeight: 'normal'
                                                      }">
@@ -2085,8 +2085,8 @@
                                                 <!-- SVG Icons (Scale to toolbarSize) -->
                                                 <div v-else class="tool-svg-icon"
                                                     v-html="TOOLBAR_ICONS[allTools[toolId].icon]" :style="{ 
-                                                         width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
-                                                         height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                         width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                         height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
                                                          fill: '#333', 
                                                          display: 'flex', 
                                                          alignItems: 'center', 
@@ -2107,15 +2107,15 @@
                                         @click="selectTool(t.id)">
                                         <div class="tool-card-icon">
                                             <div v-if="t.type === 'text'" class="tool-text-icon" :style="{ 
-                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                    fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px'
+                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                    fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px'
                                                 }">
                                                 {{ t.icon }}
                                             </div>
                                             <div v-else class="tool-svg-icon" v-html="TOOLBAR_ICONS[t.icon]" :style="{ 
-                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
-                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
                                                     fill: '#666', 
                                                     display: 'flex', 
                                                     alignItems: 'center', 
@@ -2135,15 +2135,15 @@
                                         @click="selectTool(t.id)">
                                         <div class="tool-card-icon">
                                             <div v-if="t.type === 'text'" class="tool-text-icon" :style="{ 
-                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                    fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px'
+                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                    fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px'
                                                 }">
                                                 {{ t.icon }}
                                             </div>
                                             <div v-else class="tool-svg-icon" v-html="TOOLBAR_ICONS[t.icon]" :style="{ 
-                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
-                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
                                                     fill: '#666', 
                                                     display: 'flex', 
                                                     alignItems: 'center', 
@@ -2163,15 +2163,15 @@
                                         @click="selectTool(t.id)">
                                         <div class="tool-card-icon">
                                             <div v-if="t.type === 'text'" class="tool-text-icon" :style="{ 
-                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
-                                                    fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px'
+                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
+                                                    fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px'
                                                 }">
                                                 {{ t.icon }}
                                             </div>
                                             <div v-else class="tool-svg-icon" v-html="TOOLBAR_ICONS[t.icon]" :style="{ 
-                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
-                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
                                                     fill: '#666', 
                                                     display: 'flex', 
                                                     alignItems: 'center', 
@@ -2344,9 +2344,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="30" step="1"
-                                            v-model.number="settings.groups.systemSize">
+                                            v-model.number="settings.groups[previewState.appearance].systemSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.systemSize }}px</span>
+                                            settings.groups[previewState.appearance].systemSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2528,9 +2528,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups.alphabetSize">
+                                            v-model.number="settings.groups[previewState.appearance].alphabetSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.alphabetSize }}px</span>
+                                            settings.groups[previewState.appearance].alphabetSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2546,9 +2546,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups.lowercaseSize">
+                                            v-model.number="settings.groups[previewState.appearance].lowercaseSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.lowercaseSize }}px</span>
+                                            settings.groups[previewState.appearance].lowercaseSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2569,9 +2569,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="30" step="1"
-                                            v-model.number="settings.groups.spaceSize">
+                                            v-model.number="settings.groups[previewState.appearance].spaceSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.spaceSize }}px</span>
+                                            settings.groups[previewState.appearance].spaceSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2752,9 +2752,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="4" max="16" step="1"
-                                            v-model.number="settings.groups.swipeSize">
+                                            v-model.number="settings.groups[previewState.appearance].swipeSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.swipeSize }}px</span>
+                                            settings.groups[previewState.appearance].swipeSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2799,9 +2799,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups.toolbarSize">
+                                            v-model.number="settings.groups[previewState.appearance].toolbarSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.toolbarSize }}px</span>
+                                            settings.groups[previewState.appearance].toolbarSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2857,9 +2857,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups.numberSize">
+                                            v-model.number="settings.groups[previewState.appearance].numberSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.numberSize }}px</span>
+                                            settings.groups[previewState.appearance].numberSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2909,9 +2909,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="8" max="24" step="1"
-                                            v-model.number="settings.groups.panelSmallSize">
+                                            v-model.number="settings.groups[previewState.appearance].panelSmallSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.panelSmallSize }}px</span>
+                                            settings.groups[previewState.appearance].panelSmallSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2952,9 +2952,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="30" step="1"
-                                            v-model.number="settings.groups.panelLargeSize">
+                                            v-model.number="settings.groups[previewState.appearance].panelLargeSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups.panelLargeSize }}px</span>
+                                            settings.groups[previewState.appearance].panelLargeSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -6031,15 +6031,28 @@
 
                     // 5. 尺寸與字號 (Groups)
                     groups: {
-                        alphabetSize: 21,
-                        lowercaseSize: 23,
-                        systemSize: 16,     // Reverted to 16 for better visual balance in preview
-                        spaceSize: 14,      // Reverted to 14
-                        numberSize: 24,     // 數字鍵盤
-                        panelSmallSize: 13, // 符號分類/逗號句號
-                        panelLargeSize: 16, // 符號內容
-                        toolbarSize: 20,
-                        swipeSize: 8
+                        light: {
+                            alphabetSize: 21,
+                            lowercaseSize: 23,
+                            systemSize: 16,     // Reverted to 16 for better visual balance in preview
+                            spaceSize: 14,      // Reverted to 14
+                            numberSize: 24,     // 數字鍵盤
+                            panelSmallSize: 13, // 符號分類/逗號句號
+                            panelLargeSize: 16, // 符號內容
+                            toolbarSize: 20,
+                            swipeSize: 8
+                        },
+                        dark: {
+                            alphabetSize: 21,
+                            lowercaseSize: 23,
+                            systemSize: 16,
+                            spaceSize: 14,
+                            numberSize: 24,
+                            panelSmallSize: 13,
+                            panelLargeSize: 16,
+                            toolbarSize: 20,
+                            swipeSize: 8
+                        }
                     },
 
                     // 6. 個別微調 (Layer 3) Default Overrides (for Reset)
@@ -6281,17 +6294,17 @@
 
                     // Size Mapping
                     if (property === 'labelSize' || property === 'size') {
-                        if (section === 'alphabet') return settings.groups.alphabetSize;
-                        if (section === 'lowercaseSize') return settings.groups.lowercaseSize; // Special case for prop name if used
-                        if (section === 'numbers') return settings.groups.numberSize;
-                        if (section === 'systemKeys' || section === 'enterKey' || section === 'candidates.controlButtons') return settings.groups.systemSize;
-                        if (section === 'spaceKey') return settings.groups.spaceSize;
-                        if (section === 'toolbarButtons') return settings.groups.toolbarSize;
-                        if (section === 'leftPanel') return settings.groups.panelSmallSize;
-                        if (section === 'rightPanel') return settings.groups.panelLargeSize;
+                        if (section === 'alphabet') return settings.groups[appearance].alphabetSize;
+                        if (section === 'lowercaseSize') return settings.groups[appearance].lowercaseSize; // Special case for prop name if used
+                        if (section === 'numbers') return settings.groups[appearance].numberSize;
+                        if (section === 'systemKeys' || section === 'enterKey' || section === 'candidates.controlButtons') return settings.groups[appearance].systemSize;
+                        if (section === 'spaceKey') return settings.groups[appearance].spaceSize;
+                        if (section === 'toolbarButtons') return settings.groups[appearance].toolbarSize;
+                        if (section === 'leftPanel') return settings.groups[appearance].panelSmallSize;
+                        if (section === 'rightPanel') return settings.groups[appearance].panelLargeSize;
                     }
-                    if (property === 'lowercaseSize' && section === 'alphabet') return settings.groups.lowercaseSize;
-                    if (property === 'swipeSize') return settings.groups.swipeSize;
+                    if (property === 'lowercaseSize' && section === 'alphabet') return settings.groups[appearance].lowercaseSize;
+                    if (property === 'swipeSize') return settings.groups[appearance].swipeSize;
 
                     return null;
                 };
