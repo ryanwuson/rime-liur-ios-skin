@@ -96,6 +96,7 @@
 
 :root {
     --ios-blue: #007AFF;
+    --ios-green: #34C759;
     --ios-gray: #8E8E93;
     --ios-light: #F2F2F7;
     --ios-dark: #1C1C1E;
@@ -333,6 +334,23 @@ body {
 
 .btn-export:hover {
     background-color: #0062CC;
+    transform: translateY(-1px);
+}
+
+.btn-import {
+    background-color: var(--ios-green);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-import:hover {
+    background-color: #28a745;
     transform: translateY(-1px);
 }
 

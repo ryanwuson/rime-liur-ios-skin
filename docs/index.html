@@ -1011,6 +1011,36 @@
             box-shadow: 0 2px 4px rgba(0, 122, 255, 0.2);
         }
 
+        .btn-import {
+            background: linear-gradient(180deg, #34C759 0%, #248A3D 100%);
+            color: white;
+            padding: 0 18px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-import:hover {
+            background: linear-gradient(180deg, #30D158 0%, #2DA44E 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(52, 199, 89, 0.4);
+        }
+
+        .btn-import:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(52, 199, 89, 0.2);
+        }
+
         .btn-icon {
             width: 16px;
             height: 16px;
@@ -1048,7 +1078,8 @@
             }
 
             .btn-info-trigger,
-            .btn-export {
+            .btn-export,
+            .btn-import {
                 padding: 0;
                 width: 36px;
                 height: 36px;
@@ -1114,10 +1145,22 @@
                     <span class="btn-icon icon-info" v-html="UI_ICONS.info"></span>
                     <span class="btn-text">編輯皮膚資訊</span>
                 </button>
+                <button class="btn-import" @click="triggerImport">
+                    <span class="btn-icon" v-html="UI_ICONS.upload"></span>
+                    <span class="btn-text">匯入配置 (.cskin)</span>
+                </button>
                 <button class="btn-export" @click="exportCskin">
                     <span class="btn-icon" v-html="UI_ICONS.download"></span>
                     <span class="btn-text">導出配置 (.cskin)</span>
                 </button>
+                <!-- 隱藏的檔案輸入 -->
+                <input 
+                    ref="fileInput" 
+                    type="file" 
+                    accept=".cskin" 
+                    style="display: none" 
+                    @change="handleFileSelect"
+                >
             </div>
         </header>
 
@@ -5943,6 +5986,7 @@
                 const tabs = ['按鍵佈局', '工具配置', '基礎外觀', '進階微調'];
                 const isMobile = ref(window.innerWidth < 768);
                 const isSheetExpanded = ref(false);
+                const fileInput = ref(null); // 匯入功能的檔案輸入 ref
 
                 // Font Scale Factor (User Feedback: 2.15 is too small. Bump to 3.0 for ~60px visual)
                 const fontScale = 3.0;
@@ -6161,6 +6205,7 @@
                     chevronDown: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1229" preserveAspectRatio="xMidYMid meet"><g transform="translate(0,1229) scale(0.1,-0.1)" fill="currentColor" stroke="none"><path d="M2728 10220 c-227 -41 -416 -164 -542 -354 -94 -142 -129 -267 -130 -461 -1 -279 73 -433 337 -698 56 -57 223 -229 372 -383 148 -153 310 -320 360 -370 49 -49 158 -160 240 -245 83 -84 332 -341 555 -569 223 -229 558 -573 745 -765 187 -193 380 -391 430 -441 49 -50 218 -223 375 -385 156 -162 381 -393 500 -514 172 -176 418 -428 624 -641 12 -12 104 -107 206 -210 102 -104 338 -346 525 -539 187 -192 439 -451 561 -575 318 -325 953 -976 1149 -1180 236 -245 298 -304 390 -369 180 -129 398 -176 630 -136 177 31 328 119 481 278 44 45 248 255 454 467 206 212 447 459 535 550 595 614 841 866 920 945 50 50 155 158 235 240 127 132 466 480 1025 1055 94 96 231 238 305 314 74 77 178 182 230 235 53 53 248 254 435 446 187 193 405 417 485 500 80 82 235 242 345 355 432 443 603 618 935 960 190 195 383 394 430 441 210 214 603 621 661 686 145 163 209 328 209 544 0 173 -44 328 -127 454 -171 257 -437 390 -742 372 -254 -15 -424 -108 -668 -364 -72 -76 -191 -199 -265 -273 -73 -74 -295 -302 -493 -505 -198 -203 -461 -473 -585 -600 -124 -126 -313 -320 -420 -430 -107 -110 -293 -301 -415 -425 -121 -124 -373 -383 -560 -575 -187 -193 -441 -452 -564 -576 -123 -125 -226 -231 -230 -238 -4 -6 -106 -111 -226 -233 -336 -342 -608 -620 -980 -1003 -186 -193 -384 -395 -440 -451 -55 -55 -156 -159 -225 -230 -69 -71 -301 -308 -515 -527 l-389 -398 -145 148 c-80 81 -251 256 -381 388 -129 132 -395 404 -590 605 -195 201 -422 434 -505 518 -82 85 -184 188 -225 230 -41 42 -242 248 -445 457 -494 508 -684 703 -780 799 -44 45 -206 212 -360 371 -154 160 -321 331 -370 380 -121 121 -809 825 -815 835 -3 4 -185 191 -405 416 -220 225 -466 476 -545 559 -80 82 -186 190 -235 240 -50 49 -219 222 -375 383 -349 360 -431 422 -616 473 -88 23 -294 34 -376 19z"/></g></svg>`,
                     unlock: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1808" preserveAspectRatio="xMidYMid meet"><g transform="translate(0,1808) scale(0.1,-0.1)" fill="currentColor" stroke="none"><path d="M13795 16244 c-605 -41 -1149 -184 -1640 -434 -381 -193 -629 -373 -925 -670 -188 -188 -285 -303 -428 -509 -134 -193 -157 -231 -246 -406 -66 -129 -90 -179 -159 -335 -157 -352 -302 -998 -337 -1500 -6 -84 -10 -587 -10 -1192 0 -609 -4 -1049 -9 -1052 -5 -3 -1484 -6 -3287 -7 -1804 -1 -3328 -5 -3389 -10 -366 -29 -656 -120 -900 -283 -121 -81 -278 -238 -352 -352 -66 -100 -153 -273 -184 -362 -51 -146 -92 -358 -109 -562 -14 -160 -13 -5613 0 -5786 31 -390 124 -686 295 -944 197 -295 534 -507 941 -589 236 -48 54 -46 4154 -46 3666 0 3871 1 3980 18 490 76 809 248 1060 569 122 157 228 400 280 644 11 55 30 170 40 255 18 147 19 280 18 2984 0 3059 2 2916 -53 3200 -101 514 -367 878 -790 1080 -86 41 -271 105 -345 120 -19 4 -52 11 -73 16 l-38 10 4 1152 c4 1188 6 1230 48 1482 74 446 203 802 410 1136 110 177 202 293 359 450 399 401 923 654 1541 745 157 23 542 27 714 9 461 -51 889 -202 1250 -443 167 -111 270 -197 425 -358 361 -373 615 -898 714 -1479 48 -279 49 -303 56 -1450 7 -1218 1 -1130 80 -1291 94 -193 306 -314 550 -314 297 0 519 163 597 440 17 61 18 128 18 1125 0 1109 -1 1146 -46 1475 -48 349 -156 755 -289 1089 -237 595 -654 1157 -1150 1547 -566 446 -1267 723 -2051 809 -138 15 -597 27 -724 19z m-2815 -7293 c36 -13 84 -34 107 -47 88 -52 162 -161 200 -295 17 -61 18 -188 18 -2934 0 -2713 -1 -2874 -18 -2935 -41 -152 -117 -255 -235 -318 -124 -66 168 -62 -3848 -62 -2592 0 -3668 3 -3710 11 -141 26 -278 128 -339 253 -70 145 -66 -82 -63 3081 3 2700 4 2853 21 2910 55 187 184 310 367 349 55 12 609 14 3750 13 l3685 -2 65 -24z"/></g></svg>`,
                     info: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>`,
+                    upload: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l-5 5h3v8h4V8h3l-5-5zm9 12v4c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-4h2v4h14v-4h2z"/></svg>`,
                     download: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V3h4v8h3l-5 5zm9-1v4c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-4h2v4h14v-4h2z"/></svg>`
                 };
 
@@ -6877,6 +6922,11 @@
                         const settingsLibsonnetContent = await generateSettingsLibsonnet(settings);
                         jsonnetFolder.file("Settings.libsonnet", settingsLibsonnetContent);
                         
+                        // 3d-2. 生成並加入 settings.json（用於匯入）
+                        console.log('Generating settings.json...');
+                        const settingsJsonContent = JSON.stringify(settings, null, 2);
+                        jsonnetFolder.file("settings.json", settingsJsonContent);
+                        
                         // 3e. 加入所有 keyboard/*.jsonnet 檔案
                         console.log('Loading keyboard files...');
                         const keyboardFolder = jsonnetFolder.folder("keyboard");
@@ -6995,6 +7045,235 @@
                         console.error('Export error details:', err);
                         alert('導出失敗：' + err.message + '\n\n請確認：\n1. 使用 HTTP 伺服器運行（python3 -m http.server 8888）\n2. templates/ 目錄存在且包含所有檔案\n\n詳細錯誤請查看控制台。');
                     }
+                };
+
+                // ===== 匯入功能 =====
+                const triggerImport = () => {
+                    // 觸發隱藏的檔案輸入
+                    if (fileInput.value) {
+                        fileInput.value.click();
+                    }
+                };
+
+                const handleFileSelect = async (event) => {
+                    const file = event.target.files[0];
+                    if (!file) return;
+                    
+                    await importCskin(file);
+                    
+                    // 清空 input，允許重複選擇同一檔案
+                    event.target.value = '';
+                };
+
+                const importCskin = async (file) => {
+                    console.log('Import started...');
+                    
+                    // 顯示進度提示
+                    const progressOverlay = document.createElement('div');
+                    progressOverlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.7);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10000;
+                        color: white;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                    `;
+                    
+                    const progressText = document.createElement('div');
+                    progressText.style.cssText = `
+                        font-size: 18px;
+                        font-weight: 500;
+                        margin-bottom: 16px;
+                    `;
+                    progressText.textContent = '正在讀取檔案...';
+                    
+                    const progressBar = document.createElement('div');
+                    progressBar.style.cssText = `
+                        width: 300px;
+                        height: 4px;
+                        background: rgba(255, 255, 255, 0.2);
+                        border-radius: 2px;
+                        overflow: hidden;
+                    `;
+                    
+                    const progressFill = document.createElement('div');
+                    progressFill.style.cssText = `
+                        width: 0%;
+                        height: 100%;
+                        background: #34C759;
+                        transition: width 0.3s ease;
+                    `;
+                    
+                    progressBar.appendChild(progressFill);
+                    progressOverlay.appendChild(progressText);
+                    progressOverlay.appendChild(progressBar);
+                    document.body.appendChild(progressOverlay);
+                    
+                    const updateProgress = (percent, text) => {
+                        progressFill.style.width = percent + '%';
+                        progressText.textContent = text;
+                    };
+                    
+                    try {
+                        // 1. 讀取 .cskin (ZIP) 檔案
+                        updateProgress(20, '正在解壓縮檔案...');
+                        const zip = await JSZip.loadAsync(file);
+                        console.log('ZIP loaded successfully');
+                        
+                        // 2. 優先尋找 settings.json，如果沒有則尋找 Settings.libsonnet
+                        updateProgress(40, '正在尋找配置檔案...');
+                        let settingsJsonFile = null;
+                        let settingsLibsonnetFile = null;
+                        let settingsPath = '';
+                        
+                        // 遍歷 ZIP 中的所有檔案
+                        zip.forEach((relativePath, zipEntry) => {
+                            if (relativePath.endsWith('settings.json') && !zipEntry.dir) {
+                                settingsJsonFile = zipEntry;
+                                settingsPath = relativePath;
+                            } else if (relativePath.endsWith('Settings.libsonnet') && !zipEntry.dir) {
+                                settingsLibsonnetFile = zipEntry;
+                                if (!settingsPath) settingsPath = relativePath;
+                            }
+                        });
+                        
+                        if (!settingsJsonFile && !settingsLibsonnetFile) {
+                            throw new Error('無效的 .cskin 檔案：找不到配置檔案');
+                        }
+                        
+                        // 檢查是否為舊格式（僅有 Settings.libsonnet，沒有 settings.json）
+                        if (!settingsJsonFile && settingsLibsonnetFile) {
+                            throw new Error('此 .cskin 檔案為舊版格式，無法匯入。\n\n請使用新版本的皮膚設計器重新匯出配色方案。\n\n（新版本會同時包含 settings.json 檔案）');
+                        }
+                        
+                        let importedSettings;
+                        
+                        // 使用 settings.json（新格式，100% 可靠）
+                        console.log('Found settings.json at:', settingsPath);
+                        updateProgress(60, '正在解析配置...');
+                        const settingsContent = await settingsJsonFile.async('string');
+                        console.log('settings.json content length:', settingsContent.length);
+                        importedSettings = JSON.parse(settingsContent);
+                        console.log('Parsed settings from JSON:', importedSettings);
+                        
+                        // 5. 套用到 Vue 的 reactive data
+                        updateProgress(80, '正在套用配置...');
+                        applyImportedSettings(importedSettings);
+                        
+                        // 6. 顯示成功訊息
+                        updateProgress(100, '匯入完成！');
+                        setTimeout(() => {
+                            document.body.removeChild(progressOverlay);
+                            alert('✓ 成功匯入配色方案！');
+                        }, 500);
+                        
+                        console.log('Import completed successfully');
+                        
+                    } catch (error) {
+                        document.body.removeChild(progressOverlay);
+                        console.error('Import failed:', error);
+                        alert('匯入失敗：' + error.message + '\n\n請確認：\n1. 檔案是有效的新版 .cskin 檔案\n2. 檔案未損壞');
+                    }
+                };
+
+                // 從 Jsonnet 內容解析設定（已廢棄 - 不再支援舊格式）
+                // const parseSettingsFromJsonnet = (content) => {
+                //     // 這是一個簡化的解析器，提取 Jsonnet 中的數值
+                //     // 實際的 Jsonnet 解析需要完整的解析器，但我們可以用正則表達式提取關鍵值
+                //     
+                //     const settings = {
+                //         skinInfo: {},
+                //         palette: { light: {}, dark: {} },
+                //         groups: { light: {}, dark: {} },
+                //         overrides: {}
+                //     };
+                //     
+                //     // 提取皮膚資訊
+                //     const nameMatch = content.match(/name:\s*['"]([^'"]+)['"]/);
+                //     const authorMatch = content.match(/author:\s*['"]([^'"]+)['"]/);
+                //     if (nameMatch) settings.skinInfo.name = nameMatch[1];
+                //     if (authorMatch) settings.skinInfo.author = authorMatch[1];
+                //     
+                //     // 提取調色盤（light）
+                //     const extractColor = (key, mode) => {
+                //         const regex = new RegExp(`${mode}:\\s*\\{[^}]*${key}:\\s*['"]([^'"]+)['"]`, 's');
+                //         const match = content.match(regex);
+                //         return match ? match[1] : null;
+                //     };
+                //     
+                //     // 提取數字值
+                //     const extractNumber = (key, mode, section = 'groups') => {
+                //         const regex = new RegExp(`${mode}:\\s*\\{[^}]*${key}:\\s*(\\d+)`, 's');
+                //         const match = content.match(regex);
+                //         return match ? parseInt(match[1]) : null;
+                //     };
+                //     
+                //     // 簡化版：只提取基本的調色盤和字體大小
+                //     // 完整版需要更複雜的解析邏輯
+                //     
+                //     console.log('Parsing completed (simplified)');
+                //     return settings;
+                // };
+
+                // 套用匯入的設定
+                const applyImportedSettings = (importedSettings) => {
+                    // 深度合併設定到 Vue reactive data
+                    console.log('Applying imported settings...');
+                    
+                    // 1. 皮膚資訊
+                    if (importedSettings.skinInfo) {
+                        Object.assign(settings.skinInfo, importedSettings.skinInfo);
+                        console.log('Applied skinInfo');
+                    }
+                    
+                    // 2. 調色盤
+                    if (importedSettings.palette) {
+                        if (importedSettings.palette.light) {
+                            Object.assign(settings.palette.light, importedSettings.palette.light);
+                        }
+                        if (importedSettings.palette.dark) {
+                            Object.assign(settings.palette.dark, importedSettings.palette.dark);
+                        }
+                        console.log('Applied palette');
+                    }
+                    
+                    // 3. 字體大小群組
+                    if (importedSettings.groups) {
+                        if (importedSettings.groups.light) {
+                            Object.assign(settings.groups.light, importedSettings.groups.light);
+                        }
+                        if (importedSettings.groups.dark) {
+                            Object.assign(settings.groups.dark, importedSettings.groups.dark);
+                        }
+                        console.log('Applied groups');
+                    }
+                    
+                    // 4. 進階微調
+                    if (importedSettings.overrides) {
+                        // 深度複製以避免引用問題
+                        settings.overrides = JSON.parse(JSON.stringify(importedSettings.overrides));
+                        console.log('Applied overrides');
+                    }
+                    
+                    // 5. 其他設定
+                    if (importedSettings.spaceKeyLayout !== undefined) {
+                        settings.spaceKeyLayout = importedSettings.spaceKeyLayout;
+                    }
+                    if (importedSettings.handedness !== undefined) {
+                        settings.handedness = importedSettings.handedness;
+                    }
+                    if (importedSettings.toolbarButtons) {
+                        settings.toolbarButtons = [...importedSettings.toolbarButtons];
+                    }
+                    
+                    console.log('Settings applied successfully');
                 };
 
                 const previewArea = ref(null);
@@ -7648,6 +7927,7 @@
                 return {
                     selectTool,
                     previewArea,
+                    fileInput,
                     activeTab,
                     tabs,
                     isMobile,
@@ -7661,6 +7941,8 @@
 
                     // Methods
                     exportCskin,
+                    triggerImport,
+                    handleFileSelect,
                     kbContainer,
                     toggleAppearance,
                     resetToDefault,
