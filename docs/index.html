@@ -6228,7 +6228,7 @@
                     const appearance = previewState.appearance;
                     if (!card) return null;
                     const toggleName = `enable${card === 'keyboard26Chinese' ? '26Chinese' : card.charAt(0).toUpperCase() + card.slice(1)}Override`;
-                    const isOverrideEnabled = settings.overrides[toggleName];
+                    const isOverrideEnabled = settings.overrides[toggleName] && settings.overrides[toggleName][appearance];
 
                     // 1. Try Override (Layer 3) - access the appearance-specific sub-object
                     if (isOverrideEnabled && settings.overrides[card] && settings.overrides[card][appearance]) {
@@ -7184,7 +7184,7 @@
                 // Apply basic appearance to a single keyboard
                 const applyToKeyboard = (keyboardType, appearance) => {
                     const palette = settings.palette[appearance];
-                    const groups = settings.groups;
+                    const groups = settings.groups[appearance];
                     const target = settings.overrides[keyboardType][appearance];
                     
                     // Global settings (keyboard background)
