@@ -405,7 +405,7 @@ local zKeyHandedness = import 'zKeyHandedness.libsonnet';
       selectedIndex: 3,
       list: [
         { action: { sendKeys: '``H' }, label: { text: 'H' } },
-        { action: { symbol: '\\\\' }, label: { text: '\\\\' } },
+        { action: { symbol: '\\' }, label: { text: '\\' } },
         { action: { symbol: '|' }, label: { text: '|' } },
         { action: { sendKeys: '``h' }, label: { text: 'h' } },
       ],

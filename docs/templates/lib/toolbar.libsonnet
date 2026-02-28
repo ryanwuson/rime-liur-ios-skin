@@ -592,7 +592,7 @@ local getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese'
     fontWeight: 'regular',
   },
 
-  // 25. 皮膚按鈕
+  // 25. 皮膚設定按鈕
   toolbarSkinButton: {
     size: { width: '1/10' },
     backgroundStyle: 'toolbarButtonBackgroundStyle',
@@ -601,7 +601,7 @@ local getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese'
   },
   toolbarSkinButtonForegroundStyle: {
     buttonStyleType: 'systemImage',
-    systemImageName: if theme == 'dark' then 'square.and.pencil.circle.fill' else 'square.and.pencil.circle',
+    systemImageName: if theme == 'dark' then 'pencil.tip.crop.circle.fill' else 'pencil.tip.crop.circle',
     normalColor: color[theme][toolbarButtonColorKey],
     highlightColor: color[theme][toolbarButtonColorKey],
     fontSize: fontSize[toolbarButtonSizeKey],
@@ -617,7 +617,7 @@ local getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese'
   },
   toolbarSkinPreferenceButtonForegroundStyle: {
     buttonStyleType: 'systemImage',
-    systemImageName: if theme == 'dark' then 'pencil.tip.crop.circle.fill' else 'pencil.tip.crop.circle',
+    systemImageName: if theme == 'dark' then 'square.and.pencil.circle.fill' else 'square.and.pencil.circle',
     normalColor: color[theme][toolbarButtonColorKey],
     highlightColor: color[theme][toolbarButtonColorKey],
     fontSize: fontSize[toolbarButtonSizeKey],
