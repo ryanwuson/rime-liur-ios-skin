@@ -1373,8 +1373,8 @@
                                             <div class="tool-svg-icon"
                                                 v-html="TOOLBAR_ICONS[settings.handedness === 'left' ? 'LeftHand' : 'RightHand']"
                                                 :style="{
-                                                width: (settings.groups[previewState.appearance].systemSize * 1.25 * fontScale) + 'px',
-                                                height: (settings.groups[previewState.appearance].systemSize * 1.25 * fontScale) + 'px',
+                                                width: (settings.groups.systemSize * 1.25 * fontScale) + 'px',
+                                                height: (settings.groups.systemSize * 1.25 * fontScale) + 'px',
                                                 color: previewState.appearance === 'dark' ? '#ffffff' : '#000000',
                                                 fill: previewState.appearance === 'dark' ? '#ffffff' : '#000000'
                                             }">
@@ -1499,7 +1499,7 @@
                                          }]">
                                             <span>⌫</span>
                                             <span v-if="settings.showSwipeDownText" class="swipe-hint swipe-down-center"
-                                                :style="{ color: getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeColor'), fontSize: (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') === null ? (settings.groups[previewState.appearance].swipeSize * fontScale) : (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') * fontScale)) + 'px' }">
+                                                :style="{ color: getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeColor'), fontSize: (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') === null ? (settings.groups.swipeSize * fontScale) : (getEffectiveStyle('keyboard26Chinese', 'systemKeys', 'swipeSize') * fontScale)) + 'px' }">
                                                 undo</span>
                                         </div>
                                     </div>
@@ -2102,9 +2102,9 @@
                                             <!-- Tool 0: Blank placeholder (Show '空' text in selection area) -->
                                             <template v-if="toolId === 0">
                                                 <div class="tool-text-icon" :style="{ 
-                                                         width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                         height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                         fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px',
+                                                         width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                         height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                         fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px',
                                                          color: '#ccc',
                                                          fontWeight: 'normal'
                                                      }">
@@ -2117,9 +2117,9 @@
                                                 <!-- Text Icons (e.g., 英, 簡) -->
                                                 <div v-if="allTools[toolId].type === 'text'" class="tool-text-icon"
                                                     :style="{ 
-                                                         width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                         height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                         fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px',
+                                                         width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                         height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                         fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px',
                                                          color: '#333',
                                                          fontWeight: 'normal'
                                                      }">
@@ -2128,8 +2128,8 @@
                                                 <!-- SVG Icons (Scale to toolbarSize) -->
                                                 <div v-else class="tool-svg-icon"
                                                     v-html="TOOLBAR_ICONS[allTools[toolId].icon]" :style="{ 
-                                                         width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
-                                                         height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                         width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                         height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
                                                          fill: '#333', 
                                                          display: 'flex', 
                                                          alignItems: 'center', 
@@ -2150,15 +2150,15 @@
                                         @click="selectTool(t.id)">
                                         <div class="tool-card-icon">
                                             <div v-if="t.type === 'text'" class="tool-text-icon" :style="{ 
-                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                    fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px'
+                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                    fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px'
                                                 }">
                                                 {{ t.icon }}
                                             </div>
                                             <div v-else class="tool-svg-icon" v-html="TOOLBAR_ICONS[t.icon]" :style="{ 
-                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
-                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
                                                     fill: '#666', 
                                                     display: 'flex', 
                                                     alignItems: 'center', 
@@ -2178,15 +2178,15 @@
                                         @click="selectTool(t.id)">
                                         <div class="tool-card-icon">
                                             <div v-if="t.type === 'text'" class="tool-text-icon" :style="{ 
-                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                    fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px'
+                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                    fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px'
                                                 }">
                                                 {{ t.icon }}
                                             </div>
                                             <div v-else class="tool-svg-icon" v-html="TOOLBAR_ICONS[t.icon]" :style="{ 
-                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
-                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
                                                     fill: '#666', 
                                                     display: 'flex', 
                                                     alignItems: 'center', 
@@ -2206,15 +2206,15 @@
                                         @click="selectTool(t.id)">
                                         <div class="tool-card-icon">
                                             <div v-if="t.type === 'text'" class="tool-text-icon" :style="{ 
-                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px',
-                                                    fontSize: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.5) + 'px'
+                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px',
+                                                    fontSize: (settings.groups.toolbarSize * fontScale * 0.5) + 'px'
                                                 }">
                                                 {{ t.icon }}
                                             </div>
                                             <div v-else class="tool-svg-icon" v-html="TOOLBAR_ICONS[t.icon]" :style="{ 
-                                                    width: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
-                                                    height: (settings.groups[previewState.appearance].toolbarSize * fontScale * 0.8) + 'px', 
+                                                    width: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
+                                                    height: (settings.groups.toolbarSize * fontScale * 0.8) + 'px', 
                                                     fill: '#666', 
                                                     display: 'flex', 
                                                     alignItems: 'center', 
@@ -2237,7 +2237,7 @@
                                 <button class="btn-reset-small" @click="resetCurrentPalette()">還原預設值</button>
                             </div>
                             
-                            <!-- 字體大小同步開關卡片 -->
+                            <!-- 字體大小說明卡片 -->
                             <div class="font-sync-card">
                                 <div class="font-sync-header">
                                     <div class="font-sync-info">
@@ -2248,12 +2248,6 @@
                                         <div class="font-sync-description">
                                             調整任一模式的字體大小時，另一模式會自動同步
                                         </div>
-                                    </div>
-                                    <div class="font-sync-toggle">
-                                        <label class="switch">
-                                            <input type="checkbox" v-model="fontSyncEnabled">
-                                            <span class="slider-round"></span>
-                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -2408,9 +2402,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="30" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].systemSize">
+                                            v-model.number="settings.groups.systemSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].systemSize }}px</span>
+                                            settings.groups.systemSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2592,9 +2586,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].alphabetSize">
+                                            v-model.number="settings.groups.alphabetSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].alphabetSize }}px</span>
+                                            settings.groups.alphabetSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2610,9 +2604,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].lowercaseSize">
+                                            v-model.number="settings.groups.lowercaseSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].lowercaseSize }}px</span>
+                                            settings.groups.lowercaseSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2633,9 +2627,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="30" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].spaceSize">
+                                            v-model.number="settings.groups.spaceSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].spaceSize }}px</span>
+                                            settings.groups.spaceSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2816,9 +2810,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="4" max="16" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].swipeSize">
+                                            v-model.number="settings.groups.swipeSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].swipeSize }}px</span>
+                                            settings.groups.swipeSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2863,9 +2857,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].toolbarSize">
+                                            v-model.number="settings.groups.toolbarSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].toolbarSize }}px</span>
+                                            settings.groups.toolbarSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2921,9 +2915,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="40" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].numberSize">
+                                            v-model.number="settings.groups.numberSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].numberSize }}px</span>
+                                            settings.groups.numberSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -2973,9 +2967,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="8" max="24" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].panelSmallSize">
+                                            v-model.number="settings.groups.panelSmallSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].panelSmallSize }}px</span>
+                                            settings.groups.panelSmallSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -3016,9 +3010,9 @@
                                     <div class="size-spacer"></div>
                                     <div class="opacity-slider-container">
                                         <input type="range" class="custom-range" min="10" max="30" step="1"
-                                            v-model.number="settings.groups[previewState.appearance].panelLargeSize">
+                                            v-model.number="settings.groups.panelLargeSize">
                                         <span class="opacity-slider-value">{{
-                                            settings.groups[previewState.appearance].panelLargeSize }}px</span>
+                                            settings.groups.panelLargeSize }}px</span>
                                     </div>
                                 </div>
                             </div>
@@ -3038,7 +3032,7 @@
                                 </div>
                             </div>
                             
-                            <!-- 字體大小同步開關卡片 -->
+                            <!-- 字體大小同步開關 -->
                             <div class="font-sync-card">
                                 <div class="font-sync-header">
                                     <div class="font-sync-info">
@@ -3047,8 +3041,7 @@
                                             亮暗色字體大小同步
                                         </div>
                                         <div class="font-sync-description">
-                                            • 開啟：調整拉桿時自動同步到另一模式<br>
-                                            • 關閉：可分別調整亮色和暗色字號
+                                            調整任一模式的字體大小時，另一模式會自動同步
                                         </div>
                                     </div>
                                     <div class="font-sync-toggle">
@@ -3057,15 +3050,6 @@
                                             <span class="slider-round"></span>
                                         </label>
                                     </div>
-                                </div>
-                                <!-- 手動同步按鈕 -->
-                                <div class="font-sync-actions">
-                                    <button class="btn-sync" @click="syncWithLight">
-                                        與亮色同步
-                                    </button>
-                                    <button class="btn-sync" @click="syncWithDark">
-                                        與暗色同步
-                                    </button>
                                 </div>
                             </div>
                         </section>
@@ -6175,7 +6159,7 @@
                 const isSheetExpanded = ref(false);
                 const fileInput = ref(null); // 匯入功能的檔案輸入 ref
                 
-                // 字體大小同步開關（每次載入都預設為啟用）
+                // 進階微調字體大小同步開關（每次載入都預設為啟用）
                 const fontSyncEnabled = ref(true);
 
                 // Font Scale Factor (User Feedback: 2.15 is too small. Bump to 3.0 for ~60px visual)
@@ -6264,29 +6248,17 @@
                     },
 
                     // 5. 尺寸與字號 (Groups)
+                    // 注意：基礎外觀的字號是亮暗通用的，調整任一模式時另一模式會自動同步
                     groups: {
-                        light: {
-                            alphabetSize: 21,
-                            lowercaseSize: 23,
-                            systemSize: 16,     // Reverted to 16 for better visual balance in preview
-                            spaceSize: 14,      // Reverted to 14
-                            numberSize: 24,     // 數字鍵盤
-                            panelSmallSize: 13, // 符號分類/逗號句號
-                            panelLargeSize: 16, // 符號內容
-                            toolbarSize: 20,
-                            swipeSize: 8
-                        },
-                        dark: {
-                            alphabetSize: 21,
-                            lowercaseSize: 23,
-                            systemSize: 16,
-                            spaceSize: 14,
-                            numberSize: 24,
-                            panelSmallSize: 13,
-                            panelLargeSize: 16,
-                            toolbarSize: 20,
-                            swipeSize: 8
-                        }
+                        alphabetSize: 21,
+                        lowercaseSize: 23,
+                        systemSize: 16,
+                        spaceSize: 14,
+                        numberSize: 24,
+                        panelSmallSize: 13,
+                        panelLargeSize: 16,
+                        toolbarSize: 20,
+                        swipeSize: 8
                     },
 
                     // 6. 個別微調 (Layer 3) Default Overrides (for Reset)
@@ -6537,19 +6509,19 @@
                     if (property === 'selectedText') return settings.palette[appearance].candidateSelectedText;
                     if (property === 'unselectedText') return settings.palette[appearance].candidateUnselectedText;
 
-                    // Size Mapping
+                    // Size Mapping - groups 是亮暗通用的，直接取值
                     if (property === 'labelSize' || property === 'size') {
-                        if (section === 'alphabet') return settings.groups[appearance].alphabetSize;
-                        if (section === 'lowercaseSize') return settings.groups[appearance].lowercaseSize; // Special case for prop name if used
-                        if (section === 'numbers') return settings.groups[appearance].numberSize;
-                        if (section === 'systemKeys' || section === 'enterKey' || section === 'candidates.controlButtons') return settings.groups[appearance].systemSize;
-                        if (section === 'spaceKey') return settings.groups[appearance].spaceSize;
-                        if (section === 'toolbarButtons') return settings.groups[appearance].toolbarSize;
-                        if (section === 'leftPanel') return settings.groups[appearance].panelSmallSize;
-                        if (section === 'rightPanel') return settings.groups[appearance].panelLargeSize;
+                        if (section === 'alphabet') return settings.groups.alphabetSize;
+                        if (section === 'lowercaseSize') return settings.groups.lowercaseSize; // Special case for prop name if used
+                        if (section === 'numbers') return settings.groups.numberSize;
+                        if (section === 'systemKeys' || section === 'enterKey' || section === 'candidates.controlButtons') return settings.groups.systemSize;
+                        if (section === 'spaceKey') return settings.groups.spaceSize;
+                        if (section === 'toolbarButtons') return settings.groups.toolbarSize;
+                        if (section === 'leftPanel') return settings.groups.panelSmallSize;
+                        if (section === 'rightPanel') return settings.groups.panelLargeSize;
                     }
-                    if (property === 'lowercaseSize' && section === 'alphabet') return settings.groups[appearance].lowercaseSize;
-                    if (property === 'swipeSize') return settings.groups[appearance].swipeSize;
+                    if (property === 'lowercaseSize' && section === 'alphabet') return settings.groups.lowercaseSize;
+                    if (property === 'swipeSize') return settings.groups.swipeSize;
 
                     return null;
                 };
@@ -7501,13 +7473,16 @@
                         console.log('Applied palette');
                     }
                     
-                    // 3. 字體大小群組
+                    // 3. 字體大小群組（基礎外觀的 groups 是亮暗通用的）
                     if (importedSettings.groups) {
-                        if (importedSettings.groups.light) {
-                            Object.assign(settings.groups.light, importedSettings.groups.light);
-                        }
-                        if (importedSettings.groups.dark) {
-                            Object.assign(settings.groups.dark, importedSettings.groups.dark);
+                        // 新版本：groups 是單一結構（不分 light/dark）
+                        if (!importedSettings.groups.light && !importedSettings.groups.dark) {
+                            Object.assign(settings.groups, importedSettings.groups);
+                        } else {
+                            // 舊版本兼容：如果有 light/dark 分離，使用 light 的值
+                            if (importedSettings.groups.light) {
+                                Object.assign(settings.groups, importedSettings.groups.light);
+                            }
                         }
                         console.log('Applied groups');
                     }
@@ -7746,7 +7721,7 @@
                 // Apply basic appearance to a single keyboard
                 const applyToKeyboard = (keyboardType, appearance) => {
                     const palette = settings.palette[appearance];
-                    const groups = settings.groups[appearance];
+                    const groups = settings.groups; // groups 是亮暗通用的
                     const target = settings.overrides[keyboardType][appearance];
                     
                         // Global settings (keyboard background)
@@ -8191,7 +8166,18 @@
 
                 const resetAllSettings = () => {
                     if (confirm('確定要將所有設定（配色、佈局、尺寸等）還原為預設值嗎？')) {
-                        Object.assign(settings, JSON.parse(JSON.stringify(initialSettings)));
+                        // 深度複製並保持響應式
+                        const defaultSettings = JSON.parse(JSON.stringify(initialSettings));
+                        
+                        // 逐一更新屬性以保持響應式
+                        Object.keys(defaultSettings).forEach(key => {
+                            if (typeof defaultSettings[key] === 'object' && defaultSettings[key] !== null) {
+                                // 對於對象，遞歸更新
+                                Object.assign(settings[key], defaultSettings[key]);
+                            } else {
+                                settings[key] = defaultSettings[key];
+                            }
+                        });
                     }
                 };
 
@@ -8210,287 +8196,68 @@
                     previewState.isCandidateExpanded = false;
                 };
 
-                // ===== 字體大小同步功能 =====
+                // ===== 進階微調字體大小同步功能開始 =====
 
-                // 同步單個字體大小欄位
-                const syncFontSizeField = (sourceMode, targetMode, path, value) => {
-                    if (!fontSyncEnabled.value || isSyncing || value === null || value === undefined) {
-                        return;
-                    }
-                    
-                    isSyncing = true;
-                    try {
-                        // 根據路徑設定目標模式的值
-                        const pathParts = path.split('.');
-                        let targetObj = settings;
-                        
-                        for (let i = 0; i < pathParts.length - 1; i++) {
-                            const part = pathParts[i];
-                            if (part === sourceMode) {
-                                targetObj = targetObj[targetMode];
-                            } else {
-                                targetObj = targetObj[part];
-                            }
-                        }
-                        
-                        const lastKey = pathParts[pathParts.length - 1];
-                        targetObj[lastKey] = value;
-                    } finally {
-                        isSyncing = false;
-                    }
-                };
-
-                // 當重新啟用同步時，將當前模式的值複製到另一模式
-                const handleSyncToggle = (enabled) => {
-                    if (!enabled) return;
-                    
-                    const sourceMode = previewState.appearance;
-                    const targetMode = sourceMode === 'light' ? 'dark' : 'light';
-                    
-                    isSyncing = true;
-                    try {
-                        // 複製基礎外觀的字體大小
-                        settings.groups[targetMode].alphabetSize = settings.groups[sourceMode].alphabetSize;
-                        settings.groups[targetMode].lowercaseSize = settings.groups[sourceMode].lowercaseSize;
-                        settings.groups[targetMode].systemSize = settings.groups[sourceMode].systemSize;
-                        settings.groups[targetMode].swipeSize = settings.groups[sourceMode].swipeSize;
-                        if (settings.groups[sourceMode].spaceSize !== undefined) {
-                            settings.groups[targetMode].spaceSize = settings.groups[sourceMode].spaceSize;
-                        }
-                        
-                        // 複製鍵盤覆寫的字體大小
-                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
-                        keyboards.forEach(keyboard => {
-                            if (!settings.overrides[keyboard]) return;
-                            
-                            const sourceOverride = settings.overrides[keyboard][sourceMode];
-                            const targetOverride = settings.overrides[keyboard][targetMode];
-                            
-                            if (!sourceOverride || !targetOverride) return;
-                            
-                            // 複製各類按鍵的字體大小
-                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
-                                if (sourceOverride[keyType] && targetOverride[keyType]) {
-                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
-                                        if (sourceOverride[keyType][field] !== undefined) {
-                                            targetOverride[keyType][field] = sourceOverride[keyType][field];
-                                        }
-                                    });
-                                }
-                            });
-                            
-                            // 複製工具列按鈕大小
-                            if (sourceOverride.toolbarButtons && targetOverride.toolbarButtons) {
-                                Object.keys(sourceOverride.toolbarButtons).forEach(button => {
-                                    if (sourceOverride.toolbarButtons[button]?.size !== undefined) {
-                                        if (!targetOverride.toolbarButtons[button]) {
-                                            targetOverride.toolbarButtons[button] = {};
-                                        }
-                                        targetOverride.toolbarButtons[button].size = sourceOverride.toolbarButtons[button].size;
-                                    }
-                                });
-                            }
-                        });
-                    } finally {
-                        isSyncing = false;
-                    }
-                };
-
-                // 手動同步：與亮色同步（讓暗色變得跟亮色一樣）
-                const syncWithLight = () => {
-                    isSyncing = true;
-                    try {
-                        // 複製基礎外觀的字體大小：亮→暗
-                        settings.groups.dark.alphabetSize = settings.groups.light.alphabetSize;
-                        settings.groups.dark.lowercaseSize = settings.groups.light.lowercaseSize;
-                        settings.groups.dark.systemSize = settings.groups.light.systemSize;
-                        settings.groups.dark.swipeSize = settings.groups.light.swipeSize;
-                        if (settings.groups.light.spaceSize !== undefined) {
-                            settings.groups.dark.spaceSize = settings.groups.light.spaceSize;
-                        }
-                        
-                        // 複製鍵盤覆寫的字體大小：亮→暗
-                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
-                        keyboards.forEach(keyboard => {
-                            if (!settings.overrides[keyboard]) return;
-                            
-                            const lightOverride = settings.overrides[keyboard].light;
-                            const darkOverride = settings.overrides[keyboard].dark;
-                            
-                            if (!lightOverride || !darkOverride) return;
-                            
-                            // 複製各類按鍵的字體大小
-                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
-                                if (lightOverride[keyType] && darkOverride[keyType]) {
-                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
-                                        if (lightOverride[keyType][field] !== undefined) {
-                                            darkOverride[keyType][field] = lightOverride[keyType][field];
-                                        }
-                                    });
-                                }
-                            });
-                            
-                            // 複製工具列按鈕大小
-                            if (lightOverride.toolbarButtons && darkOverride.toolbarButtons) {
-                                Object.keys(lightOverride.toolbarButtons).forEach(button => {
-                                    if (lightOverride.toolbarButtons[button]?.size !== undefined) {
-                                        if (!darkOverride.toolbarButtons[button]) {
-                                            darkOverride.toolbarButtons[button] = {};
-                                        }
-                                        darkOverride.toolbarButtons[button].size = lightOverride.toolbarButtons[button].size;
-                                    }
-                                });
-                            }
-                        });
-                    } finally {
-                        isSyncing = false;
-                    }
-                };
-
-                // 手動同步：與暗色同步（讓亮色變得跟暗色一樣）
-                const syncWithDark = () => {
-                    isSyncing = true;
-                    try {
-                        // 複製基礎外觀的字體大小：暗→亮
-                        settings.groups.light.alphabetSize = settings.groups.dark.alphabetSize;
-                        settings.groups.light.lowercaseSize = settings.groups.dark.lowercaseSize;
-                        settings.groups.light.systemSize = settings.groups.dark.systemSize;
-                        settings.groups.light.swipeSize = settings.groups.dark.swipeSize;
-                        if (settings.groups.dark.spaceSize !== undefined) {
-                            settings.groups.light.spaceSize = settings.groups.dark.spaceSize;
-                        }
-                        
-                        // 複製鍵盤覆寫的字體大小：暗→亮
-                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
-                        keyboards.forEach(keyboard => {
-                            if (!settings.overrides[keyboard]) return;
-                            
-                            const darkOverride = settings.overrides[keyboard].dark;
-                            const lightOverride = settings.overrides[keyboard].light;
-                            
-                            if (!darkOverride || !lightOverride) return;
-                            
-                            // 複製各類按鍵的字體大小
-                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
-                                if (darkOverride[keyType] && lightOverride[keyType]) {
-                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
-                                        if (darkOverride[keyType][field] !== undefined) {
-                                            lightOverride[keyType][field] = darkOverride[keyType][field];
-                                        }
-                                    });
-                                }
-                            });
-                            
-                            // 複製工具列按鈕大小
-                            if (darkOverride.toolbarButtons && lightOverride.toolbarButtons) {
-                                Object.keys(darkOverride.toolbarButtons).forEach(button => {
-                                    if (darkOverride.toolbarButtons[button]?.size !== undefined) {
-                                        if (!lightOverride.toolbarButtons[button]) {
-                                            lightOverride.toolbarButtons[button] = {};
-                                        }
-                                        lightOverride.toolbarButtons[button].size = darkOverride.toolbarButtons[button].size;
-                                    }
-                                });
-                            }
-                        });
-                    } finally {
-                        isSyncing = false;
-                    }
-                };
-
-                // 監聽同步開關變化
-                watch(fontSyncEnabled, (newVal) => {
-                    // 如果啟用同步，執行一次同步
-                    if (newVal) {
-                        handleSyncToggle(true);
-                    }
-                });
-
-                // 監聽基礎外觀的字體大小變化
-                watch(() => settings.groups.light.alphabetSize, (newVal) => {
-                    if (previewState.appearance === 'light') {
-                        syncFontSizeField('light', 'dark', 'groups.light.alphabetSize', newVal);
-                    }
-                });
-                watch(() => settings.groups.dark.alphabetSize, (newVal) => {
-                    if (previewState.appearance === 'dark') {
-                        syncFontSizeField('dark', 'light', 'groups.dark.alphabetSize', newVal);
-                    }
-                });
-
-                watch(() => settings.groups.light.lowercaseSize, (newVal) => {
-                    if (previewState.appearance === 'light') {
-                        syncFontSizeField('light', 'dark', 'groups.light.lowercaseSize', newVal);
-                    }
-                });
-                watch(() => settings.groups.dark.lowercaseSize, (newVal) => {
-                    if (previewState.appearance === 'dark') {
-                        syncFontSizeField('dark', 'light', 'groups.dark.lowercaseSize', newVal);
-                    }
-                });
-
-                watch(() => settings.groups.light.systemSize, (newVal) => {
-                    if (previewState.appearance === 'light') {
-                        syncFontSizeField('light', 'dark', 'groups.light.systemSize', newVal);
-                    }
-                });
-                watch(() => settings.groups.dark.systemSize, (newVal) => {
-                    if (previewState.appearance === 'dark') {
-                        syncFontSizeField('dark', 'light', 'groups.dark.systemSize', newVal);
-                    }
-                });
-
-                watch(() => settings.groups.light.swipeSize, (newVal) => {
-                    if (previewState.appearance === 'light') {
-                        syncFontSizeField('light', 'dark', 'groups.light.swipeSize', newVal);
-                    }
-                });
-                watch(() => settings.groups.dark.swipeSize, (newVal) => {
-                    if (previewState.appearance === 'dark') {
-                        syncFontSizeField('dark', 'light', 'groups.dark.swipeSize', newVal);
-                    }
-                });
-
-                // 監聽空白鍵字體大小（如果存在）
-                watch(() => settings.groups.light.spaceSize, (newVal) => {
-                    if (previewState.appearance === 'light' && newVal !== undefined) {
-                        syncFontSizeField('light', 'dark', 'groups.light.spaceSize', newVal);
-                    }
-                });
-                watch(() => settings.groups.dark.spaceSize, (newVal) => {
-                    if (previewState.appearance === 'dark' && newVal !== undefined) {
-                        syncFontSizeField('dark', 'light', 'groups.dark.spaceSize', newVal);
-                    }
-                });
-
-                // 監聽鍵盤覆寫的字體大小變化（簡化版本，監聽主要欄位）
+                // 監聽鍵盤覆寫的字體大小變化（進階微調）
                 const setupKeyboardOverrideWatchers = () => {
                     const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
-                    const keyTypes = ['alphabet', 'systemKeys', 'enterKey'];
-                    const sizeFields = ['labelSize', 'lowercaseSize', 'swipeSize'];
+                    
+                    // 定義每個區域及其字號字段
+                    const sectionFields = {
+                        'alphabet': ['labelSize', 'lowercaseSize', 'swipeSize'],
+                        'systemKeys': ['labelSize'],
+                        'enterKey': ['labelSize'],
+                        'spaceKey': ['labelSize'],
+                        'numbers': ['labelSize', 'swipeSize'],
+                        'candidates.controlButtons': ['labelSize'],
+                        'toolbarButtons': ['labelSize'],
+                        'leftPanel': ['labelSize'],
+                        'rightPanel': ['labelSize']
+                    };
                     
                     keyboards.forEach(keyboard => {
-                        keyTypes.forEach(keyType => {
-                            sizeFields.forEach(field => {
+                        Object.entries(sectionFields).forEach(([section, fields]) => {
+                            fields.forEach(field => {
+                                // 處理嵌套路徑（如 candidates.controlButtons）
+                                const pathParts = section.split('.');
+                                
                                 // Light mode
-                                watch(() => settings.overrides[keyboard]?.light?.[keyType]?.[field], (newVal) => {
+                                watch(() => {
+                                    let obj = settings.overrides[keyboard]?.light;
+                                    for (const part of pathParts) {
+                                        if (obj) obj = obj[part];
+                                    }
+                                    return obj?.[field];
+                                }, (newVal) => {
                                     if (previewState.appearance === 'light' && newVal !== null && newVal !== undefined) {
-                                        const targetOverride = settings.overrides[keyboard]?.dark?.[keyType];
-                                        if (targetOverride && !isSyncing && fontSyncEnabled.value) {
+                                        let targetObj = settings.overrides[keyboard]?.dark;
+                                        for (const part of pathParts) {
+                                            if (targetObj) targetObj = targetObj[part];
+                                        }
+                                        if (targetObj && !isSyncing && fontSyncEnabled.value) {
                                             isSyncing = true;
-                                            targetOverride[field] = newVal;
+                                            targetObj[field] = newVal;
                                             isSyncing = false;
                                         }
                                     }
                                 });
                                 
                                 // Dark mode
-                                watch(() => settings.overrides[keyboard]?.dark?.[keyType]?.[field], (newVal) => {
+                                watch(() => {
+                                    let obj = settings.overrides[keyboard]?.dark;
+                                    for (const part of pathParts) {
+                                        if (obj) obj = obj[part];
+                                    }
+                                    return obj?.[field];
+                                }, (newVal) => {
                                     if (previewState.appearance === 'dark' && newVal !== null && newVal !== undefined) {
-                                        const targetOverride = settings.overrides[keyboard]?.light?.[keyType];
-                                        if (targetOverride && !isSyncing && fontSyncEnabled.value) {
+                                        let targetObj = settings.overrides[keyboard]?.light;
+                                        for (const part of pathParts) {
+                                            if (targetObj) targetObj = targetObj[part];
+                                        }
+                                        if (targetObj && !isSyncing && fontSyncEnabled.value) {
                                             isSyncing = true;
-                                            targetOverride[field] = newVal;
+                                            targetObj[field] = newVal;
                                             isSyncing = false;
                                         }
                                     }
@@ -8535,9 +8302,7 @@
                     swipeData,
                     fontScale, // Export fontScale to template
                     showSkinDialog: ref(false),
-                    fontSyncEnabled, // 字體同步開關
-                    syncWithLight, // 手動同步：與亮色同步
-                    syncWithDark, // 手動同步：與暗色同步
+                    fontSyncEnabled, // 進階微調字體同步開關
 
                     // Methods
                     exportCskin,

@@ -543,29 +543,17 @@ ${generatePaletteMode('dark', settings.palette?.dark || {})}
 
     # 【第二層：尺寸範本Size Templates】
     # 僅定義各類別按鍵的預設字號。顏色預設由引擎自動對應調色盤。
+    # 注意：字號是亮暗通用的，調整任一模式時另一模式會自動同步
     groups: {
-      light: {
-        alphabetSize: ${settings.groups?.light?.alphabetSize || 21},
-        lowercaseSize: ${settings.groups?.light?.lowercaseSize || 23},
-        systemSize: ${settings.groups?.light?.systemSize || 16},
-        spaceSize: ${settings.groups?.light?.spaceSize || 14},
-        numberSize: ${settings.groups?.light?.numberSize || 24},
-        panelSmallSize: ${settings.groups?.light?.panelSmallSize || 13},
-        panelLargeSize: ${settings.groups?.light?.panelLargeSize || 16},
-        toolbarSize: ${settings.groups?.light?.toolbarSize || 20},
-        swipeSize: ${settings.groups?.light?.swipeSize || 8},
-      },
-      dark: {
-        alphabetSize: ${settings.groups?.dark?.alphabetSize || 21},
-        lowercaseSize: ${settings.groups?.dark?.lowercaseSize || 23},
-        systemSize: ${settings.groups?.dark?.systemSize || 16},
-        spaceSize: ${settings.groups?.dark?.spaceSize || 14},
-        numberSize: ${settings.groups?.dark?.numberSize || 24},
-        panelSmallSize: ${settings.groups?.dark?.panelSmallSize || 13},
-        panelLargeSize: ${settings.groups?.dark?.panelLargeSize || 16},
-        toolbarSize: ${settings.groups?.dark?.toolbarSize || 20},
-        swipeSize: ${settings.groups?.dark?.swipeSize || 8},
-      },
+      alphabetSize: ${settings.groups?.alphabetSize || settings.groups?.light?.alphabetSize || 21},
+      lowercaseSize: ${settings.groups?.lowercaseSize || settings.groups?.light?.lowercaseSize || 23},
+      systemSize: ${settings.groups?.systemSize || settings.groups?.light?.systemSize || 16},
+      spaceSize: ${settings.groups?.spaceSize || settings.groups?.light?.spaceSize || 14},
+      numberSize: ${settings.groups?.numberSize || settings.groups?.light?.numberSize || 24},
+      panelSmallSize: ${settings.groups?.panelSmallSize || settings.groups?.light?.panelSmallSize || 13},
+      panelLargeSize: ${settings.groups?.panelLargeSize || settings.groups?.light?.panelLargeSize || 16},
+      toolbarSize: ${settings.groups?.toolbarSize || settings.groups?.light?.toolbarSize || 20},
+      swipeSize: ${settings.groups?.swipeSize || settings.groups?.light?.swipeSize || 8},
     },
 
     # 【第三層：個別鍵盤微調 Overrides】
