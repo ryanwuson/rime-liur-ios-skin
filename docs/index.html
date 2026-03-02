@@ -1278,7 +1278,7 @@
 
                             <!-- Candidate Bar (Collapsed - replaces toolbar) -->
                             <div v-if="previewState.isCandidateShow && !previewState.isCandidateExpanded"
-                                class="candidate-bar" :style="{ backgroundColor: 'transparent' }">
+                                class="candidate-bar" :style="{ backgroundColor: candidateBackgroundColor }">
                                 <div v-for="(cand, idx) in candidatesCollapsed" :key="idx" class="candidate-item"
                                     :class="{ selected: idx === 0 }" :style="{ 
                                     color: idx === 0 ? getEffectiveStyle(currentCardId, 'candidates', 'selectedText') : getEffectiveStyle(currentCardId, 'candidates', 'unselectedText'),
@@ -1299,7 +1299,7 @@
 
                             <!-- Candidate Grid (Expanded - replaces toolbar + keyboard) -->
                             <div v-if="previewState.isCandidateShow && previewState.isCandidateExpanded"
-                                class="candidate-expanded" :style="{ backgroundColor: 'transparent' }">
+                                class="candidate-expanded" :style="{ backgroundColor: candidateBackgroundColor }">
                                 <div class="candidate-grid">
                                     <div v-for="(row, rowIdx) in candidatesExpanded" :key="rowIdx"
                                         class="candidate-grid-row">
@@ -7889,6 +7889,26 @@
                     return 'keyboard26Chinese';
                 });
 
+                // 計算候選字背景色（根據是否啟用進階微調）
+                const candidateBackgroundColor = computed(() => {
+                    const appearance = previewState.appearance;
+                    const card = currentCardId.value;
+                    
+                    // 判斷當前鍵盤是否啟用進階微調
+                    const toggleName = `enable${card === 'keyboard26Chinese' ? '26Chinese' : card.charAt(0).toUpperCase() + card.slice(1)}Override`;
+                    const isOverrideEnabled = settings.overrides[toggleName] && settings.overrides[toggleName][appearance];
+                    
+                    if (isOverrideEnabled) {
+                        // 進階微調模式：使用工具列背景色
+                        // 直接從 override 中讀取，如果沒有則 fallback 到 palette.bg
+                        const overrideToolbarBg = settings.overrides[card]?.[appearance]?.toolbarBackground?.bg;
+                        return overrideToolbarBg || settings.palette[appearance].bg;
+                    } else {
+                        // 基礎設定模式：使用鍵盤背景色（就是 palette.bg）
+                        return settings.palette[appearance].bg;
+                    }
+                });
+
                 // Bubble popup methods
                 const keysArea = ref(null);
                 let bubbleTimer = null;
@@ -8502,6 +8522,7 @@
                     hideBubble,
                     keysArea,
                     currentCardId,
+                    candidateBackgroundColor,
 
                     // Computed & Data
                     viewportStyle,

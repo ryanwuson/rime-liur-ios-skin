@@ -1308,6 +1308,8 @@ input:checked+.slider-round:before {
     justify-content: space-between;
     overflow: hidden;
     box-sizing: border-box;
+    border-radius: 25px 25px 0 0;
+    /* 上方圓角，下方直角 */
 }
 
 .candidate-item {
@@ -1339,6 +1341,8 @@ input:checked+.slider-round:before {
     box-sizing: border-box;
     padding: 0 16px 12px 16px;
     /* Match 26-key padding: 12px bottom, 16px sides */
+    border-radius: 25px;
+    overflow: hidden;
 }
 
 .candidate-grid {
