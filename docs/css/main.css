@@ -2181,3 +2181,165 @@ input:checked+.slider-round:before {
         gap: 10px;
     }
 }
+
+
+/* Font Size Sync Card Styles */
+.font-sync-card {
+    background: #f8f9fa;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.font-sync-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.font-sync-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.font-sync-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.font-sync-description {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.font-sync-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* 手機/小屏模式：開關移到右上角 */
+@media (max-width: 767px) {
+    .font-sync-header {
+        display: block !important;
+        position: relative !important;
+        min-height: 50px !important;
+    }
+    
+    .font-sync-toggle {
+        position: absolute !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: auto !important; /* 確保不會被 left 屬性影響 */
+        z-index: 10 !important;
+        margin: 0 !important;
+        gap: 0 !important; /* 移除 gap */
+        display: block !important; /* 改為 block 而不是 flex */
+    }
+    
+    .font-sync-toggle .switch {
+        float: right !important; /* 確保開關靠右 */
+    }
+    
+    .font-sync-info {
+        width: 100% !important;
+        padding-right: 80px !important;
+    }
+    
+    .font-sync-title {
+        margin-bottom: 4px !important;
+    }
+}
+
+/* Manual Sync Actions */
+.font-sync-actions {
+    display: flex;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.btn-sync {
+    flex: 1;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4a90e2;
+    background: white;
+    border: 1px solid #4a90e2;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.btn-sync:hover {
+    background: #4a90e2;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.btn-sync:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(74, 144, 226, 0.3);
+}
+
+/* Dark mode styles */
+.appearance-dark .font-sync-card {
+    background: #2c2c2e;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.appearance-dark .font-sync-title {
+    color: #fff;
+}
+
+.appearance-dark .font-sync-description {
+    color: #aaa;
+}
+
+.appearance-dark .font-sync-actions {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.appearance-dark .btn-sync {
+    background: #3a3a3c;
+    border-color: #4a90e2;
+    color: #4a90e2;
+}
+
+.appearance-dark .btn-sync:hover {
+    background: #4a90e2;
+    color: white;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .font-sync-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .font-sync-toggle {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

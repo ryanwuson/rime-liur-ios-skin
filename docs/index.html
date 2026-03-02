@@ -2236,6 +2236,27 @@
                                 <h3 class="card-title">{{ previewState.appearance === 'light' ? '亮色模式' : '暗色模式' }}</h3>
                                 <button class="btn-reset-small" @click="resetCurrentPalette()">還原預設值</button>
                             </div>
+                            
+                            <!-- 字體大小同步開關卡片 -->
+                            <div class="font-sync-card">
+                                <div class="font-sync-header">
+                                    <div class="font-sync-info">
+                                        <div class="font-sync-title">
+                                            <span class="tool-svg-icon" v-html="UI_ICONS.fontSync" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 0;"></span>
+                                            亮暗色字體大小同步
+                                        </div>
+                                        <div class="font-sync-description">
+                                            調整任一模式的字體大小時，另一模式會自動同步
+                                        </div>
+                                    </div>
+                                    <div class="font-sync-toggle">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="fontSyncEnabled">
+                                            <span class="slider-round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                         <section class="settings-card card-theme-blue">
                             <div class="card-header">
@@ -3014,6 +3035,37 @@
                                         套用基礎外觀設定
                                     </button>
                                     <button class="btn-reset-small" @click="resetAllOverrides()">還原預設值</button>
+                                </div>
+                            </div>
+                            
+                            <!-- 字體大小同步開關卡片 -->
+                            <div class="font-sync-card">
+                                <div class="font-sync-header">
+                                    <div class="font-sync-info">
+                                        <div class="font-sync-title">
+                                            <span class="tool-svg-icon" v-html="UI_ICONS.fontSync" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 0;"></span>
+                                            亮暗色字體大小同步
+                                        </div>
+                                        <div class="font-sync-description">
+                                            • 開啟：調整拉桿時自動同步到另一模式<br>
+                                            • 關閉：可分別調整亮色和暗色字號
+                                        </div>
+                                    </div>
+                                    <div class="font-sync-toggle">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="fontSyncEnabled">
+                                            <span class="slider-round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- 手動同步按鈕 -->
+                                <div class="font-sync-actions">
+                                    <button class="btn-sync" @click="syncWithLight">
+                                        與亮色同步
+                                    </button>
+                                    <button class="btn-sync" @click="syncWithDark">
+                                        與暗色同步
+                                    </button>
                                 </div>
                             </div>
                         </section>
@@ -5975,10 +6027,111 @@
                 </div>
             </div>
         </teleport>
+
+        <!-- Import Success Modal -->
+        <teleport to="body">
+            <div v-if="previewState.showImportSuccessModal" class="modal-overlay" @click.self="previewState.showImportSuccessModal = false">
+                <div class="modal-container" style="max-width: 500px;">
+                    <h2 class="modal-title">✓ 配色方案匯入成功！</h2>
+                    
+                    <div v-if="previewState.importSummary.hasOverrides" style="margin-bottom: 20px;">
+                        <div style="padding: 16px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 8px; margin-bottom: 16px;">
+                            <p style="font-size: 14px; font-weight: 600; color: #92400e; margin: 0 0 8px 0;">⚙️ 進階微調狀態</p>
+                            <p style="font-size: 13px; color: #78350f; margin: 0; line-height: 1.5;">以下鍵盤已啟用進階微調，將覆蓋基礎外觀設定：</p>
+                        </div>
+                        
+                        <div v-if="previewState.importSummary.lightOverrides.length > 0" style="margin-bottom: 16px;">
+                            <p style="font-size: 14px; font-weight: 600; color: #374151; margin: 0 0 8px 0;">亮色模式：</p>
+                            <div style="display: flex; flex-direction: column; gap: 6px; padding-left: 12px;">
+                                <div v-for="kb in previewState.importSummary.lightOverrides" :key="'light-' + kb" 
+                                     style="font-size: 13px; color: #4b5563; display: flex; align-items: center; gap: 6px;">
+                                    <span style="color: #10b981;">✓</span>
+                                    <span>{{ kb }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div v-if="previewState.importSummary.darkOverrides.length > 0" style="margin-bottom: 16px;">
+                            <p style="font-size: 14px; font-weight: 600; color: #374151; margin: 0 0 8px 0;">暗色模式：</p>
+                            <div style="display: flex; flex-direction: column; gap: 6px; padding-left: 12px;">
+                                <div v-for="kb in previewState.importSummary.darkOverrides" :key="'dark-' + kb" 
+                                     style="font-size: 13px; color: #4b5563; display: flex; align-items: center; gap: 6px;">
+                                    <span style="color: #10b981;">✓</span>
+                                    <span>{{ kb }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 14px; background: #eff6ff; border-radius: 8px;">
+                            <p style="font-size: 13px; font-weight: 600; color: #1e40af; margin: 0 0 8px 0;">💡 提示</p>
+                            <ul style="font-size: 13px; color: #1e40af; line-height: 1.6; margin: 0; padding-left: 20px;">
+                                <li>若要修改已啟用進階微調的鍵盤，請前往「進階微調」頁籤</li>
+                                <li>若要使用基礎外觀設定，請在進階微調中關閉對應鍵盤的開關</li>
+                                <li>切換到「預覽」頁籤查看完整效果</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div v-else style="margin-bottom: 20px;">
+                        <div style="padding: 16px; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 8px;">
+                            <p style="font-size: 14px; color: #065f46; margin: 0; line-height: 1.5;">
+                                此配色方案使用基礎外觀設定，可直接在「基礎外觀」頁籤進行調整。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-modal-primary" @click="previewState.showImportSuccessModal = false" style="width: 100%;">確定</button>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <!-- Custom Alert Modal (通用彈出視窗) -->
+        <teleport to="body">
+            <div v-if="previewState.showCustomAlert" class="modal-overlay" @click.self="previewState.showCustomAlert = false">
+                <div class="modal-container" style="max-width: 500px;">
+                    <h2 class="modal-title">
+                        <span v-if="previewState.customAlertType === 'success'">✓</span>
+                        <span v-else-if="previewState.customAlertType === 'warning'">⚠️</span>
+                        <span v-else-if="previewState.customAlertType === 'error'">✕</span>
+                        <span v-else>ℹ️</span>
+                        {{ previewState.customAlertTitle }}
+                    </h2>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <div :style="{
+                            padding: '16px',
+                            background: previewState.customAlertType === 'success' ? '#f0fdf4' : 
+                                       previewState.customAlertType === 'warning' ? '#fef3c7' : 
+                                       previewState.customAlertType === 'error' ? '#fef2f2' : '#eff6ff',
+                            borderLeft: '4px solid ' + (previewState.customAlertType === 'success' ? '#10b981' : 
+                                                        previewState.customAlertType === 'warning' ? '#f59e0b' : 
+                                                        previewState.customAlertType === 'error' ? '#ef4444' : '#3b82f6'),
+                            borderRadius: '8px'
+                        }">
+                            <p :style="{
+                                fontSize: '14px',
+                                color: previewState.customAlertType === 'success' ? '#065f46' : 
+                                       previewState.customAlertType === 'warning' ? '#78350f' : 
+                                       previewState.customAlertType === 'error' ? '#7f1d1d' : '#1e40af',
+                                margin: 0,
+                                lineHeight: '1.6',
+                                whiteSpace: 'pre-line'
+                            }">{{ previewState.customAlertMessage }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-modal-primary" @click="previewState.showCustomAlert = false" style="width: 100%;">確定</button>
+                    </div>
+                </div>
+            </div>
+        </teleport>
     </div>
 
     <script>
-        const { createApp, ref, reactive, computed, onMounted, onUnmounted } = Vue;
+        const { createApp, ref, reactive, computed, watch, onMounted, onUnmounted } = Vue;
 
         createApp({
             setup() {
@@ -5987,6 +6140,9 @@
                 const isMobile = ref(window.innerWidth < 768);
                 const isSheetExpanded = ref(false);
                 const fileInput = ref(null); // 匯入功能的檔案輸入 ref
+                
+                // 字體大小同步開關（每次載入都預設為啟用）
+                const fontSyncEnabled = ref(true);
 
                 // Font Scale Factor (User Feedback: 2.15 is too small. Bump to 3.0 for ~60px visual)
                 const fontScale = 3.0;
@@ -6206,7 +6362,8 @@
                     unlock: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1808" preserveAspectRatio="xMidYMid meet"><g transform="translate(0,1808) scale(0.1,-0.1)" fill="currentColor" stroke="none"><path d="M13795 16244 c-605 -41 -1149 -184 -1640 -434 -381 -193 -629 -373 -925 -670 -188 -188 -285 -303 -428 -509 -134 -193 -157 -231 -246 -406 -66 -129 -90 -179 -159 -335 -157 -352 -302 -998 -337 -1500 -6 -84 -10 -587 -10 -1192 0 -609 -4 -1049 -9 -1052 -5 -3 -1484 -6 -3287 -7 -1804 -1 -3328 -5 -3389 -10 -366 -29 -656 -120 -900 -283 -121 -81 -278 -238 -352 -352 -66 -100 -153 -273 -184 -362 -51 -146 -92 -358 -109 -562 -14 -160 -13 -5613 0 -5786 31 -390 124 -686 295 -944 197 -295 534 -507 941 -589 236 -48 54 -46 4154 -46 3666 0 3871 1 3980 18 490 76 809 248 1060 569 122 157 228 400 280 644 11 55 30 170 40 255 18 147 19 280 18 2984 0 3059 2 2916 -53 3200 -101 514 -367 878 -790 1080 -86 41 -271 105 -345 120 -19 4 -52 11 -73 16 l-38 10 4 1152 c4 1188 6 1230 48 1482 74 446 203 802 410 1136 110 177 202 293 359 450 399 401 923 654 1541 745 157 23 542 27 714 9 461 -51 889 -202 1250 -443 167 -111 270 -197 425 -358 361 -373 615 -898 714 -1479 48 -279 49 -303 56 -1450 7 -1218 1 -1130 80 -1291 94 -193 306 -314 550 -314 297 0 519 163 597 440 17 61 18 128 18 1125 0 1109 -1 1146 -46 1475 -48 349 -156 755 -289 1089 -237 595 -654 1157 -1150 1547 -566 446 -1267 723 -2051 809 -138 15 -597 27 -724 19z m-2815 -7293 c36 -13 84 -34 107 -47 88 -52 162 -161 200 -295 17 -61 18 -188 18 -2934 0 -2713 -1 -2874 -18 -2935 -41 -152 -117 -255 -235 -318 -124 -66 168 -62 -3848 -62 -2592 0 -3668 3 -3710 11 -141 26 -278 128 -339 253 -70 145 -66 -82 -63 3081 3 2700 4 2853 21 2910 55 187 184 310 367 349 55 12 609 14 3750 13 l3685 -2 65 -24z"/></g></svg>`,
                     info: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>`,
                     upload: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l-5 5h3v8h4V8h3l-5-5zm9 12v4c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-4h2v4h14v-4h2z"/></svg>`,
-                    download: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V3h4v8h3l-5 5zm9-1v4c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-4h2v4h14v-4h2z"/></svg>`
+                    download: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V3h4v8h3l-5 5zm9-1v4c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-4h2v4h14v-4h2z"/></svg>`,
+                    fontSync: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>`
                 };
 
                 const TOOLBAR_ICONS = {
@@ -6320,6 +6477,10 @@
                     }
                     if (property === 'color') {
                         if (section === 'toolbarButtons') return settings.palette[appearance].toolbarColor;
+                        // 數字鍵盤左側符號欄：固定為亮色模式黑色、暗色模式白色
+                        if (card === 'numeric' && section === 'leftPanel') {
+                            return appearance === 'light' ? '#000000FF' : '#FFFFFFFF';
+                        }
                         return settings.palette[appearance].textMain;
                     }
                     if (property === 'borderColor') return settings.palette[appearance].border;
@@ -6491,6 +6652,17 @@
                     longPressTransformX: '-50%', // 氣泡水平偏移
                     longPressBubbleX: 0, // 長按氣泡X位置
                     showKeyboardSelectionModal: false, // 鍵盤選擇彈窗顯示狀態
+                    showImportSuccessModal: false, // 匯入成功彈窗顯示狀態
+                    importSummary: { // 匯入摘要資訊
+                        hasOverrides: false,
+                        lightOverrides: [],
+                        darkOverrides: []
+                    },
+                    // 通用彈出視窗
+                    showCustomAlert: false,
+                    customAlertTitle: '',
+                    customAlertMessage: '',
+                    customAlertType: 'info', // 'success', 'warning', 'error', 'info'
                     keyboardSelection: {
                         keyboard26Chinese: true,
                         numeric: true,
@@ -6533,6 +6705,14 @@
                         console.error('Settings generator not loaded! Falling back to template.');
                         return await loadTemplate('Settings.libsonnet');
                     }
+                };
+
+                // ===== 通用彈出視窗函數 =====
+                const showAlert = (title, message, type = 'info') => {
+                    previewState.customAlertTitle = title;
+                    previewState.customAlertMessage = message;
+                    previewState.customAlertType = type;
+                    previewState.showCustomAlert = true;
                 };
 
                 const exportCskin = async () => {
@@ -6859,7 +7039,7 @@
                             } catch (dataUrlError) {
                                 console.error('dataURL method failed:', dataUrlError);
                                 demoBlob = null;
-                                alert('警告：截圖功能失敗，將導出不含預覽圖的皮膚檔案。\n其他功能正常。');
+                                showAlert('截圖功能失敗', '警告：截圖功能失敗，將導出不含預覽圖的皮膚檔案。\n其他功能正常。', 'warning');
                             }
                         } else {
                             try {
@@ -6891,7 +7071,7 @@
                                 } catch (dataUrlError) {
                                     console.error('Both methods failed:', dataUrlError);
                                     demoBlob = null;
-                                    alert('警告：截圖功能失敗，將導出不含預覽圖的皮膚檔案。\n其他功能正常。');
+                                    showAlert('截圖功能失敗', '警告：截圖功能失敗，將導出不含預覽圖的皮膚檔案。\n其他功能正常。', 'warning');
                                 }
                             }
                         }
@@ -6924,7 +7104,11 @@
                         
                         // 3d-2. 生成並加入 settings.json（用於匯入）
                         console.log('Generating settings.json...');
-                        const settingsJsonContent = JSON.stringify(settings, null, 2);
+                        const exportSettings = {
+                            ...settings,
+                            fontSyncEnabled: fontSyncEnabled.value
+                        };
+                        const settingsJsonContent = JSON.stringify(exportSettings, null, 2);
                         jsonnetFolder.file("settings.json", settingsJsonContent);
                         
                         // 3e. 加入所有 keyboard/*.jsonnet 檔案
@@ -7043,7 +7227,7 @@
                     } catch (err) {
                         document.body.removeChild(progressOverlay);
                         console.error('Export error details:', err);
-                        alert('導出失敗：' + err.message + '\n\n請確認：\n1. 使用 HTTP 伺服器運行（python3 -m http.server 8888）\n2. templates/ 目錄存在且包含所有檔案\n\n詳細錯誤請查看控制台。');
+                        showAlert('導出失敗', '導出失敗：' + err.message + '\n\n請確認：\n1. 使用 HTTP 伺服器運行（python3 -m http.server 8888）\n2. templates/ 目錄存在且包含所有檔案\n\n詳細錯誤請查看控制台。', 'error');
                     }
                 };
 
@@ -7171,7 +7355,32 @@
                         updateProgress(100, '匯入完成！');
                         setTimeout(() => {
                             document.body.removeChild(progressOverlay);
-                            alert('✓ 成功匯入配色方案！');
+                            
+                            // 檢查進階微調狀態
+                            const lightOverrides = [];
+                            const darkOverrides = [];
+                            
+                            if (settings.overrides.enable26ChineseOverride.light) lightOverrides.push('26 鍵中英文鍵盤');
+                            if (settings.overrides.enableNumericOverride.light) lightOverrides.push('數字鍵盤');
+                            if (settings.overrides.enableSymbolicOverride.light) lightOverrides.push('符號鍵盤');
+                            if (settings.overrides.enableEmojiOverride.light) lightOverrides.push('Emoji 鍵盤');
+                            
+                            if (settings.overrides.enable26ChineseOverride.dark) darkOverrides.push('26 鍵中英文鍵盤');
+                            if (settings.overrides.enableNumericOverride.dark) darkOverrides.push('數字鍵盤');
+                            if (settings.overrides.enableSymbolicOverride.dark) darkOverrides.push('符號鍵盤');
+                            if (settings.overrides.enableEmojiOverride.dark) darkOverrides.push('Emoji 鍵盤');
+                            
+                            const hasOverrides = lightOverrides.length > 0 || darkOverrides.length > 0;
+                            
+                            // 設定匯入摘要資訊
+                            previewState.importSummary = {
+                                hasOverrides,
+                                lightOverrides,
+                                darkOverrides
+                            };
+                            
+                            // 顯示匯入成功模態對話框
+                            previewState.showImportSuccessModal = true;
                         }, 500);
                         
                         console.log('Import completed successfully');
@@ -7179,7 +7388,7 @@
                     } catch (error) {
                         document.body.removeChild(progressOverlay);
                         console.error('Import failed:', error);
-                        alert('匯入失敗：' + error.message + '\n\n請確認：\n1. 檔案是有效的新版 .cskin 檔案\n2. 檔案未損壞');
+                        showAlert('匯入失敗', '匯入失敗：' + error.message + '\n\n請確認：\n1. 檔案是有效的新版 .cskin 檔案\n2. 檔案未損壞', 'error');
                     }
                 };
 
@@ -7273,6 +7482,14 @@
                         settings.toolbarButtons = [...importedSettings.toolbarButtons];
                     }
                     
+                    // 6. 字體同步狀態
+                    if (importedSettings.fontSyncEnabled !== undefined) {
+                        fontSyncEnabled.value = importedSettings.fontSyncEnabled;
+                    } else {
+                        // 舊檔案沒有此設定，預設為啟用
+                        fontSyncEnabled.value = true;
+                    }
+                    
                     console.log('Settings applied successfully');
                 };
 
@@ -7339,9 +7556,12 @@
                         console.log('All overrides reset to defaults');
                     } catch (e) {
                         console.error("Reset all overrides failed:", e);
-                        alert("還原失敗，請查看控制台日誌。");
+                        showAlert('還原失敗', '還原失敗，請查看控制台日誌。', 'error');
                     }
                 };
+
+                // ===== 字體大小同步功能 - 防止無限迴圈的標記 =====
+                let isSyncing = false;
 
                 // Apply Basic Appearance to Advanced Settings
                 const applyBasicToAdvanced = () => {
@@ -7373,13 +7593,21 @@
                     }
                     
                     try {
+                        // 暫時停用同步機制
+                        isSyncing = true;
+                        
                         enabledKeyboards.forEach(keyboardType => {
                             applyToKeyboard(keyboardType, currentMode);
                         });
-                        console.log(`Applied basic appearance to ${enabledKeyboards.length} keyboards`);
+                        
+                        // 使用 nextTick 確保所有 watcher 執行完畢後才恢復同步狀態
+                        nextTick(() => {
+                            isSyncing = false;
+                        });
                     } catch (e) {
                         console.error("Apply basic to advanced failed:", e);
-                        alert("套用失敗，請查看控制台日誌。");
+                        isSyncing = false;
+                        showAlert('套用失敗', '套用失敗，請查看控制台日誌。', 'error');
                     }
                 };
 
@@ -7422,11 +7650,14 @@
                     if (previewState.keyboardSelection.emoji) selected.push('emoji');
                     
                     if (selected.length === 0) {
-                        alert('請至少選擇一個鍵盤');
+                        showAlert('請選擇鍵盤', '請至少選擇一個鍵盤', 'warning');
                         return;
                     }
                     
                     try {
+                        // 暫時停用同步機制
+                        isSyncing = true;
+                        
                         // 開啟選中的鍵盤並套用設定
                         const appearance = previewState.appearance;
                         selected.forEach(keyboardType => {
@@ -7445,13 +7676,17 @@
                             applyToKeyboard(keyboardType, currentMode);
                         });
                         
-                        console.log(`Enabled and applied basic appearance to ${selected.length} keyboards`);
+                        // 使用 nextTick 確保所有 watcher 執行完畢後才恢復同步狀態
+                        nextTick(() => {
+                            isSyncing = false;
+                        });
                         
                         // 關閉彈窗
                         previewState.showKeyboardSelectionModal = false;
                     } catch (e) {
                         console.error("Confirm keyboard selection failed:", e);
-                        alert("套用失敗，請查看控制台日誌。");
+                        isSyncing = false;
+                        showAlert('套用失敗', '套用失敗，請查看控制台日誌。', 'error');
                     }
                 };
 
@@ -7466,28 +7701,28 @@
                     const groups = settings.groups[appearance];
                     const target = settings.overrides[keyboardType][appearance];
                     
-                    // Global settings (keyboard background)
-                    if (target.keyboardBackground) {
-                        target.keyboardBackground.bg = palette.bg;
-                    }
-                    
-                    // Toolbar (26鍵中英文、數字、符號、Emoji 都有)
-                    if (target.toolbarBackground) {
-                        target.toolbarBackground.bg = palette.bg;
-                    }
-                    if (target.toolbarButtons) {
-                        target.toolbarButtons.color = palette.toolbarColor;
-                        target.toolbarButtons.size = groups.toolbarSize;
-                    }
-                    
-                    // 26 鍵中英文鍵盤
-                    if (keyboardType === 'keyboard26Chinese') {
-                        // 字母鍵
-                        if (target.alphabet) {
-                            target.alphabet.bg = palette.keyNormal;
-                            target.alphabet.highlight = palette.keyNormalHighlight;
-                            target.alphabet.color = palette.textMain;
-                            target.alphabet.labelSize = groups.alphabetSize;
+                        // Global settings (keyboard background)
+                        if (target.keyboardBackground) {
+                            target.keyboardBackground.bg = palette.bg;
+                        }
+                        
+                        // Toolbar (26鍵中英文、數字、符號、Emoji 都有)
+                        if (target.toolbarBackground) {
+                            target.toolbarBackground.bg = palette.bg;
+                        }
+                        if (target.toolbarButtons) {
+                            target.toolbarButtons.color = palette.toolbarColor;
+                            target.toolbarButtons.size = groups.toolbarSize;
+                        }
+                        
+                        // 26 鍵中英文鍵盤
+                        if (keyboardType === 'keyboard26Chinese') {
+                            // 字母鍵
+                            if (target.alphabet) {
+                                target.alphabet.bg = palette.keyNormal;
+                                target.alphabet.highlight = palette.keyNormalHighlight;
+                                target.alphabet.color = palette.textMain;
+                                target.alphabet.labelSize = groups.alphabetSize;
                             target.alphabet.lowercaseSize = groups.lowercaseSize;
                             target.alphabet.borderColor = palette.border;
                             target.alphabet.borderWidth = palette.borderSize;
@@ -7567,6 +7802,7 @@
                         // 左側符號欄
                         if (target.leftPanel) {
                             target.leftPanel.bg = palette.numericLeftPanelBg;
+                            target.leftPanel.color = appearance === 'light' ? '#000000FF' : '#FFFFFFFF';
                             target.leftPanel.borderColor = palette.border;
                             target.leftPanel.borderWidth = palette.borderSize;
                             target.leftPanel.shadowColor = palette.shadow;
@@ -7820,7 +8056,7 @@
                         }
                     } catch (e) {
                         console.error("Reset palette failed:", e);
-                        alert("還原失敗，請查看控制台日誌。");
+                        showAlert('還原失敗', '還原失敗，請查看控制台日誌。', 'error');
                     }
                 };
 
@@ -7849,7 +8085,7 @@
                                 }
                             });
                         } catch (e) {
-                            alert("還原失敗：" + e.toString());
+                            showAlert('還原失敗', '還原失敗：' + e.toString(), 'error');
                         }
                     }
                 };
@@ -7880,7 +8116,7 @@
                             }
                         } catch (e) {
                             console.error("Mixed reset failed:", e);
-                            alert("還原失敗，請查看控制台日誌。");
+                            showAlert('還原失敗', '還原失敗，請查看控制台日誌。', 'error');
                         }
                     }
                 };
@@ -7905,6 +8141,299 @@
                     previewState.isCandidateShow = false;
                     previewState.isCandidateExpanded = false;
                 };
+
+                // ===== 字體大小同步功能 =====
+
+                // 同步單個字體大小欄位
+                const syncFontSizeField = (sourceMode, targetMode, path, value) => {
+                    if (!fontSyncEnabled.value || isSyncing || value === null || value === undefined) {
+                        return;
+                    }
+                    
+                    isSyncing = true;
+                    try {
+                        // 根據路徑設定目標模式的值
+                        const pathParts = path.split('.');
+                        let targetObj = settings;
+                        
+                        for (let i = 0; i < pathParts.length - 1; i++) {
+                            const part = pathParts[i];
+                            if (part === sourceMode) {
+                                targetObj = targetObj[targetMode];
+                            } else {
+                                targetObj = targetObj[part];
+                            }
+                        }
+                        
+                        const lastKey = pathParts[pathParts.length - 1];
+                        targetObj[lastKey] = value;
+                    } finally {
+                        isSyncing = false;
+                    }
+                };
+
+                // 當重新啟用同步時，將當前模式的值複製到另一模式
+                const handleSyncToggle = (enabled) => {
+                    if (!enabled) return;
+                    
+                    const sourceMode = previewState.appearance;
+                    const targetMode = sourceMode === 'light' ? 'dark' : 'light';
+                    
+                    isSyncing = true;
+                    try {
+                        // 複製基礎外觀的字體大小
+                        settings.groups[targetMode].alphabetSize = settings.groups[sourceMode].alphabetSize;
+                        settings.groups[targetMode].lowercaseSize = settings.groups[sourceMode].lowercaseSize;
+                        settings.groups[targetMode].systemSize = settings.groups[sourceMode].systemSize;
+                        settings.groups[targetMode].swipeSize = settings.groups[sourceMode].swipeSize;
+                        if (settings.groups[sourceMode].spaceSize !== undefined) {
+                            settings.groups[targetMode].spaceSize = settings.groups[sourceMode].spaceSize;
+                        }
+                        
+                        // 複製鍵盤覆寫的字體大小
+                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
+                        keyboards.forEach(keyboard => {
+                            if (!settings.overrides[keyboard]) return;
+                            
+                            const sourceOverride = settings.overrides[keyboard][sourceMode];
+                            const targetOverride = settings.overrides[keyboard][targetMode];
+                            
+                            if (!sourceOverride || !targetOverride) return;
+                            
+                            // 複製各類按鍵的字體大小
+                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
+                                if (sourceOverride[keyType] && targetOverride[keyType]) {
+                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
+                                        if (sourceOverride[keyType][field] !== undefined) {
+                                            targetOverride[keyType][field] = sourceOverride[keyType][field];
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            // 複製工具列按鈕大小
+                            if (sourceOverride.toolbarButtons && targetOverride.toolbarButtons) {
+                                Object.keys(sourceOverride.toolbarButtons).forEach(button => {
+                                    if (sourceOverride.toolbarButtons[button]?.size !== undefined) {
+                                        if (!targetOverride.toolbarButtons[button]) {
+                                            targetOverride.toolbarButtons[button] = {};
+                                        }
+                                        targetOverride.toolbarButtons[button].size = sourceOverride.toolbarButtons[button].size;
+                                    }
+                                });
+                            }
+                        });
+                    } finally {
+                        isSyncing = false;
+                    }
+                };
+
+                // 手動同步：與亮色同步（讓暗色變得跟亮色一樣）
+                const syncWithLight = () => {
+                    isSyncing = true;
+                    try {
+                        // 複製基礎外觀的字體大小：亮→暗
+                        settings.groups.dark.alphabetSize = settings.groups.light.alphabetSize;
+                        settings.groups.dark.lowercaseSize = settings.groups.light.lowercaseSize;
+                        settings.groups.dark.systemSize = settings.groups.light.systemSize;
+                        settings.groups.dark.swipeSize = settings.groups.light.swipeSize;
+                        if (settings.groups.light.spaceSize !== undefined) {
+                            settings.groups.dark.spaceSize = settings.groups.light.spaceSize;
+                        }
+                        
+                        // 複製鍵盤覆寫的字體大小：亮→暗
+                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
+                        keyboards.forEach(keyboard => {
+                            if (!settings.overrides[keyboard]) return;
+                            
+                            const lightOverride = settings.overrides[keyboard].light;
+                            const darkOverride = settings.overrides[keyboard].dark;
+                            
+                            if (!lightOverride || !darkOverride) return;
+                            
+                            // 複製各類按鍵的字體大小
+                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
+                                if (lightOverride[keyType] && darkOverride[keyType]) {
+                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
+                                        if (lightOverride[keyType][field] !== undefined) {
+                                            darkOverride[keyType][field] = lightOverride[keyType][field];
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            // 複製工具列按鈕大小
+                            if (lightOverride.toolbarButtons && darkOverride.toolbarButtons) {
+                                Object.keys(lightOverride.toolbarButtons).forEach(button => {
+                                    if (lightOverride.toolbarButtons[button]?.size !== undefined) {
+                                        if (!darkOverride.toolbarButtons[button]) {
+                                            darkOverride.toolbarButtons[button] = {};
+                                        }
+                                        darkOverride.toolbarButtons[button].size = lightOverride.toolbarButtons[button].size;
+                                    }
+                                });
+                            }
+                        });
+                    } finally {
+                        isSyncing = false;
+                    }
+                };
+
+                // 手動同步：與暗色同步（讓亮色變得跟暗色一樣）
+                const syncWithDark = () => {
+                    isSyncing = true;
+                    try {
+                        // 複製基礎外觀的字體大小：暗→亮
+                        settings.groups.light.alphabetSize = settings.groups.dark.alphabetSize;
+                        settings.groups.light.lowercaseSize = settings.groups.dark.lowercaseSize;
+                        settings.groups.light.systemSize = settings.groups.dark.systemSize;
+                        settings.groups.light.swipeSize = settings.groups.dark.swipeSize;
+                        if (settings.groups.dark.spaceSize !== undefined) {
+                            settings.groups.light.spaceSize = settings.groups.dark.spaceSize;
+                        }
+                        
+                        // 複製鍵盤覆寫的字體大小：暗→亮
+                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
+                        keyboards.forEach(keyboard => {
+                            if (!settings.overrides[keyboard]) return;
+                            
+                            const darkOverride = settings.overrides[keyboard].dark;
+                            const lightOverride = settings.overrides[keyboard].light;
+                            
+                            if (!darkOverride || !lightOverride) return;
+                            
+                            // 複製各類按鍵的字體大小
+                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
+                                if (darkOverride[keyType] && lightOverride[keyType]) {
+                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
+                                        if (darkOverride[keyType][field] !== undefined) {
+                                            lightOverride[keyType][field] = darkOverride[keyType][field];
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            // 複製工具列按鈕大小
+                            if (darkOverride.toolbarButtons && lightOverride.toolbarButtons) {
+                                Object.keys(darkOverride.toolbarButtons).forEach(button => {
+                                    if (darkOverride.toolbarButtons[button]?.size !== undefined) {
+                                        if (!lightOverride.toolbarButtons[button]) {
+                                            lightOverride.toolbarButtons[button] = {};
+                                        }
+                                        lightOverride.toolbarButtons[button].size = darkOverride.toolbarButtons[button].size;
+                                    }
+                                });
+                            }
+                        });
+                    } finally {
+                        isSyncing = false;
+                    }
+                };
+
+                // 監聽同步開關變化
+                watch(fontSyncEnabled, (newVal) => {
+                    // 如果啟用同步，執行一次同步
+                    if (newVal) {
+                        handleSyncToggle(true);
+                    }
+                });
+
+                // 監聽基礎外觀的字體大小變化
+                watch(() => settings.groups.light.alphabetSize, (newVal) => {
+                    if (previewState.appearance === 'light') {
+                        syncFontSizeField('light', 'dark', 'groups.light.alphabetSize', newVal);
+                    }
+                });
+                watch(() => settings.groups.dark.alphabetSize, (newVal) => {
+                    if (previewState.appearance === 'dark') {
+                        syncFontSizeField('dark', 'light', 'groups.dark.alphabetSize', newVal);
+                    }
+                });
+
+                watch(() => settings.groups.light.lowercaseSize, (newVal) => {
+                    if (previewState.appearance === 'light') {
+                        syncFontSizeField('light', 'dark', 'groups.light.lowercaseSize', newVal);
+                    }
+                });
+                watch(() => settings.groups.dark.lowercaseSize, (newVal) => {
+                    if (previewState.appearance === 'dark') {
+                        syncFontSizeField('dark', 'light', 'groups.dark.lowercaseSize', newVal);
+                    }
+                });
+
+                watch(() => settings.groups.light.systemSize, (newVal) => {
+                    if (previewState.appearance === 'light') {
+                        syncFontSizeField('light', 'dark', 'groups.light.systemSize', newVal);
+                    }
+                });
+                watch(() => settings.groups.dark.systemSize, (newVal) => {
+                    if (previewState.appearance === 'dark') {
+                        syncFontSizeField('dark', 'light', 'groups.dark.systemSize', newVal);
+                    }
+                });
+
+                watch(() => settings.groups.light.swipeSize, (newVal) => {
+                    if (previewState.appearance === 'light') {
+                        syncFontSizeField('light', 'dark', 'groups.light.swipeSize', newVal);
+                    }
+                });
+                watch(() => settings.groups.dark.swipeSize, (newVal) => {
+                    if (previewState.appearance === 'dark') {
+                        syncFontSizeField('dark', 'light', 'groups.dark.swipeSize', newVal);
+                    }
+                });
+
+                // 監聽空白鍵字體大小（如果存在）
+                watch(() => settings.groups.light.spaceSize, (newVal) => {
+                    if (previewState.appearance === 'light' && newVal !== undefined) {
+                        syncFontSizeField('light', 'dark', 'groups.light.spaceSize', newVal);
+                    }
+                });
+                watch(() => settings.groups.dark.spaceSize, (newVal) => {
+                    if (previewState.appearance === 'dark' && newVal !== undefined) {
+                        syncFontSizeField('dark', 'light', 'groups.dark.spaceSize', newVal);
+                    }
+                });
+
+                // 監聽鍵盤覆寫的字體大小變化（簡化版本，監聽主要欄位）
+                const setupKeyboardOverrideWatchers = () => {
+                    const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
+                    const keyTypes = ['alphabet', 'systemKeys', 'enterKey'];
+                    const sizeFields = ['labelSize', 'lowercaseSize', 'swipeSize'];
+                    
+                    keyboards.forEach(keyboard => {
+                        keyTypes.forEach(keyType => {
+                            sizeFields.forEach(field => {
+                                // Light mode
+                                watch(() => settings.overrides[keyboard]?.light?.[keyType]?.[field], (newVal) => {
+                                    if (previewState.appearance === 'light' && newVal !== null && newVal !== undefined) {
+                                        const targetOverride = settings.overrides[keyboard]?.dark?.[keyType];
+                                        if (targetOverride && !isSyncing && fontSyncEnabled.value) {
+                                            isSyncing = true;
+                                            targetOverride[field] = newVal;
+                                            isSyncing = false;
+                                        }
+                                    }
+                                });
+                                
+                                // Dark mode
+                                watch(() => settings.overrides[keyboard]?.dark?.[keyType]?.[field], (newVal) => {
+                                    if (previewState.appearance === 'dark' && newVal !== null && newVal !== undefined) {
+                                        const targetOverride = settings.overrides[keyboard]?.light?.[keyType];
+                                        if (targetOverride && !isSyncing && fontSyncEnabled.value) {
+                                            isSyncing = true;
+                                            targetOverride[field] = newVal;
+                                            isSyncing = false;
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    });
+                };
+                
+                setupKeyboardOverrideWatchers();
+                // ===== 字體大小同步功能結束 =====
 
                 let resizeObserver = null;
 
@@ -7938,6 +8467,9 @@
                     swipeData,
                     fontScale, // Export fontScale to template
                     showSkinDialog: ref(false),
+                    fontSyncEnabled, // 字體同步開關
+                    syncWithLight, // 手動同步：與亮色同步
+                    syncWithDark, // 手動同步：與暗色同步
 
                     // Methods
                     exportCskin,
