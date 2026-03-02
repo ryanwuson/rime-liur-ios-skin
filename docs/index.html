@@ -3051,6 +3051,15 @@
                                         </label>
                                     </div>
                                 </div>
+                                <!-- 手動同步按鈕 -->
+                                <div class="font-sync-actions">
+                                    <button class="btn-sync" @click="syncWithLight">
+                                        複製亮色到暗色
+                                    </button>
+                                    <button class="btn-sync" @click="syncWithDark">
+                                        複製暗色到亮色
+                                    </button>
+                                </div>
                             </div>
                         </section>
 
@@ -8166,18 +8175,34 @@
 
                 const resetAllSettings = () => {
                     if (confirm('確定要將所有設定（配色、佈局、尺寸等）還原為預設值嗎？')) {
-                        // 深度複製並保持響應式
-                        const defaultSettings = JSON.parse(JSON.stringify(initialSettings));
-                        
-                        // 逐一更新屬性以保持響應式
-                        Object.keys(defaultSettings).forEach(key => {
-                            if (typeof defaultSettings[key] === 'object' && defaultSettings[key] !== null) {
-                                // 對於對象，遞歸更新
-                                Object.assign(settings[key], defaultSettings[key]);
-                            } else {
-                                settings[key] = defaultSettings[key];
-                            }
-                        });
+                        try {
+                            // 深度複製預設值
+                            const defaultSettings = JSON.parse(JSON.stringify(initialSettings));
+                            
+                            // 遞歸更新函數，保持 Vue 響應式
+                            const deepUpdate = (target, source) => {
+                                Object.keys(source).forEach(key => {
+                                    if (source[key] !== null && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                                        // 如果是對象，遞歸更新
+                                        if (!target[key]) {
+                                            target[key] = {};
+                                        }
+                                        deepUpdate(target[key], source[key]);
+                                    } else {
+                                        // 直接賦值（包括數組和基本類型）
+                                        target[key] = source[key];
+                                    }
+                                });
+                            };
+                            
+                            // 逐一更新頂層屬性
+                            deepUpdate(settings, defaultSettings);
+                            
+                            showAlert('還原成功', '所有設定已還原為預設值', 'success');
+                        } catch (e) {
+                            console.error("Reset all settings failed:", e);
+                            showAlert('還原失敗', '還原失敗，請查看控制台日誌。', 'error');
+                        }
                     }
                 };
 
@@ -8268,6 +8293,96 @@
                 };
                 
                 setupKeyboardOverrideWatchers();
+                
+                // 手動同步：與亮色同步（讓暗色變得跟亮色一樣）
+                const syncWithLight = () => {
+                    isSyncing = true;
+                    try {
+                        // 只複製鍵盤覆寫的字體大小：亮→暗
+                        // 注意：基礎外觀的 groups 已經是亮暗通用的，不需要同步
+                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
+                        keyboards.forEach(keyboard => {
+                            if (!settings.overrides[keyboard]) return;
+                            
+                            const lightOverride = settings.overrides[keyboard].light;
+                            const darkOverride = settings.overrides[keyboard].dark;
+                            
+                            if (!lightOverride || !darkOverride) return;
+                            
+                            // 複製各類按鍵的字體大小
+                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
+                                if (lightOverride[keyType] && darkOverride[keyType]) {
+                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
+                                        if (lightOverride[keyType][field] !== undefined) {
+                                            darkOverride[keyType][field] = lightOverride[keyType][field];
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            // 複製工具列按鈕大小
+                            if (lightOverride.toolbarButtons && darkOverride.toolbarButtons) {
+                                Object.keys(lightOverride.toolbarButtons).forEach(button => {
+                                    if (lightOverride.toolbarButtons[button]?.size !== undefined) {
+                                        if (!darkOverride.toolbarButtons[button]) {
+                                            darkOverride.toolbarButtons[button] = {};
+                                        }
+                                        darkOverride.toolbarButtons[button].size = lightOverride.toolbarButtons[button].size;
+                                    }
+                                });
+                            }
+                        });
+                        
+                        showAlert('同步完成', '已將亮色模式的字體大小複製到暗色模式', 'success');
+                    } finally {
+                        isSyncing = false;
+                    }
+                };
+
+                // 手動同步：與暗色同步（讓亮色變得跟暗色一樣）
+                const syncWithDark = () => {
+                    isSyncing = true;
+                    try {
+                        // 只複製鍵盤覆寫的字體大小：暗→亮
+                        // 注意：基礎外觀的 groups 已經是亮暗通用的，不需要同步
+                        const keyboards = ['keyboard26Chinese', 'numeric', 'symbolic', 'emoji'];
+                        keyboards.forEach(keyboard => {
+                            if (!settings.overrides[keyboard]) return;
+                            
+                            const darkOverride = settings.overrides[keyboard].dark;
+                            const lightOverride = settings.overrides[keyboard].light;
+                            
+                            if (!darkOverride || !lightOverride) return;
+                            
+                            // 複製各類按鍵的字體大小
+                            ['alphabet', 'systemKeys', 'enterKey'].forEach(keyType => {
+                                if (darkOverride[keyType] && lightOverride[keyType]) {
+                                    ['labelSize', 'lowercaseSize', 'swipeSize'].forEach(field => {
+                                        if (darkOverride[keyType][field] !== undefined) {
+                                            lightOverride[keyType][field] = darkOverride[keyType][field];
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            // 複製工具列按鈕大小
+                            if (darkOverride.toolbarButtons && lightOverride.toolbarButtons) {
+                                Object.keys(darkOverride.toolbarButtons).forEach(button => {
+                                    if (darkOverride.toolbarButtons[button]?.size !== undefined) {
+                                        if (!lightOverride.toolbarButtons[button]) {
+                                            lightOverride.toolbarButtons[button] = {};
+                                        }
+                                        lightOverride.toolbarButtons[button].size = darkOverride.toolbarButtons[button].size;
+                                    }
+                                });
+                            }
+                        });
+                        
+                        showAlert('同步完成', '已將暗色模式的字體大小複製到亮色模式', 'success');
+                    } finally {
+                        isSyncing = false;
+                    }
+                };
                 // ===== 字體大小同步功能結束 =====
 
                 let resizeObserver = null;
@@ -8303,6 +8418,8 @@
                     fontScale, // Export fontScale to template
                     showSkinDialog: ref(false),
                     fontSyncEnabled, // 進階微調字體同步開關
+                    syncWithLight, // 手動同步：與亮色同步
+                    syncWithDark, // 手動同步：與暗色同步
 
                     // Methods
                     exportCskin,
