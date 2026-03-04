@@ -39,5 +39,5 @@ local custom(theme, keyboardType) =
 };
 
 {
-  getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese'): toolbar.getToolBar(theme, orientation, keyboardType) + custom(theme, keyboardType),
+  getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese', skinName='蝦米輸入法'): toolbar.getToolBar(theme, orientation, keyboardType, skinName) + custom(theme, keyboardType),
 }

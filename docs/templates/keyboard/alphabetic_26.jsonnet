@@ -581,11 +581,11 @@ local keyboard(theme, orientation) =
   + createHintStyle('b') + createHintStyle('n') + createHintStyle('m');
 
 {
-  new(theme, orientation):
+  new(theme, orientation, skinName='蝦米輸入法'):
     keyboardLayout.getEnLayout(theme, orientation) +
     swipeStyles.makeSwipeStyles(theme, { swipe_up: swipe_up, swipe_down: swipe_down, type: 'alphabetic' }) +
     hintSymbolsStyles.getStyle(theme, hintSymbolsData.alphabetic) +
-    toolbar.getToolBar(theme, orientation, 'keyboard26Chinese') +  // 工具栏（傳入 keyboardType）
+    toolbar.getToolBar(theme, orientation, 'keyboard26Chinese', skinName) +  // 工具栏（傳入 keyboardType 和 skinName）
     utils.genAlphabeticStyles(theme) +
     utils.genHintStyles(theme) +
     keyboard(theme, orientation),

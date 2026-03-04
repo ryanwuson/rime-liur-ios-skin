@@ -296,8 +296,8 @@ local keyboard(theme) =
   };
 
 {
-  new(theme):
+  new(theme, skinName='蝦米輸入法'):
     keyboard(theme) +
-    toolbar.getToolBar(theme, 'portrait', 'numeric') +  // 工具栏（傳入 keyboardType）
+    toolbar.getToolBar(theme, 'portrait', 'numeric', skinName) +  // 工具栏（傳入 keyboardType 和 skinName）
     utils.genNumberStyles(theme),
 }

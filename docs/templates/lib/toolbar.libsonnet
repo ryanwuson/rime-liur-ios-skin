@@ -4,6 +4,12 @@ local color = import 'color.libsonnet';
 local fontSize = import 'fontSize.libsonnet';
 local settings = import '../Settings.libsonnet';
 
+// 皮膚配置 - 從 main.jsonnet 中的 config.name 動態設置
+// 注意：此值在 main.jsonnet 中會被覆蓋
+local skinConfig = {
+  name: '蝦米輸入法',
+};
+
 // 按鈕編號對應表（按照新的序號分類）
 local buttonMap = {
   '0': null,  // 空白佔位符
@@ -67,36 +73,37 @@ local getButtonLabel = function(buttonName)
   else '';
 
 // 獲取按鈕動作（按照新的序號分類）
-local getButtonAction = function(buttonName)
-  // 常用功能
-  if buttonName == 'toolbarPanelButton' then { floatKeyboardType: 'panel' }
-  else if buttonName == 'toolbarCloseButton' then 'dismissKeyboard'
-  else if buttonName == 'toolbarChEnButton' then { keyboardType: 'alphabetic' }
-  else if buttonName == 'toolbarSimp2TradButton' then { shortcutCommand: '#简繁切换' }
-  else if buttonName == 'toolbarHeartButton' then { shortcut: '#showPhraseView' }
-  else if buttonName == 'toolbarClipboardButton' then { shortcut: '#showPasteboardView' }
-  else if buttonName == 'toolbarSymbolButton' then { keyboardType: 'symbolic' }
-  else if buttonName == 'toolbarEmojiButton' then { keyboardType: 'emoji' }
-  else if buttonName == 'toolbarNumericButton' then { keyboardType: 'numeric' }
-  // 編輯功能
-  else if buttonName == 'toolbarSelectAllButton' then { shortcut: '#selectText' }
-  else if buttonName == 'toolbarCopyButton' then { shortcut: '#copy' }
-  else if buttonName == 'toolbarCutButton' then { shortcut: '#cut' }
-  else if buttonName == 'toolbarPasteButton' then { shortcut: '#paste' }
-  else if buttonName == 'toolbarUndoButton' then { shortcut: '#undo' }
-  else if buttonName == 'toolbarRedoButton' then { shortcut: '#redo' }
-  else if buttonName == 'toolbarMoveLeftButton' then 'moveCursorBackward'
-  else if buttonName == 'toolbarMoveRightButton' then 'moveCursorForward'
-  else if buttonName == 'toolbarLeftHandButton' then { shortcut: '#左手模式' }
-  else if buttonName == 'toolbarRightHandButton' then { shortcut: '#右手模式' }
-  // 其他設定
-  else if buttonName == 'toolbarPerformanceButton' then { shortcut: '#keyboardPerformance' }
-  else if buttonName == 'toolbarRimeDeployButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/rime?action=deploy' }
-  else if buttonName == 'toolbarScriptButton' then { shortcut: '#toggleScriptView' }
-  else if buttonName == 'toolbarFinderButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/finder' }
-  else if buttonName == 'toolbarSkinButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/keyboardSkins' }
-  else if buttonName == 'toolbarSkinPreferenceButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/finder?action=openAppFile&fileURL=Skins/蝦米輸入法/jsonnet/Settings.libsonnet' }
-  else null;
+// 注意：此函數目前未被使用，按鈕動作直接在按鈕定義中設置
+// local getButtonAction = function(buttonName, skinName='蝦米輸入法')
+//   // 常用功能
+//   if buttonName == 'toolbarPanelButton' then { floatKeyboardType: 'panel' }
+//   else if buttonName == 'toolbarCloseButton' then 'dismissKeyboard'
+//   else if buttonName == 'toolbarChEnButton' then { keyboardType: 'alphabetic' }
+//   else if buttonName == 'toolbarSimp2TradButton' then { shortcutCommand: '#简繁切换' }
+//   else if buttonName == 'toolbarHeartButton' then { shortcut: '#showPhraseView' }
+//   else if buttonName == 'toolbarClipboardButton' then { shortcut: '#showPasteboardView' }
+//   else if buttonName == 'toolbarSymbolButton' then { keyboardType: 'symbolic' }
+//   else if buttonName == 'toolbarEmojiButton' then { keyboardType: 'emoji' }
+//   else if buttonName == 'toolbarNumericButton' then { keyboardType: 'numeric' }
+//   // 編輯功能
+//   else if buttonName == 'toolbarSelectAllButton' then { shortcut: '#selectText' }
+//   else if buttonName == 'toolbarCopyButton' then { shortcut: '#copy' }
+//   else if buttonName == 'toolbarCutButton' then { shortcut: '#cut' }
+//   else if buttonName == 'toolbarPasteButton' then { shortcut: '#paste' }
+//   else if buttonName == 'toolbarUndoButton' then { shortcut: '#undo' }
+//   else if buttonName == 'toolbarRedoButton' then { shortcut: '#redo' }
+//   else if buttonName == 'toolbarMoveLeftButton' then 'moveCursorBackward'
+//   else if buttonName == 'toolbarMoveRightButton' then 'moveCursorForward'
+//   else if buttonName == 'toolbarLeftHandButton' then { shortcut: '#左手模式' }
+//   else if buttonName == 'toolbarRightHandButton' then { shortcut: '#右手模式' }
+//   // 其他設定
+//   else if buttonName == 'toolbarPerformanceButton' then { shortcut: '#keyboardPerformance' }
+//   else if buttonName == 'toolbarRimeDeployButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/rime?action=deploy' }
+//   else if buttonName == 'toolbarScriptButton' then { shortcut: '#toggleScriptView' }
+//   else if buttonName == 'toolbarFinderButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/finder' }
+//   else if buttonName == 'toolbarSkinButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/keyboardSkins' }
+//   else if buttonName == 'toolbarSkinPreferenceButton' then { openURL: 'hamster3://com.ihsiao.apps.hamster3/finder?action=openAppFile&fileURL=Skins/'+skinName+'/jsonnet/Settings.libsonnet' }
+//   else null;
 
 // 根據設定生成工具列按鈕單元格（HStack 版本）
 local generateToolbarButtons = function()
@@ -128,7 +135,7 @@ local generateToolbarButtons = function()
   result.cells;
 
 
-local getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese') = {
+local getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese', skinName='蝦米輸入法') = {
   // 輔助變數：根據 keyboardType 獲取工具列按鈕顏色鍵和大小鍵
   local toolbarButtonColorKey = if keyboardType == 'numeric' then '数字键盘工具列按鈕顏色' else '26键键盘工具列按鈕顏色',
   local toolbarButtonSizeKey = if keyboardType == 'numeric' then '数字键盘工具列按鈕大小' else '26键键盘工具列按鈕大小',
@@ -613,7 +620,7 @@ local getToolBar(theme, orientation='portrait', keyboardType='keyboard26Chinese'
     size: { width: '1/10' },
     backgroundStyle: 'toolbarButtonBackgroundStyle',
     foregroundStyle: 'toolbarSkinPreferenceButtonForegroundStyle',
-    action: { openURL: 'hamster3://com.ihsiao.apps.hamster3/finder?action=openAppFile&fileURL=Skins/蝦米輸入法/jsonnet/Settings.libsonnet' },
+    action: { openURL: 'hamster3://com.ihsiao.apps.hamster3/finder?action=openAppFile&fileURL=Skins/'+skinName+'/jsonnet/Settings.libsonnet' },
   },
   toolbarSkinPreferenceButtonForegroundStyle: {
     buttonStyleType: 'systemImage',

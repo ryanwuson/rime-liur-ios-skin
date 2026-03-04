@@ -81,22 +81,22 @@ local emojiLandscape = import 'keyboard/emoji_landscape.jsonnet';
 local panel = import 'keyboard/panel.jsonnet';
 
 // 拼音（中文鍵盤）
-local lightPinyinPortrait = pinyin.new('light', 'portrait');
-local darkPinyinPortrait = pinyin.new('dark', 'portrait');
-local lightPinyinLandscape = pinyin.new('light', 'landscape');
-local darkPinyinLandscape = pinyin.new('dark', 'landscape');
+local lightPinyinPortrait = pinyin.new('light', 'portrait', config.name);
+local darkPinyinPortrait = pinyin.new('dark', 'portrait', config.name);
+local lightPinyinLandscape = pinyin.new('light', 'landscape', config.name);
+local darkPinyinLandscape = pinyin.new('dark', 'landscape', config.name);
 
 // 字母（英文鍵盤）
-local lightAlphabeticPortrait = alphabetic.new('light', 'portrait');
-local darkAlphabeticPortrait = alphabetic.new('dark', 'portrait');
-local lightAlphabeticLandscape = alphabetic.new('light', 'landscape');
-local darkAlphabeticLandscape = alphabetic.new('dark', 'landscape');
+local lightAlphabeticPortrait = alphabetic.new('light', 'portrait', config.name);
+local darkAlphabeticPortrait = alphabetic.new('dark', 'portrait', config.name);
+local lightAlphabeticLandscape = alphabetic.new('light', 'landscape', config.name);
+local darkAlphabeticLandscape = alphabetic.new('dark', 'landscape', config.name);
 
 // 數字鍵盤
-local lightNumericPortrait = numericPortrait.new('light');
-local darkNumericPortrait = numericPortrait.new('dark');
-local lightNumericLandscape = numericLandscape.new('light');
-local darkNumericLandscape = numericLandscape.new('dark');
+local lightNumericPortrait = numericPortrait.new('light', config.name);
+local darkNumericPortrait = numericPortrait.new('dark', config.name);
+local lightNumericLandscape = numericLandscape.new('light', config.name);
+local darkNumericLandscape = numericLandscape.new('dark', config.name);
 
 // 符號鍵盤
 local lightSymbolicPortrait = symbolicPortrait.new('light');
@@ -118,6 +118,7 @@ local darkPanelLandscape = panel.new('dark', 'landscape');
 
 {
   'config.yaml': std.manifestYamlDoc(config, indent_array_in_object=true, quote_keys=false),
+  'SkinConfig.libsonnet': '// 皮膚配置 - 用於動態獲取皮膚名稱\n// 此文件由 main.jsonnet 自動生成\n\n{\n  name: \'' + config.name + '\',\n}\n',
 
   // 拼音鍵盤
   'light/pinyin_26_portrait.yaml': std.toString(lightPinyinPortrait),
