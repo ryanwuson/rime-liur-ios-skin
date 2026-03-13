@@ -301,6 +301,7 @@ local keyboard(theme, orientation) =
     },
     numericButton: createButton(theme, { key: 'numeric', size: ButtonSize['numeric键size'], action: { keyboardType: 'numeric' }, isLetter: false }) + {
       swipeUpAction: { keyboardType: 'symbolic' },
+      swipeDownAction: { keyboardType: 'numeric' },  // 下滑跳轉到數字鍵盤
       hintStyle: null,
       hintSymbolsStyle: 'numericButtonHintSymbolsStyle',
           // 動態功能：當有預編輯文字時，顯示「同音」並執行同音字功能
@@ -531,6 +532,7 @@ local keyboard(theme, orientation) =
       foregroundStyle: 'enterButtonForegroundStyle',
       notification: ['returnKeyTypeChangedNotification', 'preeditChangedForEnterButtonNotification'],
       hintStyle: null,
+      swipeUpAction: { keyboardType: 'emoji' },  // 上滑跳轉到emoji鍵盤
       swipeDownAction: { shortcut: '#换行' },  // 下滑換行
     },
     enterButtonForegroundStyle: utils.makeTextStyle({

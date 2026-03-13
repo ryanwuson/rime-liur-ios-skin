@@ -388,6 +388,7 @@ local keyboard(theme, orientation) =
       foregroundStyle: 'enterButtonForegroundStyle',
       notification: ['returnKeyTypeChangedNotification', 'preeditChangedForEnterButtonNotification'],
       hintStyle: null,  // 禁用汽泡
+      swipeUpAction: { keyboardType: 'emoji' },  // 上滑跳轉到emoji鍵盤
       swipeDownAction: { shortcut: '#换行' },  // 下滑換行
     },
     enterButtonForegroundStyle: utils.makeTextStyle({

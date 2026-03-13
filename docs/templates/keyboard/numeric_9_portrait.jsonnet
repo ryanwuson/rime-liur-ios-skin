@@ -142,7 +142,9 @@ local keyboard(theme) =
         action: { keyboardType: 'symbolic' },  // 改為到符號表
         isNumber: false,
       }
-    ),
+    ) + {
+      swipeUpAction: { character: '(' },  // 上滑輸入左括號
+    },
     returnButtonForegroundStyle: utils.makeTextStyle({
       text: '#+=',  // 改為顯示 #+=
       normalColor: color[theme]['数字键盘功能键文字颜色'],
@@ -157,7 +159,9 @@ local keyboard(theme) =
         isNumber: false,
         size: { height: '1/4' },
       }
-    ),
+    ) + {
+      swipeUpAction: { character: '(' },  // 上滑輸入左括號，使用 character 類型
+    },
     symbolButtonForegroundStyle: utils.makeTextStyle({
       text: '返回',  // 改為顯示 返回
       normalColor: color[theme]['数字键盘功能键文字颜色'],
@@ -171,7 +175,9 @@ local keyboard(theme) =
         action: 'space',
         isNumber: false,
       }
-    ),
+    ) + {
+      swipeUpAction: { character: ')' },  // 上滑輸入右括號，使用 character 類型
+    },
     spaceButtonForegroundStyle: utils.makeTextStyle({
       text: '空格',
       normalColor: color[theme]['数字键盘功能键文字颜色'],
@@ -201,7 +207,26 @@ local keyboard(theme) =
         action: { symbol: '.' },
         isNumber: false,
       }
-    ),
+    ) + {
+      swipeUpAction: { symbol: ',' },  // 預設上滑直接輸出逗號
+      notification: [
+        'periodButtonPreeditNotification',
+        'periodButtonSwipeUpPreeditNotification',  // 新增上滑的 preedit 通知
+      ],
+    },
+    periodButtonPreeditNotification: {
+      notificationType: 'preeditChanged',
+      backgroundStyle: 'systemButtonBackgroundStyle',
+      foregroundStyle: 'periodButtonForegroundStyle',
+      action: { character: '.' },
+    },
+    periodButtonSwipeUpPreeditNotification: {
+      notificationType: 'preeditChanged',
+      preeditIsEmpty: false,  // 當有 preedit 內容時觸發（計算機模式）
+      backgroundStyle: 'systemButtonBackgroundStyle',
+      foregroundStyle: 'periodButtonForegroundStyle',
+      swipeUpAction: { character: ',' },  // 在計算機模式下使用 character 類型
+    },
     periodButtonForegroundStyle: utils.makeTextStyle({
       text: '.',
       normalColor: color[theme]['数字键盘功能键文字颜色'],

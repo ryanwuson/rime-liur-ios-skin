@@ -1462,7 +1462,7 @@
                                             @touchstart.prevent="showBubble($event, previewState.isShiftActive ? key : key.toLowerCase())"
                                             @touchend="hideBubble">
                                             <!-- Z key: SVG icon for up-swipe (inline SVG instead of img) -->
-                                            <div v-show="key === 'Z' && (settings.enableAdvancedRowControl ? settings.advancedRowControl.row3.showSwipeUpText : settings.showSwipeUpText)"
+                                            <div v-if="key === 'Z' && (settings.enableAdvancedRowControl ? settings.advancedRowControl.row3.showSwipeUpText : settings.showSwipeUpText)"
                                                 class="swipe-hint swipe-up-left tool-svg-icon"
                                                 v-html="TOOLBAR_ICONS[settings.handedness === 'left' ? 'LeftHand' : 'RightHand']"
                                                 :style="{

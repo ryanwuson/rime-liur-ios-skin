@@ -11,7 +11,7 @@ local createButton(params={}) =
   local isNumber = std.get(params, 'isNumber', true);
   local isEnter = std.get(params, 'key') == 'enter';
   std.prune({
-    // 每個按鈕高度均分為 1/4（40/160）
+    // 每個按鈕高度均分為 1/4（54/216）
     size: std.get(params, 'size', { height: '1/4' }),
     bounds: std.get(params, 'bounds'),
     // Enter 鍵使用獨立背景，數字鍵使用字母鍵背景，其他功能鍵使用系統鍵背景
@@ -25,10 +25,10 @@ local createButton(params={}) =
 
 local keyboard(theme) =
   {
-    // 設定鍵盤高度，與中英文鍵盤一致（橫屏）
-    preeditHeight: others['横屏']['preedit高度'],
-    toolbarHeight: others['横屏']['toolbar高度'],
-    keyboardHeight: others['横屏']['keyboard高度'],
+    // 設定鍵盤高度，與中英文鍵盤一致
+    preeditHeight: others['竖屏']['preedit高度'],
+    toolbarHeight: others['竖屏']['toolbar高度'],
+    keyboardHeight: others['竖屏']['keyboard高度'],
 
     keyboardLayout: [
       {
@@ -119,8 +119,8 @@ local keyboard(theme) =
       cornerRadius: 7,
       normalLowerEdgeColor: color[theme]['数字键盘左侧collection背景下边缘顏色'],
       borderSize: color[theme]['数字键盘左侧collection边框宽度'],
-      normalBorderColor: color[theme]['数字键盘左侧collection边框颜色'],
-      highlightBorderColor: color[theme]['数字键盘左侧collection边框颜色'],
+      normalBorderColor: color[theme]['数字键盘左侧collection边框顏色'],
+      highlightBorderColor: color[theme]['数字键盘左侧collection边框顏色'],
     },
 
     // 數字按鈕 1-9, 0
@@ -142,9 +142,7 @@ local keyboard(theme) =
         action: { keyboardType: 'symbolic' },  // 改為到符號表
         isNumber: false,
       }
-    ) + {
-      swipeUpAction: { character: '(' },  // 上滑輸入左括號
-    },
+    ),
     returnButtonForegroundStyle: utils.makeTextStyle({
       text: '#+=',  // 改為顯示 #+=
       normalColor: color[theme]['数字键盘功能键文字颜色'],
@@ -159,9 +157,7 @@ local keyboard(theme) =
         isNumber: false,
         size: { height: '1/4' },
       }
-    ) + {
-      swipeUpAction: { character: '(' },  // 上滑輸入左括號，使用 character 類型
-    },
+    ),
     symbolButtonForegroundStyle: utils.makeTextStyle({
       text: '返回',  // 改為顯示 返回
       normalColor: color[theme]['数字键盘功能键文字颜色'],
@@ -175,9 +171,7 @@ local keyboard(theme) =
         action: 'space',
         isNumber: false,
       }
-    ) + {
-      swipeUpAction: { character: ')' },  // 上滑輸入右括號，使用 character 類型
-    },
+    ),
     spaceButtonForegroundStyle: utils.makeTextStyle({
       text: '空格',
       normalColor: color[theme]['数字键盘功能键文字颜色'],
@@ -207,26 +201,7 @@ local keyboard(theme) =
         action: { symbol: '.' },
         isNumber: false,
       }
-    ) + {
-      swipeUpAction: { symbol: ',' },  // 預設上滑直接輸出逗號
-      notification: [
-        'periodButtonPreeditNotification',
-        'periodButtonSwipeUpPreeditNotification',  // 新增上滑的 preedit 通知
-      ],
-    },
-    periodButtonPreeditNotification: {
-      notificationType: 'preeditChanged',
-      backgroundStyle: 'systemButtonBackgroundStyle',
-      foregroundStyle: 'periodButtonForegroundStyle',
-      action: { character: '.' },
-    },
-    periodButtonSwipeUpPreeditNotification: {
-      notificationType: 'preeditChanged',
-      preeditIsEmpty: false,  // 當有 preedit 內容時觸發（計算機模式）
-      backgroundStyle: 'systemButtonBackgroundStyle',
-      foregroundStyle: 'periodButtonForegroundStyle',
-      swipeUpAction: { character: ',' },  // 在計算機模式下使用 character 類型
-    },
+    ),
     periodButtonForegroundStyle: utils.makeTextStyle({
       text: '.',
       normalColor: color[theme]['数字键盘功能键文字颜色'],
@@ -257,12 +232,11 @@ local keyboard(theme) =
       }
     ) + {
       notification: ['returnKeyTypeChangedNotification'],
-      swipeDownAction: { shortcut: '#换行' },  // 下滑換行
     },
     enterButtonForegroundStyle: utils.makeTextStyle({
       text: '$returnKeyType',
-      normalColor: color[theme]['数字键盘enter键文字颜色'],
-      highlightColor: color[theme]['数字键盘enter键文字颜色'],
+      normalColor: color[theme]['数字键盘功能键文字颜色'],
+      highlightColor: color[theme]['数字键盘功能键文字颜色'],
       fontSize: fontSize['数字键盘功能键字体大小'],  // 使用數字鍵盤專用字號
     }),
     
@@ -275,22 +249,22 @@ local keyboard(theme) =
     },
     returnKeyTypeForegroundStyle: utils.makeTextStyle({
       text: '$returnKeyType',
-      normalColor: color[theme]['数字键盘enter键文字颜色'],
-      highlightColor: color[theme]['数字键盘enter键文字颜色'],
+      normalColor: color[theme]['数字键盘功能键文字颜色'],
+      highlightColor: color[theme]['数字键盘功能键文字颜色'],
       fontSize: fontSize['数字键盘功能键字体大小'],  // 使用數字鍵盤專用字號
     }),
 
     // 背景樣式
     numberButtonBackgroundStyle: utils.makeGeometryStyle({
       insets: { top: 2, left: 2, bottom: 2, right: 2 },
-      normalColor: color[theme]['数字键背景颜色-普通'],
-      highlightColor: color[theme]['数字键背景颜色-高亮'],
+      normalColor: color[theme]['字母键背景颜色-普通'],
+      highlightColor: color[theme]['字母键背景颜色-高亮'],
       cornerRadius: 7,
-      normalLowerEdgeColor: color[theme]['数字键底边缘颜色-普通'],
-      highlightLowerEdgeColor: color[theme]['数字键底边缘颜色-高亮'],
-      borderSize: color[theme]['数字键边框宽度'],
-      normalBorderColor: color[theme]['数字键边框颜色-普通'],
-      highlightBorderColor: color[theme]['数字键边框颜色-高亮'],
+      normalLowerEdgeColor: color[theme]['底边缘顏色-普通'],
+      highlightLowerEdgeColor: color[theme]['底边缘顏色-高亮'],
+      borderSize: color[theme]['边框宽度'],
+      normalBorderColor: color[theme]['边框顏色-普通'],
+      highlightBorderColor: color[theme]['边框顏色-高亮'],
     }),
 
     systemButtonBackgroundStyle: utils.makeGeometryStyle({
@@ -300,29 +274,29 @@ local keyboard(theme) =
       cornerRadius: 7,
       normalLowerEdgeColor: color[theme]['数字键盘功能键底边缘颜色-普通'],
       highlightLowerEdgeColor: color[theme]['数字键盘功能键底边缘颜色-高亮'],
-      borderSize: color[theme]['数字键盘功能键边框宽度'],
-      normalBorderColor: color[theme]['数字键盘功能键边框颜色-普通'],
-      highlightBorderColor: color[theme]['数字键盘功能键边框颜色-高亮'],
+      borderSize: color[theme]['边框宽度'],
+      normalBorderColor: color[theme]['边框顏色-普通'],
+      highlightBorderColor: color[theme]['边框顏色-高亮'],
     }),
 
     enterButtonBackgroundStyle: utils.makeGeometryStyle({
       insets: { top: 2, left: 2, bottom: 2, right: 2 },
-      normalColor: color[theme]['数字键盘enter键背景颜色-普通'],
-      highlightColor: color[theme]['数字键盘enter键背景颜色-高亮'],
+      normalColor: color[theme]['数字键盘功能键背景颜色-普通'],
+      highlightColor: color[theme]['数字键盘功能键背景颜色-高亮'],
       cornerRadius: 7,
-      normalLowerEdgeColor: color[theme]['数字键盘enter键底边缘颜色-普通'],
-      highlightLowerEdgeColor: color[theme]['数字键盘enter键底边缘颜色-高亮'],
-      borderSize: color[theme]['数字键盘enter键边框宽度'],
-      normalBorderColor: color[theme]['数字键盘enter键边框颜色-普通'],
-      highlightBorderColor: color[theme]['数字键盘enter键边框颜色-高亮'],
+      normalLowerEdgeColor: color[theme]['数字键盘功能键底边缘颜色-普通'],
+      highlightLowerEdgeColor: color[theme]['数字键盘功能键底边缘颜色-高亮'],
+      borderSize: color[theme]['边框宽度'],
+      normalBorderColor: color[theme]['边框顏色-普通'],
+      highlightBorderColor: color[theme]['边框顏色-高亮'],
     }),
 
     ButtonScaleAnimation: animation['26键按键动画'],
   };
 
 {
-  new(theme, skinName='蝦米輸入法'):
+  new(theme):
     keyboard(theme) +
-    toolbar.getToolBar(theme, 'landscape', 'numeric', skinName) +  // 工具栏（傳入 keyboardType 和 skinName）
+    toolbar.getToolBar(theme, 'portrait') +
     utils.genNumberStyles(theme),
 }

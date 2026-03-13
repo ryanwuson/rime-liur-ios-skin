@@ -19,7 +19,7 @@ local getCascadedSize(keyboardType, groupName, templateKey, theme, defaultSize) 
     # 如果 sizeOverride 是數字，直接返回；如果是物件（如 {uppercase, lowercase}），返回 null 讓調用者處理
     if sizeOverride != null && std.isNumber(sizeOverride) then sizeOverride
     else (
-      # 2. 尋找 Groups (Layer 2 - 尺寸範本)
+      # 2. 尋找 Groups (Layer 2 - 尺寸範本) - groups 是亮暗通用的，直接取值
       safeGet(groups, templateKey, defaultSize)
     )
   else
@@ -40,7 +40,7 @@ local getCascadedLowercaseSize(keyboardType, groupName, theme) =
     
     if lowercaseOverride != null then lowercaseOverride
     else (
-      # 2. 使用 Groups (Layer 2) - 直接讀取 lowercaseSize
+      # 2. 使用 Groups (Layer 2) - groups 是亮暗通用的，直接讀取 lowercaseSize
       safeGet(groups, 'lowercaseSize', 23)
     )
   else
@@ -61,7 +61,7 @@ local getCascadedUppercaseSize(keyboardType, groupName, theme) =
     
     if uppercaseOverride != null then uppercaseOverride
     else (
-      # 2. 使用 Groups (Layer 2) - 直接讀取 alphabetSize
+      # 2. 使用 Groups (Layer 2) - groups 是亮暗通用的，直接讀取 alphabetSize
       safeGet(groups, 'alphabetSize', 21)
     )
   else
@@ -81,7 +81,8 @@ local getCascadedSimpleProperty(keyboardType, groupName, propertyName, theme, su
     
     if subKeyValue != null then subKeyValue
     else (
-      # 尋找 Groups (Layer 2) - 對於 swipeHint.fontSize，使用 swipeSize
+      # 尋找 Groups (Layer 2) - groups 是亮暗通用的，直接取值
+      # 對於 swipeHint.fontSize，使用 swipeSize
       if propertyName == 'swipeHint' && subKey == 'fontSize' then
         safeGet(groups, 'swipeSize', defaultValue)
       else
@@ -92,6 +93,7 @@ local getCascadedSimpleProperty(keyboardType, groupName, propertyName, theme, su
 
 local groupSize(templateKey, defaultSize) =
   if settings.customColors.enableCustomColors then
+    # groups 是亮暗通用的，直接取值
     safeGet(settings.customColors.groups, templateKey, defaultSize)
   else
     defaultSize;
@@ -110,7 +112,7 @@ local getCascadedToolbarButtonSize(keyboardType, theme, defaultSize) =
     
     if sizeOverride != null then sizeOverride
     else (
-      # 2. 尋找 Groups (Layer 2)
+      # 2. 尋找 Groups (Layer 2) - groups 是亮暗通用的，直接取值
       safeGet(groups, 'toolbarSize', defaultSize)
     )
   else
